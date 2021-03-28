@@ -1,5 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 
+export const SLUG_PRESERVE_UNICODE = false;
 export const SLUG_SEPARATOR = "_";
 
 interface ProcessorOptions {
@@ -82,4 +83,23 @@ export function unicode_safe_processor(
 			return accum;
 		}, [] as string[])
 		.join(separator);
+}
+
+export function make_session_slug_processor({
+	preserve_unicode = SLUG_PRESERVE_UNICODE,
+	separator = SLUG_SEPARATOR,
+}) {
+	const processor = preserve_unicode
+		? unicode_safe_processor
+		: url_safe_processor;
+	const seen = new Set();
+
+	return function (url: string) {
+		const slug = processor(url, { separator });
+
+		if (seen.has(slug)) throw new Error(`Duplicate slug ${slug}`);
+		seen.add(slug);
+
+		return slug;
+	};
 }
