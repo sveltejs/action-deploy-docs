@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 
 import { get_base_documentation, get_package_documentation } from "./fs";
+import { format_api } from "./format";
 import { increment_headings } from "./format/increment_headings";
 import { BaseDocs } from "./fs";
 
@@ -83,11 +84,18 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
-	// we start at level 4 headings on the site
-	const transformed_pkg_docs = pkg_docs.map(([name, content]) => [
+	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
+		name,
+		format_api(name, increment_headings(content)),
+	]);
+
+	console.log(formatted_pkg_docs);
+
+	const formatted_base_docs = base_docs.api.map(([name, content]) => [
 		name,
 		increment_headings(content),
 	]);
+	console.log(formatted_base_docs);
 
 	// format them
 	// transform to cf format (batch keys)
