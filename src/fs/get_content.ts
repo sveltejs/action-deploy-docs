@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-interface BaseDocs {
+export interface BaseDocs {
 	api: [string, string][];
 }
 
@@ -66,10 +66,13 @@ export async function get_package_documentation(
 	pkg_path: string,
 	working_directory: string = process.cwd(),
 	opts: PackageOptions = { ignore: [] }
-) {
+): Promise<[string, string][]> {
 	const pkg_dir = path.join(working_directory, pkg_path);
 	const packages = await fs.readdir(pkg_dir);
 	return (
 		await Promise.all(packages.map((f) => get_pkg_and_readme(pkg_dir, f)))
-	).filter((contents) => contents && !opts.ignore.includes(contents[0]));
+	).filter((contents) => contents && !opts.ignore.includes(contents[0])) as [
+		string,
+		string
+	][];
 }

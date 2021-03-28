@@ -3,6 +3,10 @@ import exec from "@actions/exec";
 import fs from "fs";
 import path from "path";
 
+import { get_base_documentation, get_package_documentation } from "./fs";
+import { increment_headings } from "./format/increment_headings";
+import { BaseDocs } from "./fs";
+
 async function get_repo(
 	target_repo: string,
 	target_branch: string,
@@ -59,12 +63,32 @@ async function run() {
 	try {
 		await get_repo(target_repo, target_branch, docs_path, pkg_path);
 	} catch (e) {
+		core.warning(e.message);
 		core.setFailed(
 			`Failed to clone repository: https://github.com/sveltejs/${target_repo}.git#${target_branch}`
 		);
 	}
 
 	// read docs in
+	let base_docs: BaseDocs;
+	let pkg_docs: [string, string][];
+
+	try {
+		[base_docs, pkg_docs] = await Promise.all([
+			get_base_documentation(docs_path),
+			get_package_documentation(pkg_path),
+		]);
+	} catch (e) {
+		core.warning(e.message);
+		core.setFailed("Failed to read documentation files.");
+	}
+
+	// we start at level 4 headings on the site
+	const transformed_pkg_docs = pkg_docs.map(([name, content]) => [
+		name,
+		increment_headings(content),
+	]);
+
 	// format them
 	// transform to cf format (batch keys)
 	// write to cloudflare
