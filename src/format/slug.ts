@@ -92,14 +92,17 @@ export function make_session_slug_processor({
 		? unicode_safe_processor
 		: url_safe_processor;
 
-	const seen = new Set();
+	const seen = new Map();
 
 	return function (url: string) {
 		const slug = processor(url, { separator });
-
-		if (seen.has(slug)) throw new Error(`Duplicate slug ${slug}`);
-		seen.add(slug);
-
-		return slug;
+		let count;
+		if ((count = seen.get(slug))) {
+			seen.set(slug, count + 1);
+			return `${slug}${separator}${count}`;
+		} else {
+			seen.set(slug, 1);
+			return slug;
+		}
 	};
 }
