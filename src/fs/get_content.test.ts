@@ -1,7 +1,10 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
-import { get_base_documentation } from "./get_content";
+import {
+	get_base_documentation,
+	get_package_docuementation,
+} from "./get_content";
 import * as path from "path";
 
 const repo = path.join(__dirname, "fixtures", "repo-1");
@@ -20,4 +23,17 @@ get_docs("gets the api documentation correctly", async () => {
 	]);
 });
 
+get_pkg_docs(
+	"get documentation for packages ignoring invaliud packages",
+	async () => {
+		const content = await get_package_docuementation("packages", repo);
+
+		assert.equal(content, [
+			["random-extra-files", "random-extra-files\n"],
+			["standard-package", "standard-package\n"],
+		]);
+	}
+);
+
 get_docs.run();
+get_pkg_docs.run();
