@@ -1,8 +1,11 @@
+dependencies:
+  '@types/marked': 2.0.0
 devDependencies:
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.43.0
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.43.0
   '@sindresorhus/slugify': 1.1.0
   '@types/prismjs': 1.16.4
+  marked: 2.0.1
   prettier: 2.2.1
   prism-svelte: 0.4.7
   prismjs: 1.23.0
@@ -103,6 +106,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
+  /@types/marked/2.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-kSOVa3R6HJvFdd3UIbTYvrSBTPHjXhNErh7/8oSCKOwqdOkk4Oj8N77n+f6dsgd1jW3j3SU5EhnmRxPhNKOmtQ==
   /@types/node/14.14.37:
     dev: true
     resolution:
@@ -366,6 +373,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==
+  /marked/2.0.1:
+    dev: true
+    engines:
+      node: '>= 8.16.2'
+    hasBin: true
+    resolution:
+      integrity: sha512-5+/fKgMv2hARmMW7DOpykr2iLhl0NgjyELk5yn92iE7z8Se1IS9n3UsFm86hFXIkvMBmVxki8+ckcpjBeyo/hw==
   /merge-stream/2.0.0:
     dev: true
     resolution:
@@ -590,7 +604,9 @@ specifiers:
   '@rollup/plugin-commonjs': ^17.1.0
   '@rollup/plugin-node-resolve': ^11.2.0
   '@sindresorhus/slugify': ^1.1.0
+  '@types/marked': ^2.0.0
   '@types/prismjs': ^1.16.4
+  marked: ^2.0.1
   prettier: ^2.2.1
   prism-svelte: ^0.4.7
   prismjs: ^1.23.0

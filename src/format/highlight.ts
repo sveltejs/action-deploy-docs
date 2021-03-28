@@ -3,7 +3,7 @@ import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-diff.js";
 import "prism-svelte";
 
-type language = keyof typeof LanguageMap;
+export type language = keyof typeof LanguageMap;
 
 enum LanguageMap {
 	bash = "bash",
