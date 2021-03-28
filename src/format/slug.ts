@@ -37,11 +37,11 @@ export function url_safe_processor(
 		.replace(/DASH/g, "-");
 }
 
-const alphaNumRegex = /[a-zA-Z0-9]/;
-const unicodeRegex = /\p{Letter}/u;
+const alpha_num_regex = /[a-zA-Z0-9]/;
+const unicode_regex = /\p{Letter}/u;
 
 const is_non_alpha_num_unicode = (string: string) =>
-	!alphaNumRegex.test(string) && unicodeRegex.test(string);
+	!alpha_num_regex.test(string) && unicode_regex.test(string);
 
 export function unicode_safe_processor(
 	url: string,
@@ -91,6 +91,7 @@ export function make_session_slug_processor({
 	const processor = preserve_unicode
 		? unicode_safe_processor
 		: url_safe_processor;
+
 	const seen = new Set();
 
 	return function (url: string) {
