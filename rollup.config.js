@@ -9,7 +9,7 @@ export default [
 			resolve(),
 			// terser(),
 		],
-		input: "src/main.js",
+		input: "src/main.ts",
 		output: [
 			{
 				file: "dist/main.js",
