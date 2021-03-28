@@ -26,7 +26,7 @@ interface FormattedFile {
 
 let block_open = false;
 
-function code_renderer(source: string, lang: string) {
+function code_renderer(source: string, lang: string): string {
 	source = source.replace(/^ +/gm, (match) => match.split("    ").join("\t"));
 
 	const html = `<div class='code-block'>${highlight(
@@ -42,7 +42,7 @@ function code_renderer(source: string, lang: string) {
 	return html;
 }
 
-function hr_renderer() {
+function hr_renderer(): string {
 	block_open = true;
 
 	return '<div class="side-by-side"><div class="copy">';
@@ -52,10 +52,15 @@ let prev_level = 3;
 let sections: section[] = [];
 let section_stack = [sections];
 
-function heading_renderer(text: string, level: number, rawtext: string) {
+function heading_renderer(
+	text: string,
+	level: number,
+	rawtext: string
+): string {
 	let slug;
 
 	const match = /<a href="([^"]+)"[^>]*>(.+)<\/a>/.exec(text);
+
 	if (match) {
 		slug = match[1];
 		text = match[2];
@@ -92,12 +97,13 @@ function heading_renderer(text: string, level: number, rawtext: string) {
 }
 
 const renderer = new marked.Renderer();
+
 renderer.link = link_renderer;
 renderer.code = code_renderer;
 renderer.heading = heading_renderer;
 renderer.hr = hr_renderer;
 
-export function transform_api(file: string, markdown: string): FormattedFile {
+export function format_api(file: string, markdown: string): FormattedFile {
 	const { content, metadata } = extract_frontmatter(markdown);
 	const section_slug = make_slug(metadata.title);
 
