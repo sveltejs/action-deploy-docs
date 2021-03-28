@@ -93,7 +93,7 @@ async function run() {
 
 	const formatted_base_docs = base_docs.api.map(([name, content]) => [
 		name,
-		increment_headings(content),
+		format_api(name, content),
 	]);
 	console.log(formatted_base_docs);
 

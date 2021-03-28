@@ -51,6 +51,14 @@ function get_pkg_and_readme(
 				fs.readFile(path.join(base, pkg_dir, "package.json"), fs_opts),
 				fs.readFile(path.join(base, pkg_dir, "README.md"), fs_opts),
 			]);
+			console.log(
+				`\n - get_pkg_and_readme: ${path.join(
+					base,
+					pkg_dir,
+					"package.json"
+				)} - \n`
+			);
+			console.log(pkg, docs);
 			rs([JSON.parse(pkg).name, docs]);
 		} catch (e) {
 			rs(false);
