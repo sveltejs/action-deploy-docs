@@ -1,0 +1,26 @@
+{
+  "name": "action-deploy-docs",
+  "version": "1.0.0",
+  "description": "github action for the svelte org to deploy documentation to the svelte api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sveltejs/action-deploy-docs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sveltejs/action-deploy-docs/issues"
+  },
+  "homepage": "https://github.com/sveltejs/action-deploy-docs#readme",
+  "devDependencies": {
+		"@rollup/plugin-commonjs": "^17.1.0",
+		"@rollup/plugin-node-resolve": "^11.2.0",
+		"rollup": "^2.41.2",
+		"rollup-plugin-terser": "^7.0.2"
+  }
+}
