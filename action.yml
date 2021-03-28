@@ -1,0 +1,21 @@
+name: "Generate Docs"
+
+description: "Generate docs from markdown"
+
+inputs:
+  type:
+    description: "the release type"
+    required: false
+  repo:
+    description: "the target repo of the docs"
+    required: true
+  branch:
+    description: "the target branch of the docs"
+    required: true
+  cf_token:
+    description: "the cloudflare token to use for deploying the docs"
+    required: true
+
+runs:
+  using: "node12"
+  main: "dist/main.js"
