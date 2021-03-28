@@ -67,7 +67,6 @@ export function unicode_safe_processor(
 				if (index === array.length - 1) {
 					accum.chunks.push(accum.current);
 				}
-				console.log(accum);
 				return accum;
 			},
 			{ chunks: [], current: { type: "process", string: "" } } as ProcessedParts
