@@ -23,3 +23,22 @@ export function extract_frontmatter(markdown: string): Frontmatter {
 
 	return { metadata, content };
 }
+
+export function link_renderer(
+	href: string,
+	title: string,
+	text: string
+): string {
+	let target_attr = "";
+	let title_attr = "";
+
+	if (href.startsWith("http")) {
+		target_attr = ' target="_blank"';
+	}
+
+	if (title !== null) {
+		title_attr = ` title="${title}"`;
+	}
+
+	return `<a href="${href}"${target_attr}${title_attr} rel="noopener noreferrer">${text}</a>`;
+}
