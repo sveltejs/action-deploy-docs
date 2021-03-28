@@ -5,7 +5,8 @@
 	"main": "dist/main.js",
 	"scripts": {
 		"test": "uvu -r ts-node/register src test.ts$",
-		"build": "rollup -c"
+		"build": "rollup -c",
+		"ts": "tsc --noEmit"
 	},
 	"repository": {
 		"type": "git",
