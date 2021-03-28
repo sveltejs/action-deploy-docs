@@ -4,14 +4,13 @@ import * as assert from "uvu/assert";
 import { get_base_documentation } from "./get_content";
 import * as path from "path";
 
+const repo = path.join(__dirname, "fixtures", "repo-1");
+
 const get_docs = suite("get_base_documentation");
 const get_pkg_docs = suite("get_package_docuementation");
 
 get_docs("gets the api documentation correctly", async () => {
-	const content = await get_base_documentation(
-		"documentation",
-		path.join(__dirname, "fixtures", "repo-1")
-	);
+	const content = await get_base_documentation("documentation", repo);
 
 	assert.equal(content.api, [
 		["01-one.md", "file-one\n"],
