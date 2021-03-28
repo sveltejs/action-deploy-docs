@@ -29,11 +29,11 @@ export async function get_base_documentation(
 ): Promise<BaseDocs> {
 	const docs_dir = path.join(working_directory, docs_path);
 
-	const api = await fs.readdir(path.join(docs_dir, "api"));
+	const api = await fs.readdir(path.join(docs_dir, "docs"));
 	const api_content = await Promise.all(
 		api
 			.filter((f) => path.extname(f) === ".md")
-			.map((f) => get_content_and_filename(path.join(docs_dir, "api"), f))
+			.map((f) => get_content_and_filename(path.join(docs_dir, "docs"), f))
 	);
 
 	return {
@@ -69,6 +69,7 @@ export async function get_package_documentation(
 ): Promise<[string, string][]> {
 	const pkg_dir = path.join(working_directory, pkg_path);
 	const packages = await fs.readdir(pkg_dir);
+
 	return (
 		await Promise.all(packages.map((f) => get_pkg_and_readme(pkg_dir, f)))
 	).filter((contents) => contents && !opts.ignore.includes(contents[0])) as [
