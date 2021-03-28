@@ -15,7 +15,7 @@ format("formats the api docs", () => {
 });
 
 // this is because we concat the api docs
-// separate md files become a single html pahe
+// separate md files become a single html page
 // duplicate slugs are bad
 
 format("duplicate slugs should throw an error", () => {
