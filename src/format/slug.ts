@@ -40,7 +40,7 @@ export function url_safe_processor(
 const alphaNumRegex = /[a-zA-Z0-9]/;
 const unicodeRegex = /\p{Letter}/u;
 
-const isNonAlphaNumUnicode = (string: string) =>
+const is_non_alpha_num_unicode = (string: string) =>
 	!alphaNumRegex.test(string) && unicodeRegex.test(string);
 
 export function unicode_safe_processor(
@@ -53,7 +53,7 @@ export function unicode_safe_processor(
 		.split("")
 		.reduce(
 			(accum, char, index, array) => {
-				const type = isNonAlphaNumUnicode(char) ? "pass" : "process";
+				const type = is_non_alpha_num_unicode(char) ? "pass" : "process";
 
 				if (index === 0) {
 					accum.current = { type, string: char };
