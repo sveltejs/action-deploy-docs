@@ -21,6 +21,7 @@
 	"homepage": "https://github.com/sveltejs/action-deploy-docs#readme",
 	"devDependencies": {
 		"@actions/core": "^1.2.6",
+		"@actions/exec": "^1.0.4",
 		"@rollup/plugin-commonjs": "^17.1.0",
 		"@rollup/plugin-node-resolve": "^11.2.0",
 		"@sindresorhus/slugify": "^1.1.0",

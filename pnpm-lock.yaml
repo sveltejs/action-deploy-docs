@@ -2,6 +2,7 @@ dependencies:
   '@types/marked': 2.0.0
 devDependencies:
   '@actions/core': 1.2.6
+  '@actions/exec': 1.0.4
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.43.0
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.43.0
   '@sindresorhus/slugify': 1.1.0
@@ -21,6 +22,16 @@ packages:
     dev: true
     resolution:
       integrity: sha512-ZQYitnqiyBc3D+k7LsgSBmMDVkOVidaagDG7j3fOym77jNunWRuYx7VSHa9GNfFZh+zh61xsCjRj4JxMZlDqTA==
+  /@actions/exec/1.0.4:
+    dependencies:
+      '@actions/io': 1.0.2
+    dev: true
+    resolution:
+      integrity: sha512-4DPChWow9yc9W3WqEbUj8Nr86xkpyE29ZzWjXucHItclLbEW6jr80Zx4nqv18QL6KK65+cifiQZXvnqgTV6oHw==
+  /@actions/io/1.0.2:
+    dev: true
+    resolution:
+      integrity: sha512-J8KuFqVPr3p6U8W93DOXlXW6zFvrQAJANdS+vw0YhusLIq+bszW8zmK2Fh1C2kDPX8FMvwIl1OUcFgvJoXLbAg==
   /@babel/code-frame/7.12.13:
     dependencies:
       '@babel/highlight': 7.13.10
@@ -607,6 +618,7 @@ packages:
       integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 specifiers:
   '@actions/core': ^1.2.6
+  '@actions/exec': ^1.0.4
   '@rollup/plugin-commonjs': ^17.1.0
   '@rollup/plugin-node-resolve': ^11.2.0
   '@sindresorhus/slugify': ^1.1.0
