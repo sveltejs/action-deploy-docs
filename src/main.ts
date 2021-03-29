@@ -84,6 +84,8 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
+	console.log(JSON.stringify(base_docs));
+
 	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
 		name,
 		format_api(name, increment_headings(content)),
@@ -95,7 +97,7 @@ async function run() {
 		name,
 		format_api(name, content),
 	]);
-	console.log(formatted_base_docs);
+	console.log(JSON.stringify(formatted_base_docs, null, 2));
 
 	// format them
 	// transform to cf format (batch keys)

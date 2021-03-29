@@ -61,6 +61,7 @@ function get_pkg_and_readme(
 			console.log(pkg, docs);
 			rs([JSON.parse(pkg).name, docs]);
 		} catch (e) {
+			console.log(e.message);
 			rs(false);
 		}
 	});
