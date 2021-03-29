@@ -7819,10 +7819,7 @@ function heading_renderer(
 	if (level === 3 || level === 4) {
 		const title = text.replace(/<\/?code>/g, "");
 		const prev_section = section_stack[section_stack.length - 1];
-		console.log(`${title}$--${level}`);
-		console.log(`prev_sections: ${prev_section}`);
-		console.log(`section_stack: ${section_stack}`);
-		console.log("\n");
+
 		if (level > prev_level) {
 			section_stack.push(prev_section[prev_section.length - 1].sections || []);
 		} else if (level < prev_level) {
@@ -7930,21 +7927,14 @@ async function get_repo(
 
 	await exec_1.exec("git", ["sparse-checkout", "reapply"]);
 	await exec_1.exec("git", ["switch", target_branch]);
-
-	const pkgs = fs__default['default'].readdirSync(path__default['default'].join(process.cwd(), "packages"));
-	const contents = pkgs.map((f) =>
-		fs__default['default'].readdirSync(path__default['default'].join(process.cwd(), "packages", f))
-	);
-	console.log(JSON.stringify(contents, null, 2));
 }
 
 async function run() {
 	const target_repo = core$1.getInput("repo");
 	const target_branch = core$1.getInput("branch");
 	core$1.getInput("token");
-
-	const docs_path = "documentation";
-	const pkg_path = "packages";
+	const docs_path = core$1.getInput("docs_path");
+	const pkg_path = core$1.getInput("pkg_path");
 
 	if (target_branch !== "main" && target_branch !== "master") {
 		core$1.setFailed("Branch deploys are not yet supported.");
@@ -7975,14 +7965,12 @@ async function run() {
 		core$1.setFailed("Failed to read documentation files.");
 	}
 
-	console.log(JSON.stringify(base_docs));
-
 	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
 		name,
 		format_api(name, increment_headings(content), name),
 	]);
 
-	console.log(formatted_pkg_docs);
+	console.log(formatted_pkg_docs, null, 2);
 
 	const formatted_base_docs = base_docs.api.map(([name, content]) => [
 		name,

@@ -12,6 +12,14 @@ inputs:
   cf_token:
     description: "the cloudflare token to use for deploying the docs"
     required: true
+  docs_path:
+    description: "the path to your root documentation (without a leading slash)"
+    required: false
+    default: "documentation"
+  docs_path:
+    description: "the path to your packages in a monorepo (without a leading slash)"
+    required: false
+    default: 'packages'
 
 runs:
   using: "node12"

@@ -47,21 +47,14 @@ async function get_repo(
 
 	await exec.exec("git", ["sparse-checkout", "reapply"]);
 	await exec.exec("git", ["switch", target_branch]);
-
-	const pkgs = fs.readdirSync(path.join(process.cwd(), "packages"));
-	const contents = pkgs.map((f) =>
-		fs.readdirSync(path.join(process.cwd(), "packages", f))
-	);
-	console.log(JSON.stringify(contents, null, 2));
 }
 
 async function run() {
 	const target_repo = core.getInput("repo");
 	const target_branch = core.getInput("branch");
 	const cf_token = core.getInput("token");
-
-	const docs_path = "documentation";
-	const pkg_path = "packages";
+	const docs_path = core.getInput("docs_path");
+	const pkg_path = core.getInput("pkg_path");
 
 	if (target_branch !== "main" && target_branch !== "master") {
 		core.setFailed("Branch deploys are not yet supported.");
@@ -92,14 +85,12 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
-	console.log(JSON.stringify(base_docs));
-
 	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
 		name,
 		format_api(name, increment_headings(content), name),
 	]);
 
-	console.log(formatted_pkg_docs);
+	console.log(formatted_pkg_docs, null, 2);
 
 	const formatted_base_docs = base_docs.api.map(([name, content]) => [
 		name,

@@ -71,10 +71,7 @@ function heading_renderer(
 	if (level === 3 || level === 4) {
 		const title = text.replace(/<\/?code>/g, "");
 		const prev_section = section_stack[section_stack.length - 1];
-		console.log(`${title}$--${level}`);
-		console.log(`prev_sections: ${prev_section}`);
-		console.log(`section_stack: ${section_stack}`);
-		console.log("\n");
+
 		if (level > prev_level) {
 			section_stack.push(prev_section[prev_section.length - 1].sections || []);
 		} else if (level < prev_level) {
