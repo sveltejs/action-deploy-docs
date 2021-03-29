@@ -40,7 +40,7 @@ async function get_repo(
 	// we only care about the documentation folder and any package readmes + package.jsons
 	fs.writeFileSync(
 		path.join(process.cwd(), ".git/info/sparse-checkout"),
-		`/${docs_path}/\n/${pkg_path}/*/README.md\n/packages/*/package.json"`
+		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json`
 	);
 
 	fs.readdirSync;
