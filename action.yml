@@ -16,10 +16,10 @@ inputs:
     description: "the path to your root documentation (without a leading slash)"
     required: false
     default: "documentation"
-  docs_path:
+  pkg_path:
     description: "the path to your packages in a monorepo (without a leading slash)"
     required: false
-    default: 'packages'
+    default: "packages"
 
 runs:
   using: "node12"
