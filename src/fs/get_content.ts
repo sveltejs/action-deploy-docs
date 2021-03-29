@@ -51,17 +51,13 @@ function get_pkg_and_readme(
 				fs.readFile(path.join(base, pkg_dir, "package.json"), fs_opts),
 				fs.readFile(path.join(base, pkg_dir, "README.md"), fs_opts),
 			]);
-			console.log(
-				`\n - get_pkg_and_readme: ${path.join(
-					base,
-					pkg_dir,
-					"package.json"
-				)} - \n`
-			);
-			console.log(pkg, docs);
-			rs([JSON.parse(pkg).name, docs]);
+
+			const { name, private: _private } = JSON.parse(pkg);
+			if (_private) throw new Error("This is a private package");
+
+			rs([name, docs]);
 		} catch (e) {
-			console.log(e.message);
+			// console.error(e.message);
 			rs(false);
 		}
 	});
@@ -78,7 +74,7 @@ export async function get_package_documentation(
 ): Promise<[string, string][]> {
 	const pkg_dir = path.join(working_directory, pkg_path);
 	const packages = await fs.readdir(pkg_dir);
-	console.log(pkg_dir, packages);
+
 	return (
 		await Promise.all(packages.map((f) => get_pkg_and_readme(pkg_dir, f)))
 	).filter((contents) => contents && !opts.ignore.includes(contents[0])) as [
