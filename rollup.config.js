@@ -9,7 +9,7 @@ export default [
 			cjs(),
 			resolve(),
 			sucrase({ transforms: ["typescript"] }),
-			terser(),
+			// terser(),
 		],
 		input: "src/main.ts",
 		output: [
