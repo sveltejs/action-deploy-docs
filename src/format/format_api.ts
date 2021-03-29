@@ -72,6 +72,7 @@ function heading_renderer(
 		const title = text.replace(/<\/?code>/g, "");
 		const prev_section = section_stack[section_stack.length - 1];
 		console.log(`\n - prev_sections: ${prev_section} - \n`);
+		console.log(`\n - section_stack: ${section_stack} - \n`);
 		if (level > prev_level) {
 			section_stack.push(prev_section[prev_section.length - 1].sections || []);
 		} else if (level < prev_level) {
