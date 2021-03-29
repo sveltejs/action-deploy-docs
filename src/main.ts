@@ -43,8 +43,16 @@ async function get_repo(
 		`/${docs_path}/\n/${pkg_path}/*/README.md\n/packages/*/package.json"`
 	);
 
+	fs.readdirSync;
+
 	await exec.exec("git", ["sparse-checkout", "reapply"]);
 	await exec.exec("git", ["switch", target_branch]);
+
+	const pkgs = fs.readdirSync(path.join(process.cwd(), "packages"));
+	const contents = pkgs.map((f) =>
+		fs.readdirSync(path.join(process.cwd(), "packages", f))
+	);
+	console.log(JSON.stringify(contents, null, 2));
 }
 
 async function run() {
