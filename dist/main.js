@@ -7854,9 +7854,19 @@ renderer.code = code_renderer;
 renderer.heading = heading_renderer;
 renderer.hr = hr_renderer;
 
-function format_api(file, markdown) {
-	const { content, metadata } = extract_frontmatter(markdown);
-	const section_slug = make_slug(metadata.title);
+function format_api(
+	file,
+	markdown,
+	name
+) {
+	const {
+		content,
+		metadata: { title },
+	} = name
+		? { content: markdown, metadata: { title: name } }
+		: extract_frontmatter(markdown);
+
+	const section_slug = make_slug(title);
 
 	// reset the stateful stuff
 	prev_level = 3;
@@ -7868,7 +7878,7 @@ function format_api(file, markdown) {
 
 	return {
 		content: html,
-		title: metadata.title,
+		title: title,
 		slug: section_slug,
 		file,
 		sections,
@@ -7969,7 +7979,7 @@ async function run() {
 
 	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
 		name,
-		format_api(name, increment_headings(content)),
+		format_api(name, increment_headings(content), name),
 	]);
 
 	console.log(formatted_pkg_docs);
