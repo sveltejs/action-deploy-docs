@@ -7884,6 +7884,38 @@ function increment_headings(source) {
 	return source.replace(RE_HEADING, "##$1");
 }
 
+function transform_cloudflare(
+	docs,
+	{ project, type, keyby, version = "latest" }
+) {
+	const _list = [];
+	const keys = [
+		{
+			key: `${project}@${version}:${type}:content`,
+			value: JSON.stringify(docs),
+		},
+	];
+
+	for (let i = 0; i < docs.length; i++) {
+		const { content, ...rest } = docs[i];
+		_list.push(rest);
+
+		const item_key = docs[i][keyby];
+
+		keys.push({
+			key: `${project}@${version}:${type}:${item_key}`,
+			value: JSON.stringify(docs[i]),
+		});
+	}
+
+	keys.push({
+		key: `${project}@${version}:${type}:list`,
+		value: JSON.stringify(_list),
+	});
+
+	return keys;
+}
+
 async function get_repo(
 	target_repo,
 	target_branch,
@@ -7961,21 +7993,43 @@ async function run() {
 		core$1.setFailed("Failed to read documentation files.");
 	}
 
-	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
+	// format them
+	const formatted_pkg_docs
+
+ = pkg_docs.map(([name, content]) => [
 		name,
 		format_api(name, increment_headings(content), name),
 	]);
 
 	console.log(formatted_pkg_docs, null, 2);
 
-	const formatted_base_docs = base_docs.api.map(([name, content]) => [
-		name,
-		format_api(name, content),
-	]);
+	const formatted_base_docs = base_docs.api.map(([name, content]) =>
+		format_api(name, content)
+	);
 	console.log(JSON.stringify(formatted_base_docs, null, 2));
 
-	// format them
 	// transform to cf format (batch keys)
+
+	const docs = transform_cloudflare(formatted_base_docs, {
+		project: target_repo,
+		type: "docs",
+		keyby: "slug",
+	});
+
+	const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
+		const cf_doc = transform_cloudflare([_docs], {
+			project: name,
+			type: "docs",
+			keyby: "slug",
+		});
+
+		return acc.concat(cf_doc);
+	}, []);
+
+	console.log(docs);
+	console.log("\n");
+	console.log(pkgs);
+
 	// write to cloudflare
 }
 

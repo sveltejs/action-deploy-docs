@@ -16,13 +16,13 @@ const make_slug = make_session_slug_processor({
 });
 
 type section = { slug: string; title: string; sections: section[] };
-interface FormattedFile {
+export type FormattedFile = {
 	content: string;
 	title: string;
 	slug: string;
 	file: string;
 	sections: section[];
-}
+};
 
 let block_open = false;
 

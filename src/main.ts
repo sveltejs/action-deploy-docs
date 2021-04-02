@@ -7,6 +7,8 @@ import { get_base_documentation, get_package_documentation } from "./fs";
 import { format_api } from "./format";
 import { increment_headings } from "./format/increment_headings";
 import { BaseDocs } from "./fs";
+import { transform_cloudflare } from "./transform";
+import { FormattedFile } from "./format/format_api";
 
 async function get_repo(
 	target_repo: string,
@@ -85,21 +87,43 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
-	const formatted_pkg_docs = pkg_docs.map(([name, content]) => [
+	// format them
+	const formatted_pkg_docs: Array<
+		[string, FormattedFile]
+	> = pkg_docs.map(([name, content]) => [
 		name,
 		format_api(name, increment_headings(content), name),
 	]);
 
 	console.log(formatted_pkg_docs, null, 2);
 
-	const formatted_base_docs = base_docs.api.map(([name, content]) => [
-		name,
-		format_api(name, content),
-	]);
+	const formatted_base_docs = base_docs.api.map(([name, content]) =>
+		format_api(name, content)
+	);
 	console.log(JSON.stringify(formatted_base_docs, null, 2));
 
-	// format them
 	// transform to cf format (batch keys)
+
+	const docs = transform_cloudflare(formatted_base_docs, {
+		project: target_repo,
+		type: "docs",
+		keyby: "slug",
+	});
+
+	const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
+		const cf_doc = transform_cloudflare([_docs], {
+			project: name,
+			type: "docs",
+			keyby: "slug",
+		});
+
+		return acc.concat(cf_doc);
+	}, []);
+
+	console.log(docs);
+	console.log("\n");
+	console.log(pkgs);
+
 	// write to cloudflare
 }
 
