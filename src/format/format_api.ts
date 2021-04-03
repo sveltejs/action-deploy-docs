@@ -115,12 +115,17 @@ export function format_api(
 	directory: string,
 	name?: string
 ): FormattedFile {
-	const {
-		content,
-		metadata: { title },
-	} = name
-		? { content: markdown, metadata: { title: name } }
-		: extract_frontmatter(markdown);
+	let content;
+	let title;
+
+	try {
+		const fm = extract_frontmatter(markdown);
+		content = fm.content;
+		title = fm.metadata.title;
+	} catch (e) {
+		content = markdown;
+		title = name;
+	}
 
 	const section_slug = make_slug(title);
 
@@ -130,7 +135,7 @@ export function format_api(
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
-	section_title = name ? "" : title;
+	section_title = title;
 
 	const html = marked(content, { renderer });
 

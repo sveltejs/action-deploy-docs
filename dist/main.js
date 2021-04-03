@@ -7896,12 +7896,17 @@ function format_api(
 	directory,
 	name
 ) {
-	const {
-		content,
-		metadata: { title },
-	} = name
-		? { content: markdown, metadata: { title: name } }
-		: extract_frontmatter(markdown);
+	let content;
+	let title;
+
+	try {
+		const fm = extract_frontmatter(markdown);
+		content = fm.content;
+		title = fm.metadata.title;
+	} catch (e) {
+		content = markdown;
+		title = name;
+	}
 
 	const section_slug = make_slug(title);
 
@@ -7911,7 +7916,7 @@ function format_api(
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
-	section_title = name ? "" : title;
+	section_title = title;
 
 	const html = marked_1(content, { renderer });
 
@@ -8070,7 +8075,7 @@ async function run() {
 	console.log(base_docs);
 	if (base_docs) {
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
-			format_api(name, content, "docs")
+			format_api(name, content, "docs", name)
 		);
 		console.log(JSON.stringify(formatted_base_docs, null, 2));
 

@@ -118,7 +118,7 @@ async function run() {
 	console.log(base_docs);
 	if (base_docs) {
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
-			format_api(name, content, "docs")
+			format_api(name, content, "docs", name)
 		);
 		console.log(JSON.stringify(formatted_base_docs, null, 2));
 
