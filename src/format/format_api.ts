@@ -125,9 +125,11 @@ export function format_api(
 		const fm = extract_frontmatter(markdown);
 		content = fm.content;
 		title = fm.metadata.title;
+		section_title = title;
 	} catch (e) {
 		content = markdown;
 		title = name;
+		section_title = "";
 	}
 
 	const section_slug = make_slug(title);
@@ -138,7 +140,6 @@ export function format_api(
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
-	section_title = title;
 
 	const html = marked(content, { renderer });
 
