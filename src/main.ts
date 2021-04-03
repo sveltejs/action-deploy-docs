@@ -42,13 +42,14 @@ async function get_repo(
 	// we only care about the documentation folder and any package readmes + package.jsons
 	fs.writeFileSync(
 		path.join(process.cwd(), ".git/info/sparse-checkout"),
-		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json\n/README.md`
+		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json\n/README.md\n/package.json`
 	);
-
-	fs.readdirSync;
 
 	await exec.exec("git", ["sparse-checkout", "reapply"]);
 	await exec.exec("git", ["switch", target_branch]);
+
+	const x = fs.readdirSync(process.cwd());
+	console.log(x);
 }
 
 async function run() {
