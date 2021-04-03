@@ -1593,7 +1593,7 @@ function get_content_and_filename(
 	return new Promise(async (rs, rj) => {
 		try {
 			const content = await fs$1.promises.readFile(path__namespace.join(base, filename), fs_opts);
-			rs([filename.replace(/^@sveltejs\//, ""), content]);
+			rs([filename, content]);
 		} catch (e) {
 			rj(e);
 		}
@@ -1609,7 +1609,7 @@ async function get_base_documentation(
 	const api = await fs$1.promises.readdir(path__namespace.join(docs_dir, "docs"));
 	const api_content = await Promise.all(
 		api
-			.filter((f) => path__namespace.extname(f) === ".md")
+			.filter((f) => path__namespace.extname(f) === ".md" || f.startsWith("xx"))
 			.map((f) => get_content_and_filename(path__namespace.join(docs_dir, "docs"), f))
 	);
 
@@ -1632,7 +1632,7 @@ function get_pkg_and_readme(
 			const { name, private: _private } = JSON.parse(pkg);
 			if (_private) throw new Error("This is a private package");
 
-			rs([name, docs]);
+			rs([name.replace(/^@sveltejs\//, ""), docs]);
 		} catch (e) {
 			// console.error(e.message);
 			rs(false);
