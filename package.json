@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "uvu -r ts-node/register src test.ts$",
 		"build": "rollup -c",
-		"ts": "tsc --noEmit"
+		"ts": "tsc --noEmit",
+		"generate_fixtures": "node -r ts-node/register src/format/fixtures/generateFixtures.ts"
 	},
 	"repository": {
 		"type": "git",

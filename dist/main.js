@@ -5480,7 +5480,7 @@ var counter_1 = counter;
 slugify_1.counter = counter_1;
 
 const SLUG_PRESERVE_UNICODE$1 = false;
-const SLUG_SEPARATOR$1 = "_";
+const SLUG_SEPARATOR$1 = "-";
 
 
 
@@ -5510,10 +5510,10 @@ function url_safe_processor(
 		],
 		separator,
 		decamelize: false,
-		lowercase: false,
+		lowercase: true,
 	})
-		.replace(/DOLLAR/g, "$")
-		.replace(/DASH/g, "-");
+		.replace(/DOLLAR/gi, "$")
+		.replace(/DASH/gi, "-");
 }
 
 const alpha_num_regex = /[a-zA-Z0-9]/;
@@ -5560,7 +5560,8 @@ function unicode_safe_processor(
 
 			return accum;
 		}, [] )
-		.join(separator);
+		.join(separator)
+		.toLowerCase();
 }
 
 function make_session_slug_processor({
@@ -7752,7 +7753,7 @@ function highlight(source, lang) {
 }
 
 const SLUG_PRESERVE_UNICODE = false;
-const SLUG_SEPARATOR = "_";
+const SLUG_SEPARATOR = "-";
 
 const make_slug = make_session_slug_processor({
 	preserve_unicode: SLUG_PRESERVE_UNICODE,
@@ -7795,6 +7796,15 @@ function hr_renderer() {
 let prev_level = 3;
 let sections = [];
 let section_stack = [sections];
+let dir = "";
+let section_title = "";
+
+function get_slug_segments() {
+	return section_stack.map((section, i) => {
+		if (i > 0) return "";
+		return section[section.length - 1].slug;
+	});
+}
 
 function heading_renderer(
 	text,
@@ -7803,14 +7813,11 @@ function heading_renderer(
 ) {
 	let slug;
 
-	const match = /<a href="([^"]+)"[^>]*>(.+)<\/a>/.exec(text);
-
-	if (match) {
-		slug = match[1];
-		text = match[2];
-	} else {
-		slug = make_slug(rawtext);
-	}
+	slug = make_slug(
+		level === 3
+			? [section_title, rawtext].join(" ")
+			: [...get_slug_segments(), rawtext].join(" ")
+	);
 
 	if (level === 3 || level === 4) {
 		const title = text.replace(/<\/?code>/g, "");
@@ -7835,7 +7842,7 @@ function heading_renderer(
 						<span id="${slug}" class="offset-anchor" ${
 		level > 4 ? "data-scrollignore" : ""
 	}></span>
-						<a href="docs#${slug}" class="anchor" aria-hidden="true"></a>
+						<a href="${dir}#${slug}" class="anchor" aria-hidden="true"></a>
 						${text}
 					</h${level}>`;
 }
@@ -7850,6 +7857,7 @@ renderer.hr = hr_renderer;
 function format_api(
 	file,
 	markdown,
+	directory,
 	name
 ) {
 	const {
@@ -7862,10 +7870,12 @@ function format_api(
 	const section_slug = make_slug(title);
 
 	// reset the stateful stuff
+	dir = directory;
 	prev_level = 3;
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
+	section_title = title;
 
 	const html = marked_1(content, { renderer });
 
@@ -7998,13 +8008,13 @@ async function run() {
 
  = pkg_docs.map(([name, content]) => [
 		name,
-		format_api(name, increment_headings(content), name),
+		format_api(name, increment_headings(content), "", name),
 	]);
 
 	console.log(formatted_pkg_docs, null, 2);
 
 	const formatted_base_docs = base_docs.api.map(([name, content]) =>
-		format_api(name, content)
+		format_api(name, content, "docs")
 	);
 	console.log(JSON.stringify(formatted_base_docs, null, 2));
 

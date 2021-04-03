@@ -1,7 +1,7 @@
 import slugify from "@sindresorhus/slugify";
 
 export const SLUG_PRESERVE_UNICODE = false;
-export const SLUG_SEPARATOR = "_";
+export const SLUG_SEPARATOR = "-";
 
 interface ProcessorOptions {
 	separator: string;
@@ -31,10 +31,10 @@ export function url_safe_processor(
 		],
 		separator,
 		decamelize: false,
-		lowercase: false,
+		lowercase: true,
 	})
-		.replace(/DOLLAR/g, "$")
-		.replace(/DASH/g, "-");
+		.replace(/DOLLAR/gi, "$")
+		.replace(/DASH/gi, "-");
 }
 
 const alpha_num_regex = /[a-zA-Z0-9]/;
@@ -81,7 +81,8 @@ export function unicode_safe_processor(
 
 			return accum;
 		}, [] as string[])
-		.join(separator);
+		.join(separator)
+		.toLowerCase();
 }
 
 export function make_session_slug_processor({

@@ -92,13 +92,13 @@ async function run() {
 		[string, FormattedFile]
 	> = pkg_docs.map(([name, content]) => [
 		name,
-		format_api(name, increment_headings(content), name),
+		format_api(name, increment_headings(content), "", name),
 	]);
 
 	console.log(formatted_pkg_docs, null, 2);
 
 	const formatted_base_docs = base_docs.api.map(([name, content]) =>
-		format_api(name, content)
+		format_api(name, content, "docs")
 	);
 	console.log(JSON.stringify(formatted_base_docs, null, 2));
 

@@ -8,7 +8,7 @@ import { highlight } from "./highlight";
 import type { language } from "./highlight";
 
 export const SLUG_PRESERVE_UNICODE = false;
-export const SLUG_SEPARATOR = "_";
+export const SLUG_SEPARATOR = "-";
 
 const make_slug = make_session_slug_processor({
 	preserve_unicode: SLUG_PRESERVE_UNICODE,
@@ -51,6 +51,15 @@ function hr_renderer(): string {
 let prev_level = 3;
 let sections: section[] = [];
 let section_stack = [sections];
+let dir = "";
+let section_title = "";
+
+function get_slug_segments(): string[] {
+	return section_stack.map((section, i) => {
+		if (i > 0) return "";
+		return section[section.length - 1].slug;
+	});
+}
 
 function heading_renderer(
 	text: string,
@@ -59,14 +68,11 @@ function heading_renderer(
 ): string {
 	let slug;
 
-	const match = /<a href="([^"]+)"[^>]*>(.+)<\/a>/.exec(text);
-
-	if (match) {
-		slug = match[1];
-		text = match[2];
-	} else {
-		slug = make_slug(rawtext);
-	}
+	slug = make_slug(
+		level === 3
+			? [section_title, rawtext].join(" ")
+			: [...get_slug_segments(), rawtext].join(" ")
+	);
 
 	if (level === 3 || level === 4) {
 		const title = text.replace(/<\/?code>/g, "");
@@ -91,7 +97,7 @@ function heading_renderer(
 						<span id="${slug}" class="offset-anchor" ${
 		level > 4 ? "data-scrollignore" : ""
 	}></span>
-						<a href="docs#${slug}" class="anchor" aria-hidden="true"></a>
+						<a href="${dir}#${slug}" class="anchor" aria-hidden="true"></a>
 						${text}
 					</h${level}>`;
 }
@@ -106,6 +112,7 @@ renderer.hr = hr_renderer;
 export function format_api(
 	file: string,
 	markdown: string,
+	directory: string,
 	name?: string
 ): FormattedFile {
 	const {
@@ -118,10 +125,12 @@ export function format_api(
 	const section_slug = make_slug(title);
 
 	// reset the stateful stuff
+	dir = directory;
 	prev_level = 3;
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
+	section_title = title;
 
 	const html = marked(content, { renderer });
 

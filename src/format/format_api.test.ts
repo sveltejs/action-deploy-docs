@@ -9,7 +9,7 @@ import api_output from "./fixtures/api-docs-html.js";
 const format = suite("transform docs");
 
 format("formats the api docs", () => {
-	const output = format_api("./api-docs.md", api);
+	const output = format_api("./api-docs.md", api, "docs");
 
 	assert.equal(output, api_output);
 });
@@ -20,8 +20,8 @@ format("formats the api docs", () => {
 
 format.skip("duplicate slugs should throw an error", () => {
 	assert.throws(() => {
-		format_api("./api-docs.md", api);
-		format_api("./api-docs.md", api);
+		format_api("./api-docs.md", api, "docs");
+		format_api("./api-docs.md", api, "docs");
 	}, /Duplicate slug Template_syntax/);
 });
 
