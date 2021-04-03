@@ -1591,7 +1591,7 @@ function get_content_and_filename(
 	return new Promise(async (rs, rj) => {
 		try {
 			const content = await fs$1.promises.readFile(path__namespace.join(base, filename), fs_opts);
-			rs([filename, content]);
+			rs([filename.replace(/^@sveltejs\//, ""), content]);
 		} catch (e) {
 			rj(e);
 		}
@@ -7875,7 +7875,7 @@ function format_api(
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
-	section_title = title;
+	section_title = name ? "" : title;
 
 	const html = marked_1(content, { renderer });
 

@@ -130,7 +130,7 @@ export function format_api(
 	sections = [];
 	section_stack = [sections];
 	block_open = false;
-	section_title = title;
+	section_title = name ? "" : title;
 
 	const html = marked(content, { renderer });
 
