@@ -13,6 +13,8 @@ function get_content_and_filename(
 	base: string,
 	filename: string
 ): Promise<[string, string]> {
+	console.log(filename, filename.replace(/^@sveltejs\//, ""));
+	console.log("\n");
 	return new Promise(async (rs, rj) => {
 		try {
 			const content = await fs.readFile(path.join(base, filename), fs_opts);
