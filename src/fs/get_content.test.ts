@@ -15,7 +15,7 @@ const get_pkg_docs = suite("get_package_documentation");
 get_docs("gets the api documentation correctly", async () => {
 	const content = await get_base_documentation("documentation", repo);
 
-	assert.equal(content.api, [
+	assert.equal(content && content.docs, [
 		["01-one.md", "file-one\n"],
 		["02-two.md", "file-two\n"],
 		["03-three.md", "file-three\n"],

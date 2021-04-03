@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 export interface BaseDocs {
-	api: [string, string][];
+	docs: [string, string][];
 }
 
 const fs_opts = {
@@ -25,21 +25,46 @@ function get_content_and_filename(
 	});
 }
 
+async function maybe_read_dir(
+	docs_dir: string
+): Promise<Array<string> | false> {
+	try {
+		return await fs.readdir(path.join(docs_dir, "docs"));
+	} catch (e) {
+		return false;
+	}
+}
+
+async function maybe_read_file(docs_dir: string): Promise<string | false> {
+	try {
+		return (await fs.readFile(path.join(docs_dir, "docs"))).toString();
+	} catch (e) {
+		return false;
+	}
+}
+
 export async function get_base_documentation(
 	docs_path: string,
 	working_directory: string = process.cwd()
-): Promise<BaseDocs> {
+): Promise<BaseDocs | false> {
 	const docs_dir = path.join(working_directory, docs_path);
+	let api_content;
+	let api = await maybe_read_dir(docs_dir);
+	if (api) {
+		api_content = await Promise.all(
+			api
+				.filter((f) => path.extname(f) === ".md" && !f.startsWith("xx"))
+				.map((f) => get_content_and_filename(path.join(docs_dir, "docs"), f))
+		);
+	} else {
+		const content = await get_pkg_and_readme(process.cwd(), "");
+		if (content) api_content = [content];
+	}
 
-	const api = await fs.readdir(path.join(docs_dir, "docs"));
-	const api_content = await Promise.all(
-		api
-			.filter((f) => path.extname(f) === ".md" || f.startsWith("xx"))
-			.map((f) => get_content_and_filename(path.join(docs_dir, "docs"), f))
-	);
+	if (!api_content) return false;
 
 	return {
-		api: api_content,
+		docs: api_content,
 	};
 }
 
@@ -73,13 +98,18 @@ export async function get_package_documentation(
 	pkg_path: string,
 	working_directory: string = process.cwd(),
 	opts: PackageOptions = { ignore: [] }
-): Promise<[string, string][]> {
+): Promise<[string, string][] | false> {
+	const _ignore = opts.ignore.concat(
+		opts.ignore.map((pkg) => `@sveltejs/${pkg}`)
+	);
 	const pkg_dir = path.join(working_directory, pkg_path);
-	const packages = await fs.readdir(pkg_dir);
+	const packages = await maybe_read_dir(pkg_dir);
+
+	if (!packages) return false;
 
 	return (
 		await Promise.all(packages.map((f) => get_pkg_and_readme(pkg_dir, f)))
-	).filter((contents) => contents && !opts.ignore.includes(contents[0])) as [
+	).filter((contents) => contents && !_ignore.includes(contents[0])) as [
 		string,
 		string
 	][];

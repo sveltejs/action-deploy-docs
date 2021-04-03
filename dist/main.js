@@ -1600,21 +1600,38 @@ function get_content_and_filename(
 	});
 }
 
+async function maybe_read_dir(
+	docs_dir
+) {
+	try {
+		return await fs$1.promises.readdir(path__namespace.join(docs_dir, "docs"));
+	} catch (e) {
+		return false;
+	}
+}
+
 async function get_base_documentation(
 	docs_path,
 	working_directory = process.cwd()
 ) {
 	const docs_dir = path__namespace.join(working_directory, docs_path);
+	let api_content;
+	let api = await maybe_read_dir(docs_dir);
+	if (api) {
+		api_content = await Promise.all(
+			api
+				.filter((f) => path__namespace.extname(f) === ".md" && !f.startsWith("xx"))
+				.map((f) => get_content_and_filename(path__namespace.join(docs_dir, "docs"), f))
+		);
+	} else {
+		const content = await get_pkg_and_readme(process.cwd(), "");
+		if (content) api_content = [content];
+	}
 
-	const api = await fs$1.promises.readdir(path__namespace.join(docs_dir, "docs"));
-	const api_content = await Promise.all(
-		api
-			.filter((f) => path__namespace.extname(f) === ".md" || f.startsWith("xx"))
-			.map((f) => get_content_and_filename(path__namespace.join(docs_dir, "docs"), f))
-	);
+	if (!api_content) return false;
 
 	return {
-		api: api_content,
+		docs: api_content,
 	};
 }
 
@@ -1649,12 +1666,17 @@ async function get_package_documentation(
 	working_directory = process.cwd(),
 	opts = { ignore: [] }
 ) {
+	const _ignore = opts.ignore.concat(
+		opts.ignore.map((pkg) => `@sveltejs/${pkg}`)
+	);
 	const pkg_dir = path__namespace.join(working_directory, pkg_path);
-	const packages = await fs$1.promises.readdir(pkg_dir);
+	const packages = await maybe_read_dir(pkg_dir);
+
+	if (!packages) return false;
 
 	return (
 		await Promise.all(packages.map((f) => get_pkg_and_readme(pkg_dir, f)))
-	).filter((contents) => contents && !opts.ignore.includes(contents[0])) 
+	).filter((contents) => contents && !_ignore.includes(contents[0])) 
 
 
 ;
@@ -7960,7 +7982,7 @@ async function get_repo(
 	// we only care about the documentation folder and any package readmes + package.jsons
 	fs__default['default'].writeFileSync(
 		path__default['default'].join(process.cwd(), ".git/info/sparse-checkout"),
-		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json`
+		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json\n/README.md`
 	);
 
 	fs__default['default'].readdirSync;
@@ -8005,42 +8027,48 @@ async function run() {
 		core$1.setFailed("Failed to read documentation files.");
 	}
 
-	// format them
-	const formatted_pkg_docs
+	if (pkg_docs) {
+		const formatted_pkg_docs
 
  = pkg_docs.map(([name, content]) => [
-		name,
-		format_api(name, increment_headings(content), "", name),
-	]);
+			name,
+			format_api(name, increment_headings(content), "", name),
+		]);
 
-	console.log(formatted_pkg_docs, null, 2);
+		console.log(formatted_pkg_docs, null, 2);
 
-	const formatted_base_docs = base_docs.api.map(([name, content]) =>
-		format_api(name, content, "docs")
-	);
-	console.log(JSON.stringify(formatted_base_docs, null, 2));
+		const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
+			const cf_doc = transform_cloudflare([_docs], {
+				project: name,
+				type: "docs",
+				keyby: "slug",
+			});
 
-	// transform to cf format (batch keys)
+			return acc.concat(cf_doc);
+		}, []);
 
-	const docs = transform_cloudflare(formatted_base_docs, {
-		project: target_repo,
-		type: "docs",
-		keyby: "slug",
-	});
+		console.log("\n");
+		console.log(pkgs);
+	}
+	// format them
 
-	const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
-		const cf_doc = transform_cloudflare([_docs], {
-			project: name,
+	if (base_docs) {
+		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
+			format_api(name, content, "docs")
+		);
+		console.log(JSON.stringify(formatted_base_docs, null, 2));
+
+		// transform to cf format (batch keys)
+
+		const docs = transform_cloudflare(formatted_base_docs, {
+			project: target_repo,
 			type: "docs",
 			keyby: "slug",
 		});
 
-		return acc.concat(cf_doc);
-	}, []);
-
-	console.log(docs);
-	console.log("\n");
-	console.log(pkgs);
+		console.log("\n");
+		console.log(docs);
+	}
 
 	// write to cloudflare
 }

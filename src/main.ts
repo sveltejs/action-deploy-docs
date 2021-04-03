@@ -42,7 +42,7 @@ async function get_repo(
 	// we only care about the documentation folder and any package readmes + package.jsons
 	fs.writeFileSync(
 		path.join(process.cwd(), ".git/info/sparse-checkout"),
-		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json`
+		`/${docs_path}/\n/${pkg_path}/*/README.md\n/${pkg_path}/*/package.json\n/README.md`
 	);
 
 	fs.readdirSync;
@@ -74,8 +74,8 @@ async function run() {
 	}
 
 	// read docs in
-	let base_docs: BaseDocs;
-	let pkg_docs: [string, string][];
+	let base_docs: BaseDocs | false;
+	let pkg_docs: [string, string][] | false;
 
 	try {
 		[base_docs, pkg_docs] = await Promise.all([
@@ -87,42 +87,48 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
+	if (pkg_docs) {
+		const formatted_pkg_docs: Array<
+			[string, FormattedFile]
+		> = pkg_docs.map(([name, content]) => [
+			name,
+			format_api(name, increment_headings(content), "", name),
+		]);
+
+		console.log(formatted_pkg_docs, null, 2);
+
+		const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
+			const cf_doc = transform_cloudflare([_docs], {
+				project: name,
+				type: "docs",
+				keyby: "slug",
+			});
+
+			return acc.concat(cf_doc);
+		}, []);
+
+		console.log("\n");
+		console.log(pkgs);
+	}
 	// format them
-	const formatted_pkg_docs: Array<
-		[string, FormattedFile]
-	> = pkg_docs.map(([name, content]) => [
-		name,
-		format_api(name, increment_headings(content), "", name),
-	]);
 
-	console.log(formatted_pkg_docs, null, 2);
+	if (base_docs) {
+		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
+			format_api(name, content, "docs")
+		);
+		console.log(JSON.stringify(formatted_base_docs, null, 2));
 
-	const formatted_base_docs = base_docs.api.map(([name, content]) =>
-		format_api(name, content, "docs")
-	);
-	console.log(JSON.stringify(formatted_base_docs, null, 2));
+		// transform to cf format (batch keys)
 
-	// transform to cf format (batch keys)
-
-	const docs = transform_cloudflare(formatted_base_docs, {
-		project: target_repo,
-		type: "docs",
-		keyby: "slug",
-	});
-
-	const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
-		const cf_doc = transform_cloudflare([_docs], {
-			project: name,
+		const docs = transform_cloudflare(formatted_base_docs, {
+			project: target_repo,
 			type: "docs",
 			keyby: "slug",
 		});
 
-		return acc.concat(cf_doc);
-	}, []);
-
-	console.log(docs);
-	console.log("\n");
-	console.log(pkgs);
+		console.log("\n");
+		console.log(docs);
+	}
 
 	// write to cloudflare
 }
