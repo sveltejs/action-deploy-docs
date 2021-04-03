@@ -20,7 +20,7 @@ function get_content_and_filename(
 	return new Promise(async (rs, rj) => {
 		try {
 			const content = await fs.readFile(path.join(base, filename), fs_opts);
-			rs([filename, increment_headings(content)]);
+			rs([filename, content]);
 		} catch (e) {
 			rj(e);
 		}
@@ -87,7 +87,7 @@ function get_pkg_and_readme(
 			const { name, private: _private } = JSON.parse(pkg);
 			if (_private) throw new Error("This is a private package");
 
-			rs([name.replace(/^@sveltejs\//, ""), docs]);
+			rs([name.replace(/^@sveltejs\//, ""), increment_headings(docs)]);
 		} catch (e) {
 			// console.error(e.message);
 			rs(false);
