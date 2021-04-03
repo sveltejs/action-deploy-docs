@@ -95,7 +95,7 @@ async function run() {
 			[string, FormattedFile]
 		> = pkg_docs.map(([name, content]) => [
 			name,
-			format_api(name, increment_headings(content), "", name),
+			format_api(name, content, "", name),
 		]);
 
 		console.log(formatted_pkg_docs, null, 2);

@@ -66,9 +66,12 @@ function heading_renderer(
 	level: number,
 	rawtext: string
 ): string {
-	let slug;
+	if (level < 3 || level > 5)
+		throw new Error(
+			`Only level 3 and 4 headings are allowed. Got level ${level} heading.`
+		);
 
-	slug = make_slug(
+	let slug = make_slug(
 		level === 3
 			? [section_title, rawtext].join(" ")
 			: [...get_slug_segments(), rawtext].join(" ")

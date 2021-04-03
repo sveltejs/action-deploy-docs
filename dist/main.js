@@ -1580,6 +1580,12 @@ var exec_1 = /*#__PURE__*/Object.defineProperty({
 	exec: exec_2
 }, '__esModule', {value: true});
 
+const RE_HEADING = /(?:^|(?<=\n))(#{1,6})(?=\s+\w+)/g;
+
+function increment_headings(source) {
+	return source.replace(RE_HEADING, "##$1");
+}
+
 const fs_opts = {
 	encoding: "utf-8",
 } ;
@@ -1593,7 +1599,7 @@ function get_content_and_filename(
 	return new Promise(async (rs, rj) => {
 		try {
 			const content = await fs$1.promises.readFile(path__namespace.join(base, filename), fs_opts);
-			rs([filename, content]);
+			rs([filename, increment_headings(content)]);
 		} catch (e) {
 			rj(e);
 		}
@@ -7847,9 +7853,12 @@ function heading_renderer(
 	level,
 	rawtext
 ) {
-	let slug;
+	if (level < 3 || level > 5)
+		throw new Error(
+			`Only level 3 and 4 headings are allowed. Got level ${level} heading.`
+		);
 
-	slug = make_slug(
+	let slug = make_slug(
 		level === 3
 			? [section_title, rawtext].join(" ")
 			: [...get_slug_segments(), rawtext].join(" ")
@@ -7927,12 +7936,6 @@ function format_api(
 		file,
 		sections,
 	};
-}
-
-const RE_HEADING = /(?:^|(?<=\n))(#{1,6})(?=\s+\w+)/g;
-
-function increment_headings(source) {
-	return source.replace(RE_HEADING, "##$1");
 }
 
 function transform_cloudflare(
@@ -8052,7 +8055,7 @@ async function run() {
 
  = pkg_docs.map(([name, content]) => [
 			name,
-			format_api(name, increment_headings(content), "", name),
+			format_api(name, content, "", name),
 		]);
 
 		console.log(formatted_pkg_docs, null, 2);
