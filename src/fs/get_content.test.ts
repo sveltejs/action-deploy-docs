@@ -8,6 +8,7 @@ import {
 import * as path from "path";
 
 const repo = path.join(__dirname, "fixtures", "repo-1");
+const repo2 = path.join(__dirname, "fixtures", "repo-2");
 
 const get_docs = suite("get_base_documentation");
 const get_pkg_docs = suite("get_package_documentation");
@@ -20,6 +21,13 @@ get_docs("gets the api documentation correctly", async () => {
 		["02-two.md", "file-two\n"],
 		["03-three.md", "file-three\n"],
 		["04-four.md", "file-four\n"],
+	]);
+});
+
+get_docs.only("get base documentation when it is a root readme", async () => {
+	const content = await get_base_documentation("documentation", repo2);
+	assert.equal(content && content.docs, [
+		["standard-package", "repo-2 docs\n"],
 	]);
 });
 

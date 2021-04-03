@@ -29,19 +29,19 @@ async function maybe_read_dir(
 	docs_dir: string
 ): Promise<Array<string> | false> {
 	try {
-		return await fs.readdir(path.join(docs_dir, "docs"));
+		return await fs.readdir(docs_dir);
 	} catch (e) {
 		return false;
 	}
 }
 
-async function maybe_read_file(docs_dir: string): Promise<string | false> {
-	try {
-		return (await fs.readFile(path.join(docs_dir, "docs"))).toString();
-	} catch (e) {
-		return false;
-	}
-}
+// async function maybe_read_file(docs_dir: string): Promise<string | false> {
+// 	try {
+// 		return (await fs.readFile(path.join(docs_dir, "docs"))).toString();
+// 	} catch (e) {
+// 		return false;
+// 	}
+// }
 
 export async function get_base_documentation(
 	docs_path: string,
@@ -49,7 +49,9 @@ export async function get_base_documentation(
 ): Promise<BaseDocs | false> {
 	const docs_dir = path.join(working_directory, docs_path);
 	let api_content;
-	let api = await maybe_read_dir(docs_dir);
+
+	let api = await maybe_read_dir(path.join(docs_dir, "docs"));
+
 	if (api) {
 		api_content = await Promise.all(
 			api
@@ -57,7 +59,8 @@ export async function get_base_documentation(
 				.map((f) => get_content_and_filename(path.join(docs_dir, "docs"), f))
 		);
 	} else {
-		const content = await get_pkg_and_readme(process.cwd(), "");
+		console.log(working_directory);
+		const content = await get_pkg_and_readme(working_directory, "");
 		if (content) api_content = [content];
 	}
 
@@ -103,6 +106,7 @@ export async function get_package_documentation(
 		opts.ignore.map((pkg) => `@sveltejs/${pkg}`)
 	);
 	const pkg_dir = path.join(working_directory, pkg_path);
+
 	const packages = await maybe_read_dir(pkg_dir);
 
 	if (!packages) return false;

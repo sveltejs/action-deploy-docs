@@ -1604,11 +1604,19 @@ async function maybe_read_dir(
 	docs_dir
 ) {
 	try {
-		return await fs$1.promises.readdir(path__namespace.join(docs_dir, "docs"));
+		return await fs$1.promises.readdir(docs_dir);
 	} catch (e) {
 		return false;
 	}
 }
+
+// async function maybe_read_file(docs_dir: string): Promise<string | false> {
+// 	try {
+// 		return (await fs.readFile(path.join(docs_dir, "docs"))).toString();
+// 	} catch (e) {
+// 		return false;
+// 	}
+// }
 
 async function get_base_documentation(
 	docs_path,
@@ -1616,7 +1624,9 @@ async function get_base_documentation(
 ) {
 	const docs_dir = path__namespace.join(working_directory, docs_path);
 	let api_content;
-	let api = await maybe_read_dir(docs_dir);
+
+	let api = await maybe_read_dir(path__namespace.join(docs_dir, "docs"));
+
 	if (api) {
 		api_content = await Promise.all(
 			api
@@ -1624,7 +1634,8 @@ async function get_base_documentation(
 				.map((f) => get_content_and_filename(path__namespace.join(docs_dir, "docs"), f))
 		);
 	} else {
-		const content = await get_pkg_and_readme(process.cwd(), "");
+		console.log(working_directory);
+		const content = await get_pkg_and_readme(working_directory, "");
 		if (content) api_content = [content];
 	}
 
@@ -1670,6 +1681,7 @@ async function get_package_documentation(
 		opts.ignore.map((pkg) => `@sveltejs/${pkg}`)
 	);
 	const pkg_dir = path__namespace.join(working_directory, pkg_path);
+
 	const packages = await maybe_read_dir(pkg_dir);
 
 	if (!packages) return false;
@@ -8027,6 +8039,8 @@ async function run() {
 		core$1.setFailed("Failed to read documentation files.");
 	}
 
+	console.log(pkg_docs);
+
 	if (pkg_docs) {
 		const formatted_pkg_docs
 
@@ -8052,6 +8066,7 @@ async function run() {
 	}
 	// format them
 
+	console.log(base_docs);
 	if (base_docs) {
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
 			format_api(name, content, "docs")

@@ -87,6 +87,8 @@ async function run() {
 		core.setFailed("Failed to read documentation files.");
 	}
 
+	console.log(pkg_docs);
+
 	if (pkg_docs) {
 		const formatted_pkg_docs: Array<
 			[string, FormattedFile]
@@ -112,6 +114,7 @@ async function run() {
 	}
 	// format them
 
+	console.log(base_docs);
 	if (base_docs) {
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
 			format_api(name, content, "docs")
