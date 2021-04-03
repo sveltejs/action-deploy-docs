@@ -1665,6 +1665,8 @@ function get_pkg_and_readme(
 
 			const { name, private: _private } = JSON.parse(pkg);
 			if (_private) throw new Error("This is a private package");
+			console.log("PACKAGES READ");
+			console.log(docs, "\n", increment_headings(docs));
 
 			rs([name.replace(/^@sveltejs\//, ""), increment_headings(docs)]);
 		} catch (e) {
