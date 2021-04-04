@@ -1,5 +1,5 @@
 const RE_FIRST_H1 = /(^|\n)# (.+)\n/;
-const RE_HEADING = /(?:^|(?<=\n))(#{1,6})(?=\s+\w+)/g;
+const RE_HEADING = /(?:^|(?<=\n))(#{1,6} )(?=.+)/g;
 
 // strip first h1, hope there aren't any others
 // then increment all headings by 1

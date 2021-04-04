@@ -19,6 +19,8 @@ asdasd
 ### hi
 
 #### hi again
+
+#### \`hi again\`
 `);
 
 	assert.equal(
@@ -33,6 +35,8 @@ asdasd
 ### hi
 
 #### hi
+
+##### hi again
 
 ##### hi again
 `
