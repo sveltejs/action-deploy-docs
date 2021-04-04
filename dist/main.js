@@ -1580,10 +1580,14 @@ var exec_1 = /*#__PURE__*/Object.defineProperty({
 	exec: exec_2
 }, '__esModule', {value: true});
 
+const RE_FIRST_H1 = /(^|\n)# (.+)\n/;
 const RE_HEADING = /(?:^|(?<=\n))(#{1,6})(?=\s+\w+)/g;
 
+// strip first h1, hope there aren't any others
+// then increment all headings by 1
+
 function increment_headings(source) {
-	return source.replace(RE_HEADING, "##$1");
+	return source.replace(RE_FIRST_H1, "").replace(RE_HEADING, "#$1");
 }
 
 const fs_opts = {

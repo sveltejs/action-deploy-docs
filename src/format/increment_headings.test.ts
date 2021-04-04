@@ -14,17 +14,16 @@ asd
 
 
 asdasd
-# hi
-
 ## hi
 
-### hi again
+### hi
+
+#### hi again
 `);
 
 	assert.equal(
 		output,
-		`### title
-
+		`
 asdasd
 asd
 asd
