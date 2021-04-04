@@ -38,7 +38,7 @@ asdasd
 
 ##### hi again
 
-##### hi again
+##### \`hi again\`
 `
 	);
 });
