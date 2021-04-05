@@ -71,9 +71,91 @@ export async function rc_read_file(file_path: string): Promise<File> {
 	return file_or_dir;
 }
 
-const type_map = {
-	docs() {},
+// base_docs
+//   docs else base_readme
+//   faq
+//   migrating
+//   blog
+//   tutorials
+//   examples
+
+interface Docs {
+	docs?: unknown;
+	faq?: unknown;
+	migrating?: unknown;
+	blog?: unknown;
+	tutorials?: unknown;
+	examples?: unknown;
+}
+
+type transformed_docs = [string, Docs][];
+
+type doc_types =
+	| "docs"
+	| "faq"
+	| "migrating"
+	| "blog"
+	| "tutorials"
+	| "examples";
+
+const doc_types = ["docs", "faq", "migrating", "blog", "tutorials", "examples"];
+
+const transformers = {
+	docs(name: string, content: File[]) {
+		return content.map(({ name, content }) => ({ name, content }));
+	},
+	faq(name: string, content: File[]) {
+		return this.docs(name, content);
+	},
+	migrating(name: string, content: File[]) {
+		return this.docs(name, content);
+	},
+	blog(name: string, content: File[]) {
+		return this.docs(name, content);
+	},
+	tutorials(): "undefined" {
+		return "undefined";
+	},
+	examples(): "undefined" {
+		return "undefined";
+	},
 };
+
+// declare global {
+//   interface ReadonlyArray<T> {
+//     includes<U>(x: U & ((T & U) extends never ? never : unknown)): boolean;
+//   }
+// }
+
+export function transform_files(
+	file: File,
+	pkg_path: string,
+	docs_path: string,
+	project: string
+): transformed_docs {
+	const base_docs: Docs = {};
+	const pkgs: transformed_docs = [];
+
+	if (file.is_dir && Array.isArray(file.content)) {
+		file.content.forEach(({ name, content }) => {
+			if (name === docs_path && Array.isArray(content)) {
+				if (doc_types.includes(name)) return;
+				content.forEach(({ name, content }) => {
+					base_docs[name as doc_types] = transformers[name as doc_types](
+						name,
+						content as File[]
+					);
+				});
+			}
+			if (name === pkg_path) {
+			} // do pkg stuff{}
+		});
+	}
+
+	pkgs.push([project, base_docs]);
+
+	return pkgs;
+}
 
 export async function get_base_documentation(
 	docs_path: string,
@@ -82,7 +164,7 @@ export async function get_base_documentation(
 	const docs_dir = path.join(working_directory, docs_path);
 	let api_content;
 
-	// const types = await rc_read_file(docs_dir);
+	const types = await rc_read_file(docs_dir);
 
 	let api = await maybe_read_dir(path.join(docs_dir, "docs"));
 
