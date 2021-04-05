@@ -44,7 +44,7 @@ get_docs.skip("get base documentation when it is a root readme", async () => {
 	]);
 });
 
-transform("transforms normal docs", () => {
+transform("transforms basic docs", () => {
 	const files = {
 		name: "repo",
 		is_dir: true,
@@ -166,6 +166,108 @@ transform("transforms normal docs", () => {
 					{ name: "01-boo.md", content: "blog1 content" },
 					{ name: "02-boo.md", content: "blog2 content" },
 					{ name: "03-boo.md", content: "blog3 content" },
+				],
+			},
+		],
+	]);
+});
+
+transform("transforms basic docs when some are not present", () => {
+	const files = {
+		name: "repo",
+		is_dir: true,
+		content: [
+			{
+				name: "documentation",
+				is_dir: true,
+				content: [
+					{
+						name: "docs",
+						is_dir: true,
+						content: [
+							{
+								name: "01-boo.md",
+								is_dir: true,
+								content: "docs1 content",
+							},
+							{
+								name: "02-boo.md",
+								is_dir: true,
+								content: "docs2 content",
+							},
+							{
+								name: "03-boo.md",
+								is_dir: true,
+								content: "docs3 content",
+							},
+						],
+					},
+					{
+						name: "faq",
+						is_dir: true,
+						content: [
+							{
+								name: "01-boo.md",
+								is_dir: true,
+								content: "faq1 content",
+							},
+							{
+								name: "02-boo.md",
+								is_dir: true,
+								content: "faq2 content",
+							},
+							{
+								name: "03-boo.md",
+								is_dir: true,
+								content: "faq3 content",
+							},
+						],
+					},
+					{
+						name: "migrating",
+						is_dir: true,
+						content: [
+							{
+								name: "01-boo.md",
+								is_dir: true,
+								content: "migrating1 content",
+							},
+							{
+								name: "02-boo.md",
+								is_dir: true,
+								content: "migrating2 content",
+							},
+							{
+								name: "03-boo.md",
+								is_dir: true,
+								content: "migrating3 content",
+							},
+						],
+					},
+				],
+			},
+		],
+	};
+	const output = transform_files(files, "packages", "documentation", "svelte");
+
+	assert.equal(output, [
+		[
+			"svelte",
+			{
+				docs: [
+					{ name: "01-boo.md", content: "docs1 content" },
+					{ name: "02-boo.md", content: "docs2 content" },
+					{ name: "03-boo.md", content: "docs3 content" },
+				],
+				faq: [
+					{ name: "01-boo.md", content: "faq1 content" },
+					{ name: "02-boo.md", content: "faq2 content" },
+					{ name: "03-boo.md", content: "faq3 content" },
+				],
+				migrating: [
+					{ name: "01-boo.md", content: "migrating1 content" },
+					{ name: "02-boo.md", content: "migrating2 content" },
+					{ name: "03-boo.md", content: "migrating3 content" },
 				],
 			},
 		],
