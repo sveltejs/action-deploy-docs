@@ -121,6 +121,20 @@ const transformers = {
 	},
 };
 
+interface SimpleFile {
+	name: string;
+	content: SimpleFile[] | string;
+}
+
+function strip_meta(name: string, content: string | File[]): SimpleFile {
+	return {
+		name: name,
+		content: Array.isArray(content)
+			? content.map((v) => strip_meta(v.name, v.content))
+			: content,
+	};
+}
+
 // declare global {
 //   interface ReadonlyArray<T> {
 //     includes<U>(x: U & ((T & U) extends never ? never : unknown)): boolean;
@@ -139,11 +153,14 @@ export function transform_files(
 	if (file.is_dir && Array.isArray(file.content)) {
 		file.content.forEach(({ name, content }) => {
 			if (name === docs_path && Array.isArray(content)) {
-				if (doc_types.includes(name)) return;
-				content.forEach(({ name, content }) => {
-					base_docs[name as doc_types] = transformers[name as doc_types](
-						name,
-						content as File[]
+				// console.log(name);
+
+				content.forEach((docs) => {
+					if (!doc_types.includes(docs.name) || !Array.isArray(docs.content))
+						return;
+
+					base_docs[docs.name as doc_types] = docs.content.map((entry) =>
+						strip_meta(entry.name, entry.content as File[])
 					);
 				});
 			}

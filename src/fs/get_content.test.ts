@@ -152,16 +152,19 @@ transform("transforms basic docs", () => {
 					{ name: "02-boo.md", content: "docs2 content" },
 					{ name: "03-boo.md", content: "docs3 content" },
 				],
+
 				faq: [
 					{ name: "01-boo.md", content: "faq1 content" },
 					{ name: "02-boo.md", content: "faq2 content" },
 					{ name: "03-boo.md", content: "faq3 content" },
 				],
+
 				migrating: [
 					{ name: "01-boo.md", content: "migrating1 content" },
 					{ name: "02-boo.md", content: "migrating2 content" },
 					{ name: "03-boo.md", content: "migrating3 content" },
 				],
+
 				blog: [
 					{ name: "01-boo.md", content: "blog1 content" },
 					{ name: "02-boo.md", content: "blog2 content" },
@@ -259,15 +262,205 @@ transform("transforms basic docs when some are not present", () => {
 					{ name: "02-boo.md", content: "docs2 content" },
 					{ name: "03-boo.md", content: "docs3 content" },
 				],
+
 				faq: [
 					{ name: "01-boo.md", content: "faq1 content" },
 					{ name: "02-boo.md", content: "faq2 content" },
 					{ name: "03-boo.md", content: "faq3 content" },
 				],
+
 				migrating: [
 					{ name: "01-boo.md", content: "migrating1 content" },
 					{ name: "02-boo.md", content: "migrating2 content" },
 					{ name: "03-boo.md", content: "migrating3 content" },
+				],
+			},
+		],
+	]);
+});
+
+transform("transforms examples", () => {
+	const files = {
+		name: "repo",
+		is_dir: true,
+		content: [
+			{
+				name: "documentation",
+				is_dir: true,
+				content: [
+					{
+						name: "examples",
+						is_dir: true,
+						content: [
+							{
+								name: "00-introduction",
+								is_dir: true,
+								content: [
+									{
+										name: "00-hello-world",
+										is_dir: true,
+										content: [
+											{
+												name: "App.svelte",
+												is_dir: false,
+												content: "app content",
+											},
+											{
+												name: "meta.json",
+												is_dir: false,
+												content: '{\n\t"title": "Hello world"\n}',
+											},
+										],
+									},
+									{
+										name: "01-dynamic-attributes",
+										is_dir: true,
+										content: [
+											{
+												name: "App.svelte",
+												is_dir: false,
+												content: "app2 content",
+											},
+											{
+												name: "meta.json",
+												is_dir: false,
+												content: '{\n\t"title": "Dynamic attributes"\n}',
+											},
+										],
+									},
+									{
+										name: "meta.json",
+										is_dir: false,
+										content: '{\n\t"title": "Introduction"\n}',
+									},
+								],
+							},
+							{
+								name: "01-reactivity",
+								is_dir: true,
+								content: [
+									{
+										name: "00-reactive-assignments",
+										is_dir: true,
+										content: [
+											{
+												name: "App.svelte",
+												is_dir: false,
+												content: "app3 content",
+											},
+											{
+												name: "meta.json",
+												is_dir: false,
+												content: '{\n\t"title": "Reactive assignments"\n}',
+											},
+										],
+									},
+									{
+										name: "01-reactive-declarations",
+										is_dir: true,
+										content: [
+											{
+												name: "App.svelte",
+												is_dir: false,
+												content: "app4 content",
+											},
+											{
+												name: "meta.json",
+												is_dir: false,
+												content: '{\n\t"title": "Reactive declarations"\n}',
+											},
+										],
+									},
+									{
+										name: "meta.json",
+										is_dir: false,
+										content: '{\n\t"title": "Reactivity"\n}',
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+		],
+	};
+	const output = transform_files(files, "packages", "documentation", "svelte");
+
+	assert.equal(output, [
+		[
+			"svelte",
+			{
+				examples: [
+					{
+						name: "00-introduction",
+						content: [
+							{
+								name: "00-hello-world",
+								content: [
+									{
+										name: "App.svelte",
+										content: "app content",
+									},
+									{
+										name: "meta.json",
+										content: '{\n\t"title": "Hello world"\n}',
+									},
+								],
+							},
+							{
+								name: "01-dynamic-attributes",
+								content: [
+									{
+										name: "App.svelte",
+										content: "app2 content",
+									},
+									{
+										name: "meta.json",
+										content: '{\n\t"title": "Dynamic attributes"\n}',
+									},
+								],
+							},
+							{
+								name: "meta.json",
+								content: '{\n\t"title": "Introduction"\n}',
+							},
+						],
+					},
+					{
+						name: "01-reactivity",
+						content: [
+							{
+								name: "00-reactive-assignments",
+								content: [
+									{
+										name: "App.svelte",
+										content: "app3 content",
+									},
+									{
+										name: "meta.json",
+										content: '{\n\t"title": "Reactive assignments"\n}',
+									},
+								],
+							},
+							{
+								name: "01-reactive-declarations",
+								content: [
+									{
+										name: "App.svelte",
+										content: "app4 content",
+									},
+									{
+										name: "meta.json",
+										content: '{\n\t"title": "Reactive declarations"\n}',
+									},
+								],
+							},
+							{
+								name: "meta.json",
+								content: '{\n\t"title": "Reactivity"\n}',
+							},
+						],
+					},
 				],
 			},
 		],
