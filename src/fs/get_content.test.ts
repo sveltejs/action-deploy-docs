@@ -1,17 +1,28 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
+import recursive_output from "./fixtures/recursive_output";
+
+import * as path from "path";
 
 import {
 	get_base_documentation,
 	get_package_documentation,
+	rc_read_file,
 } from "./get_content";
-import * as path from "path";
 
 const repo = path.join(__dirname, "fixtures", "repo-1");
 const repo2 = path.join(__dirname, "fixtures", "repo-2");
+const repo3 = path.join(__dirname, "fixtures", "repo-3");
 
 const get_docs = suite("get_base_documentation");
 const get_pkg_docs = suite("get_package_documentation");
+const recrusive_read = suite("rc_read_file");
+
+recrusive_read("recursively reads file and dirs", async () => {
+	const content = await rc_read_file(repo3);
+	// console.log(JSON.stringify(content, null, 2));
+	assert.equal(content, recursive_output);
+});
 
 get_docs("gets the api documentation correctly", async () => {
 	const content = await get_base_documentation("documentation", repo);
@@ -56,3 +67,4 @@ get_pkg_docs(
 
 get_docs.run();
 get_pkg_docs.run();
+recrusive_read.run();

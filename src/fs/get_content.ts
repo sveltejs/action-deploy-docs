@@ -45,12 +45,44 @@ async function maybe_read_dir(
 // 	}
 // }
 
+type File = {
+	content: string | File[];
+	name: string;
+	is_dir: boolean;
+};
+
+export async function rc_read_file(file_path: string): Promise<File> {
+	let file_or_dir: File = {
+		name: file_path.split("/").pop(),
+		is_dir: false,
+		content: "",
+	};
+	try {
+		file_or_dir.content = await (await fs.readFile(file_path)).toString();
+	} catch (e) {
+		file_or_dir.is_dir = true;
+		file_or_dir.content = await Promise.all(
+			(await fs.readdir(file_path))
+				.filter((name) => !name.endsWith("DS_Store"))
+				.map((name) => rc_read_file(path.join(file_path, name)))
+		);
+	}
+
+	return file_or_dir;
+}
+
+const type_map = {
+	docs() {},
+};
+
 export async function get_base_documentation(
 	docs_path: string,
 	working_directory: string = process.cwd()
 ): Promise<BaseDocs | false> {
 	const docs_dir = path.join(working_directory, docs_path);
 	let api_content;
+
+	// const types = await rc_read_file(docs_dir);
 
 	let api = await maybe_read_dir(path.join(docs_dir, "docs"));
 
