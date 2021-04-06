@@ -4,44 +4,16 @@ import recursive_output from "./fixtures/recursive_output";
 
 import * as path from "path";
 
-import {
-	get_base_documentation,
-	get_package_documentation,
-	rc_read_file,
-	transform_files,
-} from "./get_content";
+import { rc_read_file, transform_files } from "./get_content";
 
-const repo = path.join(__dirname, "fixtures", "repo-1");
-const repo2 = path.join(__dirname, "fixtures", "repo-2");
 const repo3 = path.join(__dirname, "fixtures", "repo-3");
 
-const get_docs = suite("get_base_documentation");
-const get_pkg_docs = suite("get_package_documentation");
 const recrusive_read = suite("rc_read_file");
 const transform = suite("transform_files");
 
 recrusive_read("recursively reads file and dirs", async () => {
 	const content = await rc_read_file(repo3);
-	// console.log(JSON.stringify(content, null, 2));
 	assert.equal(content, recursive_output);
-});
-
-get_docs.skip("gets the api documentation correctly", async () => {
-	const content = await get_base_documentation("documentation", repo);
-
-	assert.equal(content && content.docs, [
-		["01-one.md", "file-one\n"],
-		["02-two.md", "file-two\n"],
-		["03-three.md", "file-three\n"],
-		["04-four.md", "file-four\n"],
-	]);
-});
-
-get_docs.skip("get base documentation when it is a root readme", async () => {
-	const content = await get_base_documentation("documentation", repo2);
-	assert.equal(content && content.docs, [
-		["standard-package", "repo-2 docs\n"],
-	]);
 });
 
 transform("transforms basic docs", () => {
@@ -467,30 +439,152 @@ transform("transforms examples", () => {
 	]);
 });
 
-get_pkg_docs.skip(
-	"get documentation for packages ignoring invalid packages",
-	async () => {
-		const content = await get_package_documentation("packages", repo);
+transform("transforms package readmes", () => {
+	const files = {
+		name: "repo-3",
+		is_dir: true,
+		content: [
+			{
+				name: "packages",
+				is_dir: true,
+				content: [
+					{
+						name: "random-extra-files",
+						is_dir: true,
+						content: [
+							{
+								name: "README.md",
+								is_dir: false,
+								content: "random-extra-files\n",
+							},
+							{ name: "bipbopboom.whatever", is_dir: false, content: "" },
+							{
+								name: "package.json",
+								is_dir: false,
+								content: '{\n\t"name": "random-extra-files"\n}\n',
+							},
+							{
+								name: "src",
+								is_dir: true,
+								content: [{ name: "hello.bopbop", is_dir: false, content: "" }],
+							},
+						],
+					},
+					{
+						name: "standard-package",
+						is_dir: true,
+						content: [
+							{
+								name: "README.md",
+								is_dir: false,
+								content: "standard-package\n",
+							},
+							{
+								name: "package.json",
+								is_dir: false,
+								content: '{\n\t"name": "standard-package"\n}\n',
+							},
+						],
+					},
+				],
+			},
+		],
+	};
+	const output = transform_files(files, "packages", "documentation", "svelte");
+	assert.equal(output, [
+		[
+			"random-extra-files",
+			{
+				docs: [
+					{
+						name: "README.md",
+						content: "random-extra-files\n",
+					},
+					{ name: "bipbopboom.whatever", content: "" },
+					{
+						name: "package.json",
+						content: '{\n\t"name": "random-extra-files"\n}\n',
+					},
+					{
+						name: "src",
+						content: [{ name: "hello.bopbop", content: "" }],
+					},
+				],
+			},
+		],
+		[
+			"standard-package",
+			{
+				docs: [
+					{
+						name: "README.md",
+						content: "standard-package\n",
+					},
+					{
+						name: "package.json",
+						content: '{\n\t"name": "standard-package"\n}\n',
+					},
+				],
+			},
+		],
+	]);
+});
 
-		assert.equal(content, [
-			["random-extra-files", "random-extra-files\n"],
-			["standard-package", "standard-package\n"],
-		]);
-	}
-);
+transform("get docs from root readme when no documentation folder", () => {
+	const files = {
+		name: "repo-3",
+		is_dir: true,
+		content: [
+			{ name: "README.md", is_dir: false, content: "standard-package\n" },
+			{
+				name: "package.json",
+				is_dir: false,
+				content: '{\n\t"name": "standard-package"\n}\n',
+			},
+		],
+	};
 
-get_pkg_docs.skip(
-	"get documentation for packages optionally ignoring certain package",
-	async () => {
-		const content = await get_package_documentation("packages", repo, {
-			ignore: ["standard-package"],
-		});
+	const output = transform_files(files, "", "", "some-package");
 
-		assert.equal(content, [["random-extra-files", "random-extra-files\n"]]);
-	}
-);
+	assert.equal(output, [
+		[
+			"some-package",
+			{
+				docs: [{ name: "README.md", content: "standard-package\n" }],
+			},
+		],
+	]);
+});
 
-get_docs.run();
-get_pkg_docs.run();
+transform("increments the heading level of readme md files", () => {
+	const files = {
+		name: "repo-3",
+		is_dir: true,
+		content: [
+			{
+				name: "README.md",
+				is_dir: false,
+				content: "# standard-package\n## hello",
+			},
+			{
+				name: "package.json",
+				is_dir: false,
+				content: '{\n\t"name": "standard-package"\n}\n',
+			},
+		],
+	};
+
+	const output = transform_files(files, "", "", "some-package");
+
+	assert.equal(output, [
+		[
+			"some-package",
+			{
+				docs: [{ name: "README.md", content: "### hello" }],
+			},
+		],
+	]);
+});
+
 recrusive_read.run();
 transform.run();
