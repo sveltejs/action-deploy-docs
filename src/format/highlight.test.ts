@@ -1,9 +1,16 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
+import type { Root } from "mdast";
 
-import { highlight } from "./highlight";
+import unified from "unified";
+import markdown from "remark-parse";
+
+import { highlight, highight_code_block } from "./highlight";
 
 const _highlight = suite("highlight");
+const highlight_block = suite("highight_code_block");
+
+const processor = unified().use(markdown).use(highight_code_block);
 
 _highlight("does not highlight other languages", () => {
 	const highlighted = highlight("cd ./somedir\ncat file.txt", "bash");
@@ -77,4 +84,20 @@ booboo</code></pre>`
 	);
 });
 
+highlight_block("returns the correctly transformed AST", async () => {
+	const src =
+		"```bash\n" +
+		'RUN bash -lc "rvm install ruby-2.5.1 && \\nrvm use ruby-ruby-2.5.1 --default"\n' +
+		"```";
+
+	const AST = (await processor.run(processor.parse(src))) as Root;
+
+	assert.equal(
+		AST.children[0].value,
+		`<pre class='language-bash'><code>RUN <span class=\"token function\">bash</span> -lc <span class=\"token string\">\"rvm install ruby-2.5.1 &amp;&amp; <span class=\"token entity\" title=\"\\n\">\\n</span>rvm use ruby-ruby-2.5.1 --default\"</span></code></pre>`
+	);
+	assert.equal(AST.children[0].type, `html`);
+});
+
 _highlight.run();
+highlight_block.run();

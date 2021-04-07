@@ -3,10 +3,6 @@ import * as path from "path";
 
 import { increment_headings } from "../format/increment_headings";
 
-export interface BaseDocs {
-	docs: [string, string][];
-}
-
 interface SimpleFile {
 	name: string;
 	content: SimpleFile[] | string;
@@ -24,11 +20,7 @@ type doc_types =
 	| "tutorials"
 	| "examples";
 
-const fs_opts = {
-	encoding: "utf-8",
-} as const;
-
-interface Docs {
+export interface Docs {
 	docs?: unknown;
 	faq?: unknown;
 	migrating?: unknown;
@@ -146,4 +138,18 @@ export function transform_files(
 	if (!is_empty(base_docs)) pkgs.push([project, base_docs]);
 
 	return pkgs;
+}
+
+export async function get_docs(
+	project: string,
+	pkg_path: string,
+	docs_path: string,
+	working_directory: string = process.cwd()
+) {
+	return transform_files(
+		await rc_read_file(working_directory),
+		pkg_path,
+		docs_path,
+		project
+	);
 }

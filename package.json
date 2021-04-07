@@ -30,14 +30,22 @@
 		"@sindresorhus/slugify": "^1.1.0",
 		"@types/marked": "^2.0.0",
 		"@types/prismjs": "^1.16.4",
+		"js-yaml": "^4.0.0",
 		"marked": "^2.0.1",
 		"prettier": "^2.2.1",
 		"prism-svelte": "^0.4.7",
 		"prismjs": "^1.23.0",
+		"rehype-stringify": "^8.0.0",
+		"remark-frontmatter": "^3.0.0",
+		"remark-parse": "^9.0.0",
+		"remark-rehype": "^8.0.0",
 		"rollup": "^2.41.2",
 		"rollup-plugin-terser": "^7.0.2",
 		"ts-node": "^9.1.1",
 		"typescript": "^4.2.3",
-		"uvu": "^0.5.1"
+		"unified": "^9.2.1",
+		"unist-util-visit": "^2.0.3",
+		"uvu": "^0.5.1",
+		"vfile": "^4.2.1"
 	}
 }

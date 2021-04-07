@@ -42,3 +42,20 @@ export function link_renderer(
 
 	return `<a href="${href}"${target_attr}${title_attr} rel="noopener noreferrer">${text}</a>`;
 }
+
+function parse_frontmatter({
+	parse,
+	type,
+}: parser_frontmatter_options): Transformer {
+	const transformer: Transformer = (tree, vFile) => {
+		visit(tree, type, (node: FrontMatterNode) => {
+			const data = parse(node.value, vFile.messages);
+			if (data) {
+				// @ts-ignore
+				vFile.data.fm = data;
+			}
+		});
+	};
+
+	return transformer;
+}

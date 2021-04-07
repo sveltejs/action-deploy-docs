@@ -3,10 +3,8 @@ import exec from "@actions/exec";
 import fs from "fs";
 import path from "path";
 
-import { get_base_documentation, get_package_documentation } from "./fs";
-import { format_api } from "./format";
-import { increment_headings } from "./format/increment_headings";
-import { BaseDocs } from "./fs";
+import { get_docs, Docs } from "./fs";
+import { format_api, format_docs } from "./format";
 import { transform_cloudflare } from "./transform";
 import { FormattedFile } from "./format/format_api";
 
@@ -75,48 +73,24 @@ async function run() {
 	}
 
 	// read docs in
-	let base_docs: BaseDocs | false;
-	let pkg_docs: [string, string][] | false;
+	let docs: [string, Docs][] | false;
 
 	try {
-		[base_docs, pkg_docs] = await Promise.all([
-			get_base_documentation(docs_path),
-			get_package_documentation(pkg_path),
-		]);
+		docs = await get_docs(target_repo, pkg_path, docs_path);
 	} catch (e) {
 		core.warning(e.message);
 		core.setFailed("Failed to read documentation files.");
+		throw new Error("no docs");
 	}
 
-	console.log(pkg_docs);
+	console.log(docs);
 
-	if (pkg_docs) {
-		const formatted_pkg_docs: Array<
-			[string, FormattedFile]
-		> = pkg_docs.map(([name, content]) => [
-			name,
-			format_api(name, content, "", name),
-		]);
-
-		console.log(formatted_pkg_docs, null, 2);
-
-		const pkgs = formatted_pkg_docs.reduce((acc, [name, _docs]) => {
-			const cf_doc = transform_cloudflare([_docs], {
-				project: name,
-				type: "docs",
-				keyby: "slug",
-			});
-
-			return acc.concat(cf_doc);
-		}, []);
-
-		console.log("\n");
-		console.log(pkgs);
-	}
-	// format them
-
-	console.log(base_docs);
-	if (base_docs) {
+	if (docs.length) {
+		docs.forEach(([project, docs]) => {
+		for (const type in docs) {
+			const _docs = format_docs[type](docs[type]);
+		}
+		})
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
 			format_api(name, content, "docs", name)
 		);
@@ -124,11 +98,11 @@ async function run() {
 
 		// transform to cf format (batch keys)
 
-		const docs = transform_cloudflare(formatted_base_docs, {
-			project: target_repo,
-			type: "docs",
-			keyby: "slug",
-		});
+		// const docs = transform_cloudflare(formatted_base_docs, {
+		// 	project: target_repo,
+		// 	type: "docs",
+		// 	keyby: "slug",
+		// });
 
 		console.log("\n");
 		console.log(docs);

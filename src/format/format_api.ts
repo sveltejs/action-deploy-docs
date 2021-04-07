@@ -151,3 +151,38 @@ export function format_api(
 		sections,
 	};
 }
+
+export function format_blog(file: string, markdown: string, directory: string) {
+	const match = /^(\d+-\d+-\d+)-(.+)\.md$/.exec(file);
+	if (!match) throw new Error(`Invalid filename '${file}'`);
+
+	const [, pubdate, slug] = match;
+
+	const { content, metadata } = extract_frontmatter(markdown);
+	section_title = metadata.title;
+
+	const section_slug = make_slug(metadata.title);
+
+	// reset the stateful stuff
+	dir = directory;
+	prev_level = 3;
+	sections = [];
+	section_stack = [sections];
+	block_open = false;
+
+	const html = marked(content, { renderer });
+
+	return {
+		content: html,
+		title: metadata.title,
+		slug: section_slug,
+		file,
+		date: {
+			pubdate,
+			dateString: new Date(`${pubdate} EDT`).toString(),
+		},
+		sections,
+	};
+}
+
+

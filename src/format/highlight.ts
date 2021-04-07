@@ -1,3 +1,7 @@
+import type { Transformer } from "unified";
+import type { Code, HTML, Root } from "mdast";
+import visit from "unist-util-visit";
+
 import PrismJS from "prismjs";
 import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-diff.js";
@@ -25,4 +29,13 @@ export function highlight(source: string, lang?: language): string {
 		  );
 
 	return `<pre class='language-${plang}'><code>${highlighted}</code></pre>`;
+}
+
+export function highight_code_block(): Transformer {
+	return function transformer(tree) {
+		visit(tree, "code", (node: Code, index, parent) => {
+			node.value = highlight(node.value, node.lang as language);
+			((node as unknown) as HTML).type = "html";
+		});
+	};
 }
