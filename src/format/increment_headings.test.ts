@@ -58,6 +58,18 @@ thing: thing
 	assert.equal(AST.children[1], undefined);
 });
 
+strip("ignores non-readme types", async () => {
+	const src = `# title
+`;
+
+	const AST = (await strip_only.run(strip_only.parse({ contents: src }), {
+		data: { type: "other" },
+	})) as Root;
+
+	assert.equal(AST.children[0].depth, 1);
+	assert.equal((AST.children[0] as Heading).children[0].value, "title");
+});
+
 inc("increments headings by 1", async () => {
 	const src = `## second title
 `;
@@ -113,6 +125,19 @@ inc("throws an error if a heading becomes level 6", async () => {
 			"Headings above level 5 are not allowed. Readme headings are automatically incremented by 1."
 		);
 	}
+});
+
+inc("ignores non-readme types", async () => {
+	const src = `## second title`;
+
+	const AST = (await increment_only.run(
+		increment_only.parse({ contents: src }),
+		{
+			data: { type: "boop" },
+		}
+	)) as Root;
+
+	assert.equal(AST.children[0].depth, 2);
 });
 
 strip.run();
