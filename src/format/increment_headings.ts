@@ -1,5 +1,6 @@
 import type { Transformer } from "unified";
 import type { Heading, Root } from "mdast";
+
 import visit from "unist-util-visit";
 
 const types = [

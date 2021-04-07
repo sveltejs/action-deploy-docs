@@ -1,7 +1,7 @@
 import type { Transformer } from "unified";
 import type { Code, HTML } from "mdast";
-import visit from "unist-util-visit";
 
+import visit from "unist-util-visit";
 import PrismJS from "prismjs";
 import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-diff.js";
