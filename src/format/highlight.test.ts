@@ -1,6 +1,7 @@
+import type { Root, Paragraph } from "mdast";
+
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
-import type { Root } from "mdast";
 
 import unified from "unified";
 import markdown from "remark-parse";
@@ -97,6 +98,15 @@ highlight_block("returns the correctly transformed AST", async () => {
 		`<pre class='language-bash'><code>RUN <span class=\"token function\">bash</span> -lc <span class=\"token string\">\"rvm install ruby-2.5.1 &amp;&amp; <span class=\"token entity\" title=\"\\n\">\\n</span>rvm use ruby-ruby-2.5.1 --default\"</span></code></pre>`
 	);
 	assert.equal(AST.children[0].type, `html`);
+});
+
+highlight_block("inlineCode blocks should be untouched", async () => {
+	const src = "`some-code`";
+
+	const AST = (await processor.run(processor.parse(src))) as Root;
+
+	assert.equal(AST.children[0].type, `paragraph`);
+	assert.equal((AST.children[0] as Paragraph).children[0].value, `some-code`);
 });
 
 _highlight.run();

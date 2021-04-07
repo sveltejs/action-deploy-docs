@@ -33,7 +33,7 @@ export function highlight(source: string, lang?: language): string {
 
 export function highight_code_block(): Transformer {
 	return function transformer(tree) {
-		visit(tree, "code", (node: Code, index, parent) => {
+		visit(tree, "code", (node: Code) => {
 			node.value = highlight(node.value, node.lang as language);
 			((node as unknown) as HTML).type = "html";
 		});

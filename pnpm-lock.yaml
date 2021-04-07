@@ -23,7 +23,6 @@ devDependencies:
   unified: 9.2.1
   unist-util-visit: 2.0.3
   uvu: 0.5.1
-  vfile: 4.2.1
 lockfileVersion: 5.2
 packages:
   /@actions/core/1.2.6:
@@ -1059,4 +1058,3 @@ specifiers:
   unified: ^9.2.1
   unist-util-visit: ^2.0.3
   uvu: ^0.5.1
-  vfile: ^4.2.1
