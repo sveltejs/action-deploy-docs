@@ -1,5 +1,5 @@
 import type { Transformer } from "unified";
-import type { Code, HTML, Root } from "mdast";
+import type { Code, HTML } from "mdast";
 import visit from "unist-util-visit";
 
 import PrismJS from "prismjs";
