@@ -1,13 +1,13 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
-import { parse_frontmatter } from "./frontmatter";
-
 import unified from "unified";
 import markdown from "remark-parse";
 import extract_frontmatter from "remark-frontmatter";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
+
+import { parse_frontmatter } from "./frontmatter";
 
 const processor = unified()
 	.use(markdown)

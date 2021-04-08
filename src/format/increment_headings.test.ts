@@ -1,7 +1,7 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
-import { Root, Text, Heading } from "mdast";
 
+import { Root, Heading } from "mdast";
 import unified from "unified";
 import markdown from "remark-parse";
 import frontmatter from "remark-frontmatter";

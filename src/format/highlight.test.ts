@@ -1,8 +1,7 @@
-import type { Root, Paragraph } from "mdast";
-
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
+import type { Root, Paragraph } from "mdast";
 import unified from "unified";
 import markdown from "remark-parse";
 

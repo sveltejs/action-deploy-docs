@@ -1,6 +1,6 @@
 import marked from "marked";
 
-import { extract_frontmatter, link_renderer } from "./markdown";
+import { extract_frontmatter, link_renderer } from "./links";
 
 import { make_session_slug_processor } from "./slug";
 import { highlight } from "./highlight";

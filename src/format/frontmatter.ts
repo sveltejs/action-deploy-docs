@@ -1,5 +1,5 @@
 import type { Transformer } from "unified";
-import { YamlNode } from "remark-frontmatter";
+import type { YamlNode } from "remark-frontmatter";
 
 import yaml from "js-yaml";
 import Message from "vfile-message";
