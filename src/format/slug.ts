@@ -93,16 +93,15 @@ export function make_session_slug_processor({
 		? unicode_safe_processor
 		: url_safe_processor;
 
-	const seen = new Map();
 
-	return function (url: string) {
+	return function (url: string, seen_slugs: Map<string, number>) {
 		const slug = processor(url, { separator });
 		let count;
-		if ((count = seen.get(slug))) {
-			seen.set(slug, count + 1);
+		if ((count = seen_slugs.get(slug))) {
+			seen_slugs.set(slug, count + 1);
 			return `${slug}${separator}${count}`;
 		} else {
-			seen.set(slug, 1);
+			seen_slugs.set(slug, 1);
 			return slug;
 		}
 	};

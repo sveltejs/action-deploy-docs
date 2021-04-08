@@ -61,49 +61,49 @@ function get_slug_segments(): string[] {
 	});
 }
 
-function heading_renderer(
-	text: string,
-	level: number,
-	rawtext: string
-): string {
-	if (level < 3 || level > 5)
-		throw new Error(
-			`Only level 3 and 4 headings are allowed. Got level ${level} heading.`
-		);
+// function heading_renderer(
+// 	text: string,
+// 	level: number,
+// 	rawtext: string
+// ): string {
+// 	if (level < 3 || level > 5)
+// 		throw new Error(
+// 			`Only level 3 and 4 headings are allowed. Got level ${level} heading.`
+// 		);
 
-	let slug = make_slug(
-		level === 3
-			? [section_title, rawtext].join(" ")
-			: [...get_slug_segments(), rawtext].join(" ")
-	);
+// 	let slug = make_slug(
+// 		level === 3
+// 			? [section_title, rawtext].join(" ")
+// 			: [...get_slug_segments(), rawtext].join(" ")
+// 	);
 
-	if (level === 3 || level === 4) {
-		const title = text.replace(/<\/?code>/g, "");
-		const prev_section = section_stack[section_stack.length - 1];
+// 	if (level === 3 || level === 4) {
+// 		const title = text.replace(/<\/?code>/g, "");
+// 		const prev_section = section_stack[section_stack.length - 1];
 
-		if (level > prev_level) {
-			section_stack.push(prev_section[prev_section.length - 1].sections || []);
-		} else if (level < prev_level) {
-			section_stack.pop();
-		}
+// 		if (level > prev_level) {
+// 			section_stack.push(prev_section[prev_section.length - 1].sections || []);
+// 		} else if (level < prev_level) {
+// 			section_stack.pop();
+// 		}
 
-		section_stack[section_stack.length - 1].push({
-			slug,
-			title,
-			sections: [],
-		});
-		prev_level = level;
-	}
+// 		section_stack[section_stack.length - 1].push({
+// 			slug,
+// 			title,
+// 			sections: [],
+// 		});
+// 		prev_level = level;
+// 	}
 
-	return `
-					<h${level}>
-						<span id="${slug}" class="offset-anchor" ${
-		level > 4 ? "data-scrollignore" : ""
-	}></span>
-						<a href="${dir}#${slug}" class="anchor" aria-hidden="true"></a>
-						${text}
-					</h${level}>`;
-}
+// 	return `
+// 					<h${level}>
+// 						<span id="${slug}" class="offset-anchor" ${
+// 		level > 4 ? "data-scrollignore" : ""
+// 	}></span>
+// 						<a href="${dir}#${slug}" class="anchor" aria-hidden="true"></a>
+// 						${text}
+// 					</h${level}>`;
+// }
 
 const renderer = new marked.Renderer();
 
@@ -135,11 +135,11 @@ export function format_api(
 	const section_slug = make_slug(title);
 
 	// reset the stateful stuff
-	dir = directory;
-	prev_level = 3;
-	sections = [];
-	section_stack = [sections];
-	block_open = false;
+	// dir = directory;
+	// prev_level = 3;
+	// sections = [];
+	// section_stack = [sections];
+	// block_open = false;
 
 	const html = marked(content, { renderer });
 

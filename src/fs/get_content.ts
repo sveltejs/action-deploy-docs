@@ -104,12 +104,7 @@ export function transform_files(
 						docs.name,
 						{
 							docs: docs.content.map((entry) =>
-								strip_meta(
-									entry.name,
-									entry.name.endsWith("md")
-										? increment_headings(entry.content as string)
-										: entry.content
-								)
+								strip_meta(entry.name, entry.content)
 							),
 						},
 					]);
@@ -125,12 +120,7 @@ export function transform_files(
 			pkgs.push([
 				project,
 				{
-					docs: [
-						strip_meta(
-							"README.md",
-							increment_headings(readme.content as string)
-						),
-					],
+					docs: [strip_meta("README.md", readme.content)],
 				},
 			]);
 	}

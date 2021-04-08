@@ -3,7 +3,7 @@ import markdown from "remark-parse";
 import remark2rehype from "remark-rehype";
 import html from "rehype-stringify";
 
-const processor = unified().use(markdown).use(remark2rehype).use(html);
+var processor = unified().use(markdown).use(remark2rehype).use(html);
 
 // export const format_docs = {
 // 	docs: format_api,

@@ -556,35 +556,5 @@ transform("get docs from root readme when no documentation folder", () => {
 	]);
 });
 
-transform("increments the heading level of readme md files", () => {
-	const files = {
-		name: "repo-3",
-		is_dir: true,
-		content: [
-			{
-				name: "README.md",
-				is_dir: false,
-				content: "# standard-package\n## hello",
-			},
-			{
-				name: "package.json",
-				is_dir: false,
-				content: '{\n\t"name": "standard-package"\n}\n',
-			},
-		],
-	};
-
-	const output = transform_files(files, "", "", "some-package");
-
-	assert.equal(output, [
-		[
-			"some-package",
-			{
-				docs: [{ name: "README.md", content: "### hello" }],
-			},
-		],
-	]);
-});
-
 recrusive_read.run();
 transform.run();

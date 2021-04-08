@@ -8,8 +8,11 @@ devDependencies:
   '@types/js-yaml': 4.0.0
   '@types/marked': 2.0.0
   '@types/prismjs': 1.16.4
+  hast: 1.0.0
   js-yaml: 4.0.0
   marked: 2.0.1
+  mdast-util-to-hast: 10.2.0
+  mdast-util-to-string: 2.0.0
   prettier: 2.2.1
   prism-svelte: 0.4.7
   prismjs: 1.23.0
@@ -24,6 +27,7 @@ devDependencies:
   unified: 9.2.1
   unist-util-visit: 2.0.3
   uvu: 0.5.1
+  vfile: 4.2.1
   vfile-message: 2.0.4
 lockfileVersion: 5.2
 packages:
@@ -457,6 +461,11 @@ packages:
     dev: true
     resolution:
       integrity: sha512-I5GTdSfhYfAPNztx2xJRQpG8cuDSNt599/7YUn7Gx/WxNMsG+a835k97TDkFgk123cwjfwINaZknkKkphx/f2A==
+  /hast/1.0.0:
+    deprecated: Renamed to rehype
+    dev: true
+    resolution:
+      integrity: sha1-UGFeaysFg+Vgi8dsRwKXIvHgBgc=
   /html-void-elements/1.0.5:
     dev: true
     resolution:
@@ -1049,8 +1058,11 @@ specifiers:
   '@types/js-yaml': ^4.0.0
   '@types/marked': ^2.0.0
   '@types/prismjs': ^1.16.4
+  hast: ^1.0.0
   js-yaml: ^4.0.0
   marked: ^2.0.1
+  mdast-util-to-hast: ^10.2.0
+  mdast-util-to-string: ^2.0.0
   prettier: ^2.2.1
   prism-svelte: ^0.4.7
   prismjs: ^1.23.0
@@ -1065,4 +1077,5 @@ specifiers:
   unified: ^9.2.1
   unist-util-visit: ^2.0.3
   uvu: ^0.5.1
+  vfile: ^4.2.1
   vfile-message: ^2.0.4
