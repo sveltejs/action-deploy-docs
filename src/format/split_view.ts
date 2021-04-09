@@ -1,10 +1,12 @@
 import type { Transformer } from "unified";
 import type { Parent } from "unist";
-
+import { custom_vfile } from "./types";
 import visit from "unist-util-visit";
 
 export function split_view(): Transformer {
-	return function (tree) {
+	return function (tree, vFile: custom_vfile) {
+		if (vFile.data.docs_type !== "docs") return;
+
 		visit(tree, "element", (node, i, parent) => {
 			if (node.tagName === "hr") {
 				const left: Parent = {

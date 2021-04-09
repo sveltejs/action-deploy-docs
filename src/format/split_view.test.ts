@@ -5,11 +5,13 @@ import unified from "unified";
 import markdown from "remark-parse";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
+import vFile from "vfile";
 
 import { highight_code_block } from "./highlight";
 import { split_view } from "./split_view";
 
 import u from "unist-builder";
+import { custom_vfile } from "./types";
 
 const { process } = unified()
 	.use(markdown)
@@ -48,7 +50,9 @@ console.log('boo')
 \`\`\`
 `;
 
-	const output = await process(src);
+	const output = await process(
+		vFile<custom_vfile>({ contents: src, data: { docs_type: "docs" } })
+	);
 
 	assert.equal(
 		output.contents,
@@ -60,7 +64,7 @@ console.log('boo')
 	);
 });
 
-split("wraps from hr to end of code block in split view markup", async () => {
+split("works with other content present", async () => {
 	const src = `
 ### hello
 
@@ -77,8 +81,9 @@ console.log('boo')
 ## hello
 `;
 
-	const output = await process(src);
-
+	const output = await process(
+		vFile<custom_vfile>({ contents: src, data: { docs_type: "docs" } })
+	);
 	assert.equal(
 		output.contents,
 		"<h3>hello</h3>\n" +
@@ -89,4 +94,37 @@ console.log('boo')
 			"<h2>hello</h2>"
 	);
 });
+
+split("ignore non-docs content", async () => {
+	const src = `
+### hello
+
+___
+
+this is more text
+
+and this
+
+\`\`\`js
+console.log('boo')
+\`\`\`
+
+## hello
+`;
+
+	const output = await process(
+		vFile<custom_vfile>({ contents: src, data: { docs_type: "blof" } })
+	);
+	assert.equal(
+		output.contents,
+
+		"<h3>hello</h3>\n" +
+			"<hr>\n" +
+			"<p>this is more text</p>\n" +
+			"<p>and this</p>\n" +
+			`<pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre>\n` +
+			"<h2>hello</h2>"
+	);
+});
+
 split.run();

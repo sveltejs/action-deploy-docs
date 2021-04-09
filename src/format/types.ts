@@ -11,5 +11,7 @@ export type custom_vfile = VFile & {
 		dir: string;
 		slugs: string[];
 		seen_slugs: Map<string, number>;
+		docs_type: "docs" | "faq" | "migrating" | "examples" | "tutorials" | "blog";
+		file_type: "readme" | "other";
 	};
 };
