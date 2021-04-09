@@ -1,7 +1,7 @@
 import type { Transformer } from "unified";
 import type { Parent } from "unist";
 import type { Heading } from "mdast";
-import type { VFile } from "vfile";
+import { custom_vfile } from "./types";
 
 import tree_to_string from "mdast-util-to-string";
 import to_hast from "mdast-util-to-hast";
@@ -22,25 +22,11 @@ export function validate_headings(): Transformer {
 		visit(tree, "heading", (node: Heading) => {
 			if (node.depth < 3 || node.depth > 5)
 				throw new Error(
-					`Only level 3 and 4 headings are allowed. Got level ${node.depth} heading.`
+					`Only level 3, 4, and 5 headings are allowed. Got level ${node.depth} heading.`
 				);
 		});
 	};
 }
-
-type section = { slug: string; title: string; sections: section[] };
-
-export type custom_vfile = VFile & {
-	data: {
-		sections: section[];
-		section_stack: section[][];
-		prev_level: number;
-		section_title: string;
-		dir: string;
-		slugs: string[];
-		seen_slugs: Map<string, number>;
-	};
-};
 
 type Heading_with_hProps = Heading & {
 	data: {
@@ -115,33 +101,3 @@ export function headings(): Transformer {
 		});
 	};
 }
-
-// export function headings(): Transformer {
-// 	return function transformer(tree, { data }: custom_vfile) {
-// 		visit(tree, "heading", (node: Heading) => {
-// 			const title_text = tree_to_string(node);
-
-// 			let slug = make_slug(
-// 				node.depth === 3
-// 					? [data.section_title, title_text].join(" ")
-// 					: [...get_slug_segments(data.section_stack), title_text].join(" ")
-// 			);
-
-// 			((node as unknown) as HTML).type = "html";
-// 			((node as unknown) as HTML).value = `
-// 			<h${node.depth}>
-// 				<span id="${slug}" class="offset-anchor" ${
-// 				node.depth > 4 ? "data-scrollignore" : ""
-// 			}></span>
-// 				<a href="${data.dir}#${slug}" class="anchor" aria-hidden="true"></a>
-// 				${text}
-// 			</h${node.depth}>`;
-// 		});
-// 	};
-// }
-
-// <h1>
-//  <span id="my-slug" class="offset-anchor" data-scroll-ignore />
-//  <a href="docs#my-slug" class="anchor" aria-hidden="true"></a>
-//  	My Title
-// </h1>

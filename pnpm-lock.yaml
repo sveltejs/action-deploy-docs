@@ -25,6 +25,8 @@ devDependencies:
   ts-node: 9.1.1_typescript@4.2.3
   typescript: 4.2.3
   unified: 9.2.1
+  unist-builder: 2.0.3
+  unist-util-remove-position: 3.0.0
   unist-util-visit: 2.0.3
   uvu: 0.5.1
   vfile: 4.2.1
@@ -982,6 +984,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-w+PkwCbYSFw8vpgWD0v7zRCl1FpY3fjDSQ3/N/wNd9Ffa4gPi8+4keqt99N3XW6F99t/mUzp2xAhNmfKWp95QA==
+  /unist-util-remove-position/3.0.0:
+    dependencies:
+      unist-util-visit: 2.0.3
+    dev: true
+    resolution:
+      integrity: sha512-17kIOuolVuK16LMb9KyMJlqdfCtlfQY5FjY3Sdo9iC7F5wqdXhNjMq0PBvMpkVNNnAmHxXssUW+rZ9T2zbP0Rg==
   /unist-util-stringify-position/2.0.3:
     dependencies:
       '@types/unist': 2.0.3
@@ -1075,6 +1083,8 @@ specifiers:
   ts-node: ^9.1.1
   typescript: ^4.2.3
   unified: ^9.2.1
+  unist-builder: ^2.0.3
+  unist-util-remove-position: ^3.0.0
   unist-util-visit: ^2.0.3
   uvu: ^0.5.1
   vfile: ^4.2.1

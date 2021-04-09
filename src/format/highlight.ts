@@ -35,6 +35,9 @@ export function highight_code_block(): Transformer {
 	return function transformer(tree) {
 		visit(tree, "code", (node: Code) => {
 			node.value = highlight(node.value, node.lang as language);
+			//@ts-ignore
+			node.data = {};
+			node.data.code_block = true;
 			((node as unknown) as HTML).type = "html";
 		});
 	};

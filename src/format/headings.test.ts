@@ -8,7 +8,7 @@ import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import vFile from "vfile";
 
-import { headings, custom_vfile } from "./headings";
+import { headings } from "./headings";
 
 const { process } = unified()
 	.use(markdown)
