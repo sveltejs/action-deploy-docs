@@ -29,7 +29,7 @@ export function highlight(source: string, lang?: language): string {
 				(c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c])
 		  );
 
-	return `<pre class='language-${plang}'><code>${highlighted}</code></pre>`;
+	return `<div class="code-block"><pre class='language-${plang}'><code>${highlighted}</code></pre></div>`;
 }
 
 export function highight_code_block(): Transformer {

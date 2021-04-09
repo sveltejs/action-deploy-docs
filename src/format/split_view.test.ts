@@ -60,7 +60,7 @@ console.log('boo')
 			'<div class="side-by-side"><div class="copy">\n' +
 			"<p>this is more text</p>\n" +
 			"<p>and this</p>\n" +
-			`</div><div class="code"><pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div></div>`
+			`</div><div class="code"><div class="code-block"><pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div></div></div>`
 	);
 });
 
@@ -90,7 +90,7 @@ console.log('boo')
 			'<div class="side-by-side"><div class="copy">\n' +
 			"<p>this is more text</p>\n" +
 			"<p>and this</p>\n" +
-			`</div><div class="code"><pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div></div>\n` +
+			`</div><div class="code"><div class="code-block"><pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div></div></div>\n` +
 			"<h2>hello</h2>"
 	);
 });
@@ -122,7 +122,7 @@ console.log('boo')
 			"<hr>\n" +
 			"<p>this is more text</p>\n" +
 			"<p>and this</p>\n" +
-			`<pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre>\n` +
+			`<div class="code-block"><pre class='language-javascript'><code>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div>\n` +
 			"<h2>hello</h2>"
 	);
 });
