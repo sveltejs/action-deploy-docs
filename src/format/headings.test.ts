@@ -1,24 +1,36 @@
+import { Root, Heading } from "mdast";
+
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
 import unified from "unified";
 import markdown from "remark-parse";
 import extract_frontmatter from "remark-frontmatter";
+import frontmatter from "remark-frontmatter";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import vFile from "vfile";
 
-import { headings } from "./headings";
+import {
+	linkify_headings,
+	strip_h1,
+	increment_headings,
+	validate_headings,
+} from "./headings";
 
-const { process } = unified()
+const { process: linkify_only } = unified()
 	.use(markdown)
 	.use(extract_frontmatter)
-	.use(headings)
+	.use(linkify_headings)
 	.use(rehype)
-	// .use(() => (tree) => console.log(JSON.stringify(tree, null, 2)))
 	.use(stringify);
 
+const strip_only = unified().use(markdown).use(frontmatter).use(strip_h1);
+const increment_only = unified().use(markdown).use(increment_headings);
+
 const _headings = suite("headings");
+const strip = suite("strip_h1");
+const inc = suite("increment_headings");
 
 _headings("transforms and formats headings", async () => {
 	const sections: unknown[] = [];
@@ -35,7 +47,7 @@ _headings("transforms and formats headings", async () => {
 		},
 	});
 
-	const output = await process(src);
+	const output = await linkify_only(src);
 
 	assert.equal(
 		output.contents,
@@ -61,7 +73,7 @@ _headings("transforms and formats multi-level headings", async () => {
 		},
 	});
 
-	const output = await process(src);
+	const output = await linkify_only(src);
 
 	assert.equal(
 		output.contents,
@@ -91,7 +103,7 @@ _headings("transforms and formats multi-level headings", async () => {
 		},
 	});
 
-	const output = await process(src);
+	const output = await linkify_only(src);
 
 	assert.equal(
 		output.contents,
@@ -130,7 +142,7 @@ _headings.only("transforms and formats multi-level headings", async () => {
 		},
 	});
 
-	const output = await process(src);
+	const output = await linkify_only(src);
 
 	assert.equal(
 		output.contents,
@@ -144,4 +156,132 @@ _headings.only("transforms and formats multi-level headings", async () => {
 	);
 });
 
+strip("strips leading level 1 headings", async () => {
+	const src = `
+	
+	
+# title
+
+## second title
+`;
+
+	const AST = (await strip_only.run(strip_only.parse({ contents: src }), {
+		data: { file_type: "readme" },
+	})) as Root;
+
+	assert.equal(AST.children[0].depth, 2);
+	assert.equal((AST.children[0] as Heading).children[0].value, "second title");
+});
+
+strip("ignores other types of heading", async () => {
+	const src = `## second title
+`;
+
+	const AST = (await strip_only.run(strip_only.parse({ contents: src }), {
+		data: { file_type: "readme" },
+	})) as Root;
+
+	assert.equal(AST.children[0].depth, 2);
+	assert.equal((AST.children[0] as Heading).children[0].value, "second title");
+});
+
+strip("ignores non-markdown leading nodes", async () => {
+	const src = `---
+thing: thing
+---
+
+# second title
+`;
+
+	const AST = (await strip_only.run(strip_only.parse({ contents: src }), {
+		data: { file_type: "readme" },
+	})) as Root;
+
+	assert.equal(AST.children[1], undefined);
+});
+
+strip("ignores non-readme types", async () => {
+	const src = `# title
+`;
+
+	const AST = (await strip_only.run(strip_only.parse({ contents: src }), {
+		data: { file_type: "other" },
+	})) as Root;
+
+	assert.equal(AST.children[0].depth, 1);
+	assert.equal((AST.children[0] as Heading).children[0].value, "title");
+});
+
+inc("increments headings by 1", async () => {
+	const src = `## second title
+`;
+
+	const AST = (await increment_only.run(
+		increment_only.parse({ contents: src }),
+		{
+			data: { file_type: "readme" },
+		}
+	)) as Root;
+
+	assert.equal(AST.children[0].depth, 3);
+});
+
+inc("increments headings by 1", async () => {
+	const src = `## second title
+
+## second title
+
+### second title
+
+### second title
+
+#### second title
+`;
+
+	const AST = (await increment_only.run(
+		increment_only.parse({ contents: src }),
+		{
+			data: { file_type: "readme" },
+		}
+	)) as Root;
+
+	assert.equal(AST.children[0].depth, 3);
+	assert.equal(AST.children[1].depth, 3);
+	assert.equal(AST.children[2].depth, 4);
+	assert.equal(AST.children[3].depth, 4);
+	assert.equal(AST.children[4].depth, 5);
+});
+
+inc("throws an error if a heading becomes level 6", async () => {
+	const src = `##### second title
+`;
+
+	try {
+		(await increment_only.run(increment_only.parse({ contents: src }), {
+			data: { file_type: "readme" },
+		})) as Root;
+		assert.unreachable();
+	} catch (e) {
+		assert.equal(
+			e.message,
+			"Headings above level 5 are not allowed. Readme headings are automatically incremented by 1."
+		);
+	}
+});
+
+inc("ignores non-readme types", async () => {
+	const src = `## second title`;
+
+	const AST = (await increment_only.run(
+		increment_only.parse({ contents: src }),
+		{
+			data: { file_type: "boop" },
+		}
+	)) as Root;
+
+	assert.equal(AST.children[0].depth, 2);
+});
+
+strip.run();
+inc.run();
 _headings.run();

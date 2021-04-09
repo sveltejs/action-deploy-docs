@@ -1,6 +1,6 @@
 import type { Transformer } from "unified";
 import type { Parent } from "unist";
-import type { Heading } from "mdast";
+import type { Heading, Root } from "mdast";
 import { custom_vfile } from "./types";
 
 import tree_to_string from "mdast-util-to-string";
@@ -35,7 +35,7 @@ type Heading_with_hProps = Heading & {
 	};
 };
 
-export function headings(): Transformer {
+export function linkify_headings(): Transformer {
 	return function (tree, { data }: custom_vfile) {
 		visit(tree, "heading", (node: Heading_with_hProps) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];
@@ -99,5 +99,65 @@ export function headings(): Transformer {
 
 			children.forEach((v) => node.data.hChildren.push(v));
 		});
+	};
+}
+
+// import type { Transformer } from "unified";
+// import type { Heading, Root } from "mdast";
+
+// import visit from "unist-util-visit";
+
+const types = [
+	"paragraph",
+	"heading",
+	"thematicBreak",
+	"blockquote",
+	"list",
+	"listItem",
+	"html",
+	"code",
+	"definition",
+	"text",
+	"emphasis",
+	"strong",
+	"inlineCode",
+	"break",
+	"link",
+	"image",
+	"linkReference",
+	"imageReference",
+];
+
+export function strip_h1(): Transformer {
+	return function transformer(tree, vFile: custom_vfile) {
+		//@ts-ignore
+		if (vFile.data.file_type === "readme") {
+			const first_md_node = (tree as Root).children.findIndex((node) =>
+				types.includes(node.type)
+			);
+			if (
+				(tree as Root).children[first_md_node].type === "heading" &&
+				(tree as Root).children[first_md_node].depth === 1
+			) {
+				(tree as Root).children.splice(first_md_node, first_md_node + 1);
+			}
+		}
+	};
+}
+
+export function increment_headings(): Transformer {
+	return function transformer(tree, vFile) {
+		//@ts-ignore
+		if (vFile.data.file_type === "readme") {
+			visit(tree, "heading", (node: Heading) => {
+				const new_depth = node.depth + 1;
+				if (new_depth > 5) {
+					throw new Error(
+						`Headings above level 5 are not allowed. Readme headings are automatically incremented by 1.`
+					);
+				}
+				node.depth = new_depth as 1 | 2 | 3 | 4 | 5 | 6;
+			});
+		}
 	};
 }

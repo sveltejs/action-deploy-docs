@@ -192,8 +192,11 @@ import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import vFile from "vfile";
 
-import { increment_headings } from "./increment_headings";
-import { headings, validate_headings } from "./headings";
+import {
+	linkify_headings,
+	validate_headings,
+	increment_headings,
+} from "./headings";
 import { links } from "./links";
 import { highight_code_block } from "./highlight";
 import { parse_frontmatter } from "./frontmatter";
@@ -213,7 +216,7 @@ const { process } = unified()
 	.use(parse_frontmatter)
 	.use(increment_headings)
 	.use(validate_headings)
-	.use(headings)
+	.use(linkify_headings)
 	.use(links)
 	.use(highight_code_block)
 	// convert MDAST to HAST
