@@ -236,7 +236,7 @@ const { process } = unified()
 	// .use(() => (tree) => console.log(JSON.stringify(strip(tree), null, 2)))
 	.use(stringify);
 
-export function create_formatter() {
+export function format() {
 	return async function (
 		file: string,
 		markdown: string,
@@ -248,7 +248,7 @@ export function create_formatter() {
 		const sections: section[] = [];
 		const section_title =
 			file.toLowerCase() === "readme.md" ? make_slug(file, seen_slugs) : false;
-		const vfile = vFile({
+		const vfile = vFile<custom_vfile>({
 			contents: markdown,
 			data: {
 				seen_slugs,

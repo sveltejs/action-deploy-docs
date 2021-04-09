@@ -1,12 +1,12 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
-import { create_formatter } from "./format_api";
+import { format } from "./format_api";
 
 import api from "./fixtures/api-docs-markdown.js";
 import api_output from "./fixtures/api-docs-html.js";
 
-const format = suite("transform docs");
+const _format = suite("transform docs");
 
 // format.skip("formats the api docs", () => {
 // 	const output = format_api("./api-docs.md", api, "docs");
@@ -25,8 +25,8 @@ const format = suite("transform docs");
 // 	}, /Duplicate slug Template_syntax/);
 // });
 
-format("formats", async () => {
-	const formatter = create_formatter();
+_format("formats", async () => {
+	const formatter = format();
 	const md = `### hello
 
 This is some paragraph text
@@ -47,4 +47,4 @@ console.log('boo')
 	// console.log(x);
 });
 
-format.run();
+_format.run();
