@@ -66,10 +66,12 @@ export function linkify_headings(): Transformer {
 		visit(tree, "heading", (node: Heading_with_hProps) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];
 
+			// slugs are tracked independently of sections and are prefixed appropriately
 			if (node.depth <= data.prev_level && data.slugs.length !== 0)
 				for (let i = 0; i < data.prev_level - node.depth + 1; i++)
 					data.slugs.pop();
 
+			// innerText for MDAST nodes
 			const title_text = tree_to_string(node);
 
 			let slug = make_slug(
@@ -81,6 +83,7 @@ export function linkify_headings(): Transformer {
 
 			data.slugs.push(slug);
 
+			// We keep a 'section_stack' to keep track of the section structure
 			if (node.depth > data.prev_level) {
 				data.section_stack.push(
 					prev_section[prev_section.length - 1].sections || []
@@ -96,6 +99,7 @@ export function linkify_headings(): Transformer {
 			});
 			data.prev_level = node.depth;
 
+			// Create the additional markup required
 			const children = (to_hast(node) as Parent).children;
 
 			if (!node.data) node.data = {};
@@ -161,6 +165,8 @@ export function strip_h1(): Transformer {
 	return function transformer(tree: Root, vFile: custom_vfile) {
 		//@ts-ignore
 		if (vFile.data.file_type === "readme") {
+			// we only wnat to strip headings if they are the first markdown node
+			// Othere thing can appear first so we need to perform a type check
 			const first_md_node = tree.children.findIndex((node) =>
 				types.includes(node.type)
 			);
