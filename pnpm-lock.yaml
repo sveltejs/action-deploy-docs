@@ -2,13 +2,13 @@ devDependencies:
   '@actions/core': 1.2.6
   '@actions/exec': 1.0.4
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.43.0
+  '@rollup/plugin-json': 4.1.0_rollup@2.43.0
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.43.0
   '@rollup/plugin-sucrase': 3.1.0_rollup@2.43.0
   '@sindresorhus/slugify': 1.1.0
   '@types/js-yaml': 4.0.0
   '@types/marked': 2.0.0
   '@types/prismjs': 1.16.4
-  hast: 1.0.0
   js-yaml: 4.0.0
   marked: 2.0.1
   mdast-util-to-hast: 10.2.0
@@ -26,7 +26,6 @@ devDependencies:
   typescript: 4.2.3
   unified: 9.2.1
   unist-builder: 2.0.3
-  unist-util-remove-position: 3.0.0
   unist-util-visit: 2.0.3
   uvu: 0.5.1
   vfile: 4.2.1
@@ -82,6 +81,15 @@ packages:
       rollup: ^2.30.0
     resolution:
       integrity: sha512-PoMdXCw0ZyvjpCMT5aV4nkL0QywxP29sODQsSGeDpr/oI49Qq9tRtAsb/LbYbDzFlOydVEqHmmZWFtXJEAX9ew==
+  /@rollup/plugin-json/4.1.0_rollup@2.43.0:
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.43.0
+      rollup: 2.43.0
+    dev: true
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    resolution:
+      integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
   /@rollup/plugin-node-resolve/11.2.1_rollup@2.43.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.43.0
@@ -463,11 +471,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-I5GTdSfhYfAPNztx2xJRQpG8cuDSNt599/7YUn7Gx/WxNMsG+a835k97TDkFgk123cwjfwINaZknkKkphx/f2A==
-  /hast/1.0.0:
-    deprecated: Renamed to rehype
-    dev: true
-    resolution:
-      integrity: sha1-UGFeaysFg+Vgi8dsRwKXIvHgBgc=
   /html-void-elements/1.0.5:
     dev: true
     resolution:
@@ -984,12 +987,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-w+PkwCbYSFw8vpgWD0v7zRCl1FpY3fjDSQ3/N/wNd9Ffa4gPi8+4keqt99N3XW6F99t/mUzp2xAhNmfKWp95QA==
-  /unist-util-remove-position/3.0.0:
-    dependencies:
-      unist-util-visit: 2.0.3
-    dev: true
-    resolution:
-      integrity: sha512-17kIOuolVuK16LMb9KyMJlqdfCtlfQY5FjY3Sdo9iC7F5wqdXhNjMq0PBvMpkVNNnAmHxXssUW+rZ9T2zbP0Rg==
   /unist-util-stringify-position/2.0.3:
     dependencies:
       '@types/unist': 2.0.3
@@ -1060,13 +1057,13 @@ specifiers:
   '@actions/core': ^1.2.6
   '@actions/exec': ^1.0.4
   '@rollup/plugin-commonjs': ^17.1.0
+  '@rollup/plugin-json': ^4.1.0
   '@rollup/plugin-node-resolve': ^11.2.0
   '@rollup/plugin-sucrase': ^3.1.0
   '@sindresorhus/slugify': ^1.1.0
   '@types/js-yaml': ^4.0.0
   '@types/marked': ^2.0.0
   '@types/prismjs': ^1.16.4
-  hast: ^1.0.0
   js-yaml: ^4.0.0
   marked: ^2.0.1
   mdast-util-to-hast: ^10.2.0
@@ -1084,7 +1081,6 @@ specifiers:
   typescript: ^4.2.3
   unified: ^9.2.1
   unist-builder: ^2.0.3
-  unist-util-remove-position: ^3.0.0
   unist-util-visit: ^2.0.3
   uvu: ^0.5.1
   vfile: ^4.2.1

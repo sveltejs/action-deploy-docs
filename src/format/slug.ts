@@ -51,7 +51,7 @@ export function unicode_safe_processor(
 
 	return url
 		.split("")
-		.reduce(
+		.reduce<ProcessedParts>(
 			(accum, char, index, array) => {
 				const type = is_non_alpha_num_unicode(char) ? "pass" : "process";
 
@@ -69,9 +69,9 @@ export function unicode_safe_processor(
 				}
 				return accum;
 			},
-			{ chunks: [], current: { type: "process", string: "" } } as ProcessedParts
+			{ chunks: [], current: { type: "process", string: "" } }
 		)
-		.chunks.reduce((accum, chunk) => {
+		.chunks.reduce<string[]>((accum, chunk) => {
 			const processed =
 				chunk.type === "process"
 					? url_safe_processor(chunk.string)
@@ -80,7 +80,7 @@ export function unicode_safe_processor(
 			processed.length > 0 && accum.push(processed);
 
 			return accum;
-		}, [] as string[])
+		}, [])
 		.join(separator)
 		.toLowerCase();
 }
@@ -92,7 +92,6 @@ export function make_session_slug_processor({
 	const processor = preserve_unicode
 		? unicode_safe_processor
 		: url_safe_processor;
-
 
 	return function (url: string, seen_slugs: Map<string, number>) {
 		const slug = processor(url, { separator });

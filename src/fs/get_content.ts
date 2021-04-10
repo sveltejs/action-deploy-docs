@@ -1,8 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { increment_headings } from "../format/increment_headings";
-
 interface SimpleFile {
 	name: string;
 	content: SimpleFile[] | string;

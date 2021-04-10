@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { format_api } from "../format_api";
+import { format } from "../format_api";
 import markdown from "./api-docs-markdown";
 
 const output_path = path.join(
@@ -13,11 +13,14 @@ const output_path = path.join(
 // const input = path.join(dir, "api-docs-markdown.js");
 
 async function run() {
-	const formatted = format_api("./api-docs.md", markdown, "docs");
-	await fs.writeFile(
-		output_path,
-		`export default ${JSON.stringify(formatted)}`
+	const { contents } = await format()(
+		"./api-docs.md",
+		markdown,
+		"svelte",
+		"docs",
+		"docs"
 	);
+	await fs.writeFile(output_path, `export default ${JSON.stringify(contents)}`);
 }
 
 run();

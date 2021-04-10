@@ -19,7 +19,6 @@ enum LanguageMap {
 	"" = "",
 }
 
-// TODO: Wrap in more code stuff, see docs
 export function highlight(source: string, lang?: language): string {
 	const plang = lang === "" ? "" : LanguageMap[lang];
 	const highlighted = plang

@@ -1,7 +1,13 @@
 import type { VFile } from "vfile";
 
 export type section = { slug: string; title: string; sections: section[] };
-
+export type docs_type =
+	| "docs"
+	| "faq"
+	| "migrating"
+	| "examples"
+	| "tutorials"
+	| "blog";
 export type custom_vfile = VFile & {
 	data: {
 		sections: section[];
@@ -11,7 +17,7 @@ export type custom_vfile = VFile & {
 		dir: string;
 		slugs: string[];
 		seen_slugs: Map<string, number>;
-		docs_type: "docs" | "faq" | "migrating" | "examples" | "tutorials" | "blog";
+		docs_type: docs_type;
 		file_type: "readme" | "other";
 	};
 };

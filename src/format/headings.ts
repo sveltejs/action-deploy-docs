@@ -35,12 +35,29 @@ type Heading_with_hProps = Heading & {
 	};
 };
 
+/**
+ * Linkify headings, generate correct slugs, and collect section data.
+ *
+ * **linkify**: We must be able to link to headings. In order to this we need
+ * 							to insert anchors with appropriate slugs. We also need to insert
+ * 							link icons to allow people to copy paste links We do this by 
+ * 							inserting an `a` and `span` tag into every heading.
+ *
+ * **slugs**: slugs for heading anchors are generated based on previous headings.
+ * 						This helps to prevent collisions and gives more descriptuve urls.
+ * 						For example a h3 of 'hello' will have a slug of `hello` the next h4
+ * 						of 'world' will have a slug of `hello-world`
+ *
+ *
+ *
+ */
+
 export function linkify_headings(): Transformer {
 	return function (tree, { data }: custom_vfile) {
 		visit(tree, "heading", (node: Heading_with_hProps) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];
 
-			if (node.depth < data.prev_level && data.slugs.length !== 0)
+			if (node.depth <= data.prev_level && data.slugs.length !== 0)
 				for (let i = 0; i < data.prev_level - node.depth + 1; i++)
 					data.slugs.pop();
 
@@ -102,11 +119,6 @@ export function linkify_headings(): Transformer {
 	};
 }
 
-// import type { Transformer } from "unified";
-// import type { Heading, Root } from "mdast";
-
-// import visit from "unist-util-visit";
-
 const types = [
 	"paragraph",
 	"heading",
@@ -129,17 +141,17 @@ const types = [
 ];
 
 export function strip_h1(): Transformer {
-	return function transformer(tree, vFile: custom_vfile) {
+	return function transformer(tree: Root, vFile: custom_vfile) {
 		//@ts-ignore
 		if (vFile.data.file_type === "readme") {
-			const first_md_node = (tree as Root).children.findIndex((node) =>
+			const first_md_node = tree.children.findIndex((node) =>
 				types.includes(node.type)
 			);
 			if (
-				(tree as Root).children[first_md_node].type === "heading" &&
-				(tree as Root).children[first_md_node].depth === 1
+				tree.children[first_md_node].type === "heading" &&
+				tree.children[first_md_node].depth === 1
 			) {
-				(tree as Root).children.splice(first_md_node, first_md_node + 1);
+				tree.children.splice(first_md_node, first_md_node + 1);
 			}
 		}
 	};
