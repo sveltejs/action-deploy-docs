@@ -12,6 +12,10 @@ const make_slug = make_session_slug_processor({
 	separator: "-",
 });
 
+/**
+ * Parse the frontmatter contained with markdown files. This frontmatter is available on the
+ * 				`data.frontmatter` property of the returned `vFile`.
+ */
 export function parse_frontmatter(): Transformer {
 	return function transformer(tree, vFile: custom_vfile) {
 		visit(tree, "yaml", (node: YamlNode) => {

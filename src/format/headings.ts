@@ -17,6 +17,10 @@ const make_slug = make_session_slug_processor({
 	separator: SLUG_SEPARATOR,
 });
 
+/**
+ * The documentation only allows heading level from 3 to 5 inclusive. This plugin
+ * 				validates that rule is always followed.
+ */
 export function validate_headings(): Transformer {
 	return function transformer(tree) {
 		visit(tree, "heading", (node: Heading) => {
@@ -40,15 +44,20 @@ type Heading_with_hProps = Heading & {
  *
  * **linkify**: We must be able to link to headings. In order to this we need
  * 							to insert anchors with appropriate slugs. We also need to insert
- * 							link icons to allow people to copy paste links We do this by 
+ * 							link icons to allow people to copy paste links We do this by
  * 							inserting an `a` and `span` tag into every heading.
  *
  * **slugs**: slugs for heading anchors are generated based on previous headings.
  * 						This helps to prevent collisions and gives more descriptuve urls.
- * 						For example a h3 of 'hello' will have a slug of `hello` the next h4
- * 						of 'world' will have a slug of `hello-world`
+ * 						For example a `h3` of 'hello' will have a slug of `hello` the next
+ * 						`h4` of 'world' will have a slug of `hello-world`
  *
- *
+ * **section data**: Sections of the docs are dictated by the document structure
+ * 									 `h3` -> `h4` -> `h5`, etc. This plugin keeps track of the
+ * 									 headings and creates a nested section structure that reflects
+ * 									 the hierarchy of those sections. This structure allows us to
+ * 									 create navigation structures with proper semantics, without
+ * 									 transforming the sections data structure.
  *
  */
 
@@ -140,6 +149,14 @@ const types = [
 	"imageReference",
 ];
 
+/**
+ * *Only applies to `README.md` files*.
+ *
+ * Svelte docs require documents to *not* contain a main title as this is provided by
+ * 				other means. However, *readme* files should be easily readable exactly as
+ * 				they are (in github or in an IDE). This plugin strips the leading `h1` from
+ * 				`README.md` files facilitating this difference in formatting.
+ */
 export function strip_h1(): Transformer {
 	return function transformer(tree: Root, vFile: custom_vfile) {
 		//@ts-ignore
@@ -156,6 +173,16 @@ export function strip_h1(): Transformer {
 		}
 	};
 }
+
+/**
+ * *Only applies to `README.md` files*.
+ *
+ * Svelte docs require headings to start at level 3 as level 1 and 2 headings are
+ * 				already used for other purposes. However, *readme* files should be
+ * 				easily readable exactly as they are (in github or in an IDE). This
+ * 				plugin increments headings in `README.md` files facilitating this
+ * 				difference in formatting.
+ */
 
 export function increment_headings(): Transformer {
 	return function transformer(tree, vFile) {
