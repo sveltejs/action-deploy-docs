@@ -3,7 +3,11 @@ import type { Link, HTML } from "mdast";
 
 import visit from "unist-util-visit";
 
-export function links(): Transformer {
+/**
+ * All links must have `rel="noopener noreferrer"` and external attributes
+ * 				must open in a new window.
+ */
+export function set_link_attributes(): Transformer {
 	return function transformer(tree) {
 		visit(tree, "link", (node: Link) => {
 			let target_attr = "";

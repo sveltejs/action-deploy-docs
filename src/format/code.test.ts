@@ -5,7 +5,7 @@ import type { Root, Paragraph } from "mdast";
 import unified from "unified";
 import markdown from "remark-parse";
 
-import { highlight, highight_code_block } from "./highlight";
+import { highlight, highight_code_block } from "./code";
 
 const _highlight = suite("highlight");
 const highlight_block = suite("highight_code_block");

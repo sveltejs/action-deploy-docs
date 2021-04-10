@@ -17,12 +17,13 @@ import stringify from "rehype-stringify";
 import vFile from "vfile";
 
 import {
+	strip_h1,
 	linkify_headings,
 	validate_headings,
 	increment_headings,
 } from "./headings";
-import { links } from "./links";
-import { highight_code_block } from "./highlight";
+import { set_link_attributes } from "./links";
+import { highight_code_block } from "./code";
 import { parse_frontmatter } from "./frontmatter";
 import { split_view } from "./split_view";
 import { custom_vfile, section } from "./types";
@@ -38,10 +39,11 @@ const { process } = unified()
 	.use(extract_frontmatter)
 	//  MDAST transforms
 	.use(parse_frontmatter)
+	.use(strip_h1)
 	.use(increment_headings)
 	.use(validate_headings)
 	.use(linkify_headings)
-	.use(links)
+	.use(set_link_attributes)
 	.use(highight_code_block)
 	// MDAST -> HAST
 	.use(rehype, {

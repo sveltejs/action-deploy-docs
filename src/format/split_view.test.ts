@@ -7,7 +7,7 @@ import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import vFile from "vfile";
 
-import { highight_code_block } from "./highlight";
+import { highight_code_block } from "./code";
 import { split_view } from "./split_view";
 
 import u from "unist-builder";

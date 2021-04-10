@@ -5,9 +5,9 @@ import { Root, Paragraph } from "mdast";
 import unified from "unified";
 import markdown from "remark-parse";
 
-import { links } from "./links";
+import { set_link_attributes } from "./links";
 
-const processor = unified().use(markdown).use(links);
+const processor = unified().use(markdown).use(set_link_attributes);
 
 const _links = suite("links");
 
