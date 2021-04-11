@@ -13,13 +13,13 @@ const output_path = path.join(
 // const input = path.join(dir, "api-docs-markdown.js");
 
 async function run() {
-	const { contents } = await format()(
-		"./api-docs.md",
+	const { contents } = await format({
+		file: "./api-docs.md",
 		markdown,
-		"svelte",
-		"docs",
-		"docs"
-	);
+		project: "svelte",
+		docs_type: "docs",
+		dir: "docs",
+	});
 	await fs.writeFile(output_path, `export default ${JSON.stringify(contents)}`);
 }
 

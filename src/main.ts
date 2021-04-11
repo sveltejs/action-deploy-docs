@@ -47,7 +47,6 @@ async function get_repo(
 	await exec.exec("git", ["switch", target_branch]);
 
 	const x = fs.readdirSync(process.cwd());
-	console.log(x);
 }
 
 async function run() {
@@ -87,10 +86,10 @@ async function run() {
 
 	if (docs.length) {
 		docs.forEach(([project, docs]) => {
-		for (const type in docs) {
-			const _docs = format_docs[type](docs[type]);
-		}
-		})
+			for (const type in docs) {
+				const _docs = format_docs[type](docs[type]);
+			}
+		});
 		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
 			format_api(name, content, "docs", name)
 		);

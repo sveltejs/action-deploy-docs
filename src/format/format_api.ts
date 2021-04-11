@@ -26,9 +26,19 @@ import { set_link_attributes } from "./links";
 import { highight_code_block } from "./code";
 import { parse_frontmatter } from "./frontmatter";
 import { split_view } from "./split_view";
-import { custom_vfile, section } from "./types";
+import { custom_vfile } from "./types";
+import { section } from "../types";
 
 import u from "unist-builder";
+
+interface Format {
+	file: string;
+	markdown: string;
+	project: string;
+	docs_type: docs_type;
+	dir: string;
+	seen_slugs?: Map<string, number>;
+}
 
 // MDAST == Markdown AST
 // HAST == HTML AST
@@ -65,38 +75,40 @@ const { process } = unified()
 	// HAST -> string
 	.use(stringify, { allowDangerousCharacters: true, allowDangerousHtml: true });
 
-export function format() {
-	return async function (
-		file: string,
-		markdown: string,
-		project: string,
-		docs_type: docs_type,
-		dir: string,
-		seen_slugs: Map<string, number> = new Map()
-	) {
-		const sections: section[] = [];
-		const section_title = file.toLowerCase().endsWith("readme.md")
-			? make_slug(project, seen_slugs)
-			: false;
-		const vfile = vFile<custom_vfile>({
-			contents: markdown,
-			data: {
-				seen_slugs,
-				sections,
-				section_stack: [sections],
-				section_title,
-				dir,
-				file_type: file.toLowerCase().endsWith("readme.md")
-					? "readme"
-					: "other",
-				docs_type,
-				prev_level: 3,
-				slugs: [],
-			},
-		});
+export async function format({
+	file,
+	markdown,
+	project,
+	docs_type,
+	dir,
+	seen_slugs = new Map(),
+}: Format): Promise<custom_vfile> {
+	const sections: section[] = [];
+	const section_title = file.toLowerCase().endsWith("readme.md")
+		? project
+		: false;
 
-		const docs = await process(vfile);
+	const section_slug = file.toLowerCase().endsWith("readme.md")
+		? make_slug(project, seen_slugs)
+		: false;
 
-		return docs;
-	};
+	const vfile = vFile<custom_vfile>({
+		contents: markdown,
+		data: {
+			seen_slugs,
+			sections,
+			section_stack: [sections],
+			section_title,
+			section_slug,
+			dir,
+			file_type: file.toLowerCase().endsWith("readme.md") ? "readme" : "other",
+			docs_type,
+			prev_level: 3,
+			slugs: [],
+		},
+	});
+
+	const docs = (await process(vfile)) as custom_vfile;
+
+	return docs;
 }

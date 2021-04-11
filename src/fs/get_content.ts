@@ -1,10 +1,10 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-interface SimpleFile {
+type SimpleFile = {
 	name: string;
 	content: SimpleFile[] | string;
-}
+};
 
 type File = SimpleFile & {
 	is_dir: boolean;
@@ -18,16 +18,16 @@ type doc_types =
 	| "tutorials"
 	| "examples";
 
-export interface Docs {
+export type DocFiles = {
 	docs?: unknown;
 	faq?: unknown;
 	migrating?: unknown;
 	blog?: unknown;
 	tutorials?: unknown;
 	examples?: unknown;
-}
+};
 
-type transformed_docs = [string, Docs][];
+export type transformed_docs = [string, DocFiles][];
 
 export async function rc_read_file(file_path: string): Promise<File> {
 	let file_or_dir: File = {
@@ -78,7 +78,7 @@ export function transform_files(
 ): transformed_docs {
 	let is_docs = false;
 
-	const base_docs: Docs = {};
+	const base_docs: DocFiles = {};
 	const pkgs: transformed_docs = [];
 
 	if (file.is_dir && Array.isArray(file.content)) {

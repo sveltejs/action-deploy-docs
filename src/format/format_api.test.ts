@@ -26,7 +26,6 @@ const _format = suite("transform docs");
 // });
 
 _format("formats", async () => {
-	const formatter = format();
 	const md = `### hello
 
 This is some paragraph text
@@ -42,7 +41,13 @@ console.log('boo')
 \`\`\`
 	
 `;
-	const x = await formatter("boo.md", md, "svelte", "docs", "docs/boo");
+	const x = await format({
+		file: "boo.md",
+		markdown: md,
+		project: "svelte",
+		docs_type: "docs",
+		dir: "docs/boo",
+	});
 
 	// console.log(x);
 });

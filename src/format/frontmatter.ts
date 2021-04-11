@@ -25,14 +25,20 @@ export function parse_frontmatter(): Transformer {
 					// @ts-ignore
 					vFile.data.frontmatter = data;
 
-					if (!vFile.data.section_title) {
-						vFile.data.section_title = make_slug(
+					if (!vFile.data.section_slug) {
+						vFile.data.section_slug = make_slug(
 							//@ts-ignore
 
 							vFile.data.frontmatter.title,
 							vFile.data.seen_slugs
 						);
 					}
+
+					if (!vFile.data.section_title) {
+						//@ts-ignore
+						vFile.data.section_title = vFile.data.frontmatter.title;
+					}
+
 				}
 			} catch (e) {
 				vFile.messages.push(new Message("YAML failed to parse", e));

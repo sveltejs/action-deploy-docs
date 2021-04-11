@@ -1,6 +1,7 @@
 import type { VFile } from "vfile";
 
-export type section = { slug: string; title: string; sections: section[] };
+import { section } from "../types";
+
 export type docs_type =
 	| "docs"
 	| "faq"
@@ -8,12 +9,14 @@ export type docs_type =
 	| "examples"
 	| "tutorials"
 	| "blog";
+
 export type custom_vfile = VFile & {
 	data: {
 		sections: section[];
 		section_stack: section[][];
 		prev_level: number;
 		section_title: string;
+		section_slug: string;
 		dir: string;
 		slugs: string[];
 		seen_slugs: Map<string, number>;

@@ -1,1 +1,1 @@
-export { get_docs, Docs } from "./get_content";
+export { get_docs, DocFiles } from "./get_content";

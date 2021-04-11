@@ -1,4 +1,10 @@
-import { FormattedFile } from "../format/format_api";
+type FormattedFile = {
+	content: string;
+	title: string;
+	slug: string;
+	file: string;
+	sections: section[];
+};
 
 const one: FormattedFile = {
 	content: "test",

@@ -1,1 +1,1 @@
-export { format_api, format_docs } from "./format_api";
+export { format } from "./format_api";
