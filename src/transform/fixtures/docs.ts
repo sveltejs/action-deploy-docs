@@ -1,4 +1,4 @@
-import type { docs_list, docs_full } from "../../types";
+import type { Doc, DocMeta } from "../../types";
 export const docs_in = [
 	{
 		name: "01-boo.md",
@@ -26,7 +26,7 @@ title: part 3
 	},
 ];
 
-export const docs_full_out: docs_full = [
+export const docs_full_out: Doc[] = [
 	{
 		title: "part 1",
 		slug: "part-1",
@@ -71,7 +71,7 @@ export const docs_full_out: docs_full = [
 	},
 ];
 
-export const docs_list_out: docs_list = [
+export const docs_list_out: DocMeta[] = [
 	{
 		title: "part 1",
 		slug: "part-1",
@@ -109,3 +109,4 @@ export const docs_list_out: docs_list = [
 		],
 	},
 ];
+

@@ -12,11 +12,8 @@ export type Doc = DocMeta & {
 	content: string;
 };
 
-export type docs_list = DocMeta[];
-export type docs_full = Doc[];
-
 // file for repl
-type File = {
+export type File = {
 	name: string; // filepath
 	type: string;
 	content: string;
@@ -43,7 +40,7 @@ type TutorialCategory = {
 export type tutorials = TutorialCategory[];
 
 // Examples
-type ExampleMeta = {
+export type ExampleMeta = {
 	name: string;
 	slug: string;
 	thumbnail: string;
@@ -54,9 +51,7 @@ export type Example = ExampleMeta & {
 	files: File[];
 };
 
-type ExampleCategory = {
+export type ExampleCategory = {
 	name: string;
 	examples: ExampleMeta[];
 };
-
-export type examples = ExampleCategory[];
