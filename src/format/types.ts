@@ -14,6 +14,7 @@ export type custom_vfile = VFile & {
 	data: {
 		sections: section[];
 		section_stack: section[][];
+		base_level: number;
 		prev_level: number;
 		section_title: string;
 		section_slug: string;

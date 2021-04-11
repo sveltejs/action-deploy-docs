@@ -38,6 +38,7 @@ interface Format {
 	docs_type: docs_type;
 	dir: string;
 	seen_slugs?: Map<string, number>;
+	level: number;
 }
 
 // MDAST == Markdown AST
@@ -82,6 +83,7 @@ export async function format({
 	docs_type,
 	dir,
 	seen_slugs = new Map(),
+	level,
 }: Format): Promise<custom_vfile> {
 	const sections: section[] = [];
 	const section_title = file.toLowerCase().endsWith("readme.md")
@@ -103,7 +105,8 @@ export async function format({
 			dir,
 			file_type: file.toLowerCase().endsWith("readme.md") ? "readme" : "other",
 			docs_type,
-			prev_level: 3,
+			base_level: level,
+			prev_level: level,
 			slugs: [],
 		},
 	});

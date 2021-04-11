@@ -47,6 +47,7 @@ console.log('boo')
 		project: "svelte",
 		docs_type: "docs",
 		dir: "docs/boo",
+		level: 3,
 	});
 
 	// console.log(x);

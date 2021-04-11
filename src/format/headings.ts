@@ -17,12 +17,14 @@ const make_slug = make_session_slug_processor({
 	separator: SLUG_SEPARATOR,
 });
 
+// TODO: This should use the `base_level` setting
 /**
  * The documentation only allows heading level from 3 to 5 inclusive. This plugin
  * 				validates that rule is always followed.
  */
 export function validate_headings(): Transformer {
-	return function transformer(tree) {
+	return function transformer(tree, { data }: custom_vfile) {
+		if (data.docs_type !== "docs") return;
 		visit(tree, "heading", (node: Heading) => {
 			if (node.depth < 3 || node.depth > 5)
 				throw new Error(
@@ -63,6 +65,8 @@ type Heading_with_hProps = Heading & {
 
 export function linkify_headings(): Transformer {
 	return function (tree, { data }: custom_vfile) {
+		if (data.docs_type !== "docs" && data.docs_type !== "blog") return;
+
 		visit(tree, "heading", (node: Heading_with_hProps) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];
 
@@ -75,7 +79,7 @@ export function linkify_headings(): Transformer {
 			const title_text = tree_to_string(node);
 
 			let slug = make_slug(
-				node.depth === 3
+				node.depth === data.base_level
 					? [data.section_title, title_text].join(" ")
 					: [data.slugs[data.slugs.length - 1], title_text].join(" "),
 				data.seen_slugs
@@ -85,6 +89,9 @@ export function linkify_headings(): Transformer {
 
 			// We keep a 'section_stack' to keep track of the section structure
 			if (node.depth > data.prev_level) {
+				// TODO: check that prev_section[prev_section.length - 1] exists
+				// skipping heading levels can cause problems here
+				// maybe check current level against prev_level to validate?
 				data.section_stack.push(
 					prev_section[prev_section.length - 1].sections || []
 				);
@@ -122,8 +129,9 @@ export function linkify_headings(): Transformer {
 				},
 			};
 
-			//@ts-ignore
-			if (node.depth > 4) span_node.properties["data-scrollignore"] = true;
+			if (node.depth > data.base_level + 1)
+				//@ts-ignore
+				span_node.properties["data-scrollignore"] = true;
 
 			node.data.hChildren = [span_node, a_node];
 

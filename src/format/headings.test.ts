@@ -38,9 +38,11 @@ _headings("transforms and formats headings", async () => {
 		contents: `### hello`,
 		data: {
 			dir: "blog",
+			docs_type: "docs",
 			sections,
 			section_stack: [sections],
 			section_title: "section",
+			base_level: 3,
 			prev_level: 3,
 			slugs: [],
 			seen_slugs: new Map(),
@@ -64,9 +66,11 @@ _headings("transforms and formats multi-level headings", async () => {
 `,
 		data: {
 			dir: "blog",
+			docs_type: "blog",
 			sections,
 			section_stack: [sections],
 			section_title: "section",
+			base_level: 3,
 			prev_level: 3,
 			slugs: [],
 			seen_slugs: new Map(),
@@ -94,9 +98,11 @@ _headings("transforms and formats multi-level headings", async () => {
 `,
 		data: {
 			dir: "blog",
+			docs_type: "blog",
 			sections,
 			section_stack: [sections],
 			section_title: "section",
+			base_level: 3,
 			prev_level: 3,
 			slugs: [],
 			seen_slugs: new Map(),
@@ -107,13 +113,13 @@ _headings("transforms and formats multi-level headings", async () => {
 
 	assert.equal(
 		output.contents,
-		`<h3><span id="section-subsection-1" class="offset-anchor"></span><a href="blog#section-subsection-1" class="anchor" aria-hidden></a>subsection</h3>
-<h4><span id="section-subsection-1-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-1-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
-<h5><span id="section-subsection-1-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-1-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>`
+		`<h3><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h3>
+<h4><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
+<h5><span id="section-subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>`
 	);
 });
 
-_headings.only("transforms and formats multi-level headings", async () => {
+_headings("transforms and formats multi-level headings", async () => {
 	const sections: unknown[] = [];
 	const src = vFile({
 		contents: `### subsection
@@ -133,9 +139,11 @@ _headings.only("transforms and formats multi-level headings", async () => {
 `,
 		data: {
 			dir: "blog",
+			docs_type: "blog",
 			sections,
 			section_stack: [sections],
 			section_title: "section",
+			base_level: 3,
 			prev_level: 3,
 			slugs: [],
 			seen_slugs: new Map(),
@@ -155,6 +163,54 @@ _headings.only("transforms and formats multi-level headings", async () => {
 <h4><span id="section-one-four" class="offset-anchor"></span><a href="blog#section-one-four" class="anchor" aria-hidden></a>four</h4>`
 	);
 });
+
+_headings(
+	"transforms and formats multi-level headings: level 2 headings",
+	async () => {
+		const sections: unknown[] = [];
+		const src = vFile({
+			contents: `## subsection
+
+### subsubsection
+
+#### subsubsubsection
+
+## one
+
+### two
+
+#### three
+
+### four
+
+`,
+			data: {
+				dir: "blog",
+				docs_type: "blog",
+				sections,
+				section_stack: [sections],
+				section_title: "section",
+				base_level: 2,
+				prev_level: 2,
+				slugs: [],
+				seen_slugs: new Map(),
+			},
+		});
+
+		const output = await linkify_only(src);
+
+		assert.equal(
+			output.contents,
+			`<h2><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h2>
+<h3><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h3>
+<h4><span id="section-subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h4>
+<h2><span id="section-one" class="offset-anchor"></span><a href="blog#section-one" class="anchor" aria-hidden></a>one</h2>
+<h3><span id="section-one-two" class="offset-anchor"></span><a href="blog#section-one-two" class="anchor" aria-hidden></a>two</h3>
+<h4><span id="section-one-two-three" class="offset-anchor" data-scrollignore></span><a href="blog#section-one-two-three" class="anchor" aria-hidden></a>three</h4>
+<h3><span id="section-one-four" class="offset-anchor"></span><a href="blog#section-one-four" class="anchor" aria-hidden></a>four</h3>`
+		);
+	}
+);
 
 strip("strips leading level 1 headings", async () => {
 	const src = `

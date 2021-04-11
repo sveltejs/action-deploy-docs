@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-type SimpleFile = {
+export type SimpleFile = {
 	name: string;
 	content: SimpleFile[] | string;
 };

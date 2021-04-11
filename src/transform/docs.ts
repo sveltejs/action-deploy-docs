@@ -1,15 +1,20 @@
 import type {
 	DocMeta,
 	Doc,
-	tutorials,
 	Example,
 	ExampleCategory,
 	ExampleMeta,
 	File,
+	Tutorial,
+	TutorialMeta,
+	TutorialCategory,
 } from "../types";
+
+import type { SimpleFile } from "../fs";
 
 import { format } from "../format";
 import { make_session_slug_processor } from "../format/slug";
+import { name } from "vfile-message";
 
 type DocsSource = {
 	name: string;
@@ -23,11 +28,15 @@ type ExampleSource = {
 
 export type ExamplesCatSource = {
 	name: string;
-	content: ExampleSource[];
+	content: ExampleSource[] | string;
+};
+
+export type TutorialSource = {
+	name: string;
+	content: ExamplesCatSource[];
 };
 
 // TODO: there are about 10 of these, dedupe?
-
 const make_slug = make_session_slug_processor({
 	preserve_unicode: false,
 	separator: "-",
@@ -49,6 +58,7 @@ export async function transform_docs(
 					docs_type: "docs",
 					dir,
 					seen_slugs,
+					level: 3,
 				});
 			})
 		)
@@ -77,20 +87,18 @@ function get_files({ name, content }: DocsSource): File {
 	};
 }
 
-function extract_meta(
-	files: ExampleSource[]
-): [DocsSource[], { title: string }] {
+function extract_meta(files: SimpleFile[]): [SimpleFile[], { title: string }] {
 	const index = files.findIndex(({ name }) => name.endsWith("meta.json"));
 
 	if (index < 0) throw new Error("Examples must have a meta.json file.");
 
 	const meta = JSON.parse(files.splice(index, 1)[0].content as string);
 
-	return [files as DocsSource[], meta];
+	return [files, meta];
 }
 
 function process_example(
-	content: ExampleSource[],
+	content: SimpleFile[],
 	seen_slugs: Map<string, number>
 ): [Example[], ExampleMeta[]] {
 	let full: Example[] = [];
@@ -125,6 +133,9 @@ export async function transform_examples(
 
 	const full: Example[] = [];
 	const list = examples.map(({ content }) => {
+		if (typeof content === "string")
+			throw new Error("Example contents cannot contain further directories.");
+
 		const [files, meta] = extract_meta(content);
 		const [example_full, example_list] = process_example(files, seen_slugs);
 
@@ -135,5 +146,83 @@ export async function transform_examples(
 			examples: example_list,
 		};
 	});
+	return { list, full };
+}
+
+async function process_tutorial(
+	content: SimpleFile[],
+	seen_slugs: Map<string, number>,
+	project: string
+): Promise<[Tutorial[], TutorialMeta[]]> {
+	let full: Tutorial[] = [];
+	let list = await Promise.all(
+		content.map(async ({ content }) => {
+			// TODO: this is backwards, fix
+			if (typeof content === "string")
+				throw new Error("Example contents cannot contain further directories.");
+
+			let initial: SimpleFile[];
+			let completed: SimpleFile[];
+			let text: string;
+
+			content.forEach(({ name, content }) => {
+				if (name === "app-a" && Array.isArray(content)) initial = content;
+				if (name === "app-b" && Array.isArray(content)) completed = content;
+				if (name === "text.md" && typeof content === "string") text = content;
+			});
+
+			const vfile = await format({
+				file: name,
+				markdown: text,
+				docs_type: "tutorials",
+				project,
+				dir: "tutorial",
+				level: 3,
+			});
+
+			const _example = {
+				name: vfile.data.section_title,
+				slug: vfile.data.section_slug,
+			};
+
+			full.push({
+				..._example,
+				initial: initial.map(get_files),
+				complete: completed ? completed.map(get_files) : [],
+				content: vfile.contents as string,
+			});
+
+			return _example;
+		})
+	);
+
+	return [full, list];
+}
+
+export async function transform_tutorials(
+	examples: TutorialSource[],
+	project: string
+	// dir: string
+): Promise<{ full: Tutorial[]; list: TutorialCategory[] }> {
+	const seen_slugs = new Map();
+
+	const full: Tutorial[] = [];
+	const list = await Promise.all(
+		examples.map(async ({ content }) => {
+			const [files, meta] = extract_meta(content);
+			const [example_full, example_list] = await process_tutorial(
+				files,
+				seen_slugs,
+				project
+			);
+
+			example_full.forEach((v) => full.push(v));
+
+			return {
+				name: meta.title,
+				tutorials: example_list,
+			};
+		})
+	);
 	return { list, full };
 }

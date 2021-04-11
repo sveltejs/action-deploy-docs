@@ -19,6 +19,7 @@ async function run() {
 		project: "svelte",
 		docs_type: "docs",
 		dir: "docs",
+		level: 3,
 	});
 	await fs.writeFile(output_path, `export default ${JSON.stringify(contents)}`);
 }

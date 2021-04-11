@@ -20,19 +20,18 @@ export type File = {
 };
 
 // Tutorials
-type TutorialMeta = {
+export type TutorialMeta = {
 	name: string;
 	slug: string;
-	thumbnail: string;
 };
 // single tutorial
 export type Tutorial = TutorialMeta & {
 	content: string;
 	initial: File[];
-	complete?: File[]; // not a feature for every tutorial
+	complete: File[]; // not a feature for every tutorial
 };
 
-type TutorialCategory = {
+export type TutorialCategory = {
 	name: string;
 	tutorials: TutorialMeta[];
 };
