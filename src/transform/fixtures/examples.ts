@@ -1,4 +1,4 @@
-import type { ExamplesCatSource } from "../transform_docs";
+import type { ExamplesCatSource } from "../docs";
 
 export const examples_in: ExamplesCatSource[] = [
 	{

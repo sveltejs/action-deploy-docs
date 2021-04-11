@@ -8,7 +8,7 @@ import {
 	examples_out_list,
 } from "./fixtures/examples";
 
-import { transform_docs, transform_examples } from "./transform_docs";
+import { transform_docs, transform_examples } from "./docs";
 
 const _docs = suite("transform_docs");
 
