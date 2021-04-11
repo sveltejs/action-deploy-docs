@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { base } from "../../transform/cloudflare.fixture";
+import { base } from "../../transform/fixtures/cloudflare.fixturee.fixture";
 import { rc_read_file } from "../get_content";
 
 const base_path = path.join(process.cwd(), "src", "fs", "fixtures");
