@@ -7,26 +7,18 @@ import type {
 	ExampleMeta,
 	File,
 } from "../types";
-import type { DocFiles } from "../fs";
 
 import { format } from "../format";
 import { make_session_slug_processor } from "../format/slug";
-import { contents } from "vfile";
-import { throws } from "uvu/assert";
 
 type DocsSource = {
 	name: string;
 	content: string;
 };
 
-export type ExampleSource = {
+type ExampleSource = {
 	name: string;
 	content: DocsSource[] | string;
-};
-
-export type ExampleSourceDirs = {
-	name: string;
-	content: DocsSource[];
 };
 
 export type ExamplesCatSource = {
@@ -34,11 +26,17 @@ export type ExamplesCatSource = {
 	content: ExampleSource[];
 };
 
+// TODO: there are about 10 of these, dedupe?
+
+const make_slug = make_session_slug_processor({
+	preserve_unicode: false,
+	separator: "-",
+});
+
 export async function transform_docs(
 	docs: DocsSource[],
 	project: string,
-	dir: string,
-	type: "readme" | "other"
+	dir: string
 ): Promise<{ list: DocMeta[]; full: Doc[] }> {
 	const seen_slugs = new Map();
 	const final_docs = (
@@ -71,11 +69,6 @@ export async function transform_docs(
 	};
 }
 
-const make_slug = make_session_slug_processor({
-	preserve_unicode: false,
-	separator: "-",
-});
-
 function get_files({ name, content }: DocsSource): File {
 	return {
 		name,
@@ -101,8 +94,11 @@ function process_example(
 	seen_slugs: Map<string, number>
 ): [Example[], ExampleMeta[]] {
 	let full: Example[] = [];
-	let list = content.map(({ name, content }) => {
-		const [files, meta] = extract_meta(content as DocsSource[]);
+	let list = content.map(({ content }) => {
+		if (typeof content === "string")
+			throw new Error("Example contents cannot contain further directories.");
+
+		const [files, meta] = extract_meta(content);
 		const slug = make_slug(meta.title, seen_slugs);
 
 		const _example = {
@@ -120,9 +116,10 @@ function process_example(
 }
 
 export async function transform_examples(
-	examples: ExamplesCatSource[],
-	project: string,
-	dir: string
+	examples: ExamplesCatSource[]
+	// TODO: signatures should be consistent -- do we need these params?
+	// project: string,
+	// dir: string
 ): Promise<{ full: Example[]; list: ExampleCategory[] }> {
 	const seen_slugs = new Map();
 

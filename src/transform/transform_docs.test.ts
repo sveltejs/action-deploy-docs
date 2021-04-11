@@ -13,12 +13,12 @@ import { transform_docs, transform_examples } from "./transform_docs";
 const _docs = suite("transform_docs");
 
 _docs("transforms docs", async () => {
-	const output = await transform_docs(docs_in, "svelte", "docs", "other");
+	const output = await transform_docs(docs_in, "svelte", "docs");
 	assert.equal(output, { list: docs_list_out, full: docs_full_out });
 });
 
 _docs("transforms examples", async () => {
-	const output = await transform_examples(examples_in, "svelte", "examples");
+	const output = await transform_examples(examples_in);
 	assert.equal(output, { list: examples_out_list, full: examples_out_full });
 });
 
