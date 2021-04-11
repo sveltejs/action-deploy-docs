@@ -9,7 +9,7 @@ import {
 	cf_full_next,
 	cf_contents_keyby_slug_next,
 	cf_list_next,
-} from "./fixtures/cloudflare.fixture";
+} from "./fixtures/cloudflare";
 
 import { transform_cloudflare } from "./cloudflare";
 
