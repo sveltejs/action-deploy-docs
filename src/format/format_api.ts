@@ -39,6 +39,8 @@ interface Format {
 	dir: string;
 	seen_slugs?: Map<string, number>;
 	level: number;
+	title?: string;
+	slug?: string;
 }
 
 // MDAST == Markdown AST
@@ -84,15 +86,16 @@ export async function format({
 	dir,
 	seen_slugs = new Map(),
 	level,
+	title,
+	slug,
 }: Format): Promise<custom_vfile> {
 	const sections: section[] = [];
-	const section_title = file.toLowerCase().endsWith("readme.md")
-		? project
-		: false;
+	const section_title = title || false;
 
-	const section_slug = file.toLowerCase().endsWith("readme.md")
-		? make_slug(project, seen_slugs)
-		: false;
+	const section_slug =
+		(slug && make_slug(slug, seen_slugs)) ||
+		(title && make_slug(title, seen_slugs)) ||
+		false;
 
 	const vfile = vFile<custom_vfile>({
 		contents: markdown,

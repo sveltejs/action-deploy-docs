@@ -1,6 +1,20 @@
 // Docs, FAQs, Migrating
 export type section = { slug: string; title: string; sections: section[] };
 
+export type BlogMeta = {
+	title: string;
+	slug: string;
+	file: string;
+	date: {
+		pretty: string;
+		numeric: string;
+	};
+};
+
+export type Blog = BlogMeta & {
+	content: string;
+};
+
 export type DocMeta = {
 	title: string;
 	slug: string;

@@ -1,13 +1,13 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
+import { blog_in, blog_out_full, blog_out_list } from "./fixtures/blog";
 import { docs_list_out, docs_full_out, docs_in } from "./fixtures/docs";
 import {
 	examples_in,
 	examples_out_full,
 	examples_out_list,
 } from "./fixtures/examples";
-
 import {
 	tutorials_in,
 	tutorials_out_list,
@@ -15,6 +15,7 @@ import {
 } from "./fixtures/tutorials";
 
 import {
+	transform_blog,
 	transform_docs,
 	transform_examples,
 	transform_tutorials,
@@ -36,6 +37,11 @@ _docs("transforms examples", async () => {
 	const output = await transform_tutorials(tutorials_in, "svelte");
 	// console.log(JSON.stringify(output.full, null, 2));
 	assert.equal(output, { list: tutorials_out_list, full: tutorials_out_full });
+});
+
+_docs("transforms blog", async () => {
+	const output = await transform_blog(blog_in, "svelte", "blog");
+	assert.equal(output, { list: blog_out_list, full: blog_out_full });
 });
 
 _docs.run();

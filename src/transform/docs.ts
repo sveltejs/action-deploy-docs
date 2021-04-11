@@ -1,4 +1,6 @@
 import type {
+	BlogMeta,
+	Blog,
 	DocMeta,
 	Doc,
 	Example,
@@ -41,6 +43,58 @@ const make_slug = make_session_slug_processor({
 	preserve_unicode: false,
 	separator: "-",
 });
+
+export async function transform_blog(
+	blogs: DocsSource[],
+	project: string,
+	dir: string
+): Promise<{ list: BlogMeta[]; full: Blog[] }> {
+	const dates: { pretty: string; numeric: string }[] = [];
+	const final_blog = (
+		await Promise.all(
+			blogs.map((doc, i) => {
+				const match = /^(\d+-\d+-\d+)-(.+)\.md$/.exec(blogs[i].name);
+				if (!match)
+					throw new Error(`Invalid filename for blog: '${blogs[i].name}'`);
+
+				const [, pubdate, slug] = match;
+				const date = new Date(`${pubdate} EDT`);
+				dates.push({
+					pretty: date.toDateString(),
+					numeric: pubdate,
+				});
+
+				return format({
+					file: doc.name,
+					markdown: doc.content,
+					project,
+					docs_type: "blog",
+					dir,
+					level: 2,
+					slug,
+				});
+			})
+		)
+	)
+		.map((doc, i) => {
+			return {
+				title: doc.data.section_title,
+				slug: doc.data.section_slug,
+				file: blogs[i].name,
+				content: doc.contents.toString(),
+				date: dates[i],
+			};
+		})
+		.sort((a, b) => (a.date.numeric < b.date.numeric ? 1 : -1));
+
+	return {
+		list: final_blog.map((d) => {
+			const { content, ...rest } = d;
+			return rest;
+		}),
+		full: final_blog,
+	};
+}
 
 export async function transform_docs(
 	docs: DocsSource[],
