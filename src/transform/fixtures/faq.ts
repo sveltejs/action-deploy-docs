@@ -28,28 +28,12 @@ export const faq_in = [
 
 export const faq_out_full = [
 	{
-		title: "How do I document my components?",
-		slug: "how-do-i-document-my-components",
-		file: "450-how-do-i-document-my-components.md",
+		title: "I'm new to Svelte. Where should I start?",
+		slug: "im-new-to-svelte",
+		file: "100-im-new-to-svelte.md",
 		content:
-			"<p>In editors which use the Svelte Language Server you can document Components, functions and exports using specially formatted comments.</p>\n<div class=\"code-block\"><pre class='language-undefined'><code>&lt;script&gt;\n\t/** What should we call the user? */\n\texport let name = 'world';\n&lt;/script&gt;\n\n&lt;!--\n@component\nHere's some documentation for this component.\nIt will show up on hover.\n\n- You can use markdown here.\n- You can also use code blocks here.\n- Usage:\n  ```tsx\n  &lt;main name=\"Arethra\"&gt;\n  ```\n--&gt;\n&lt;main&gt;\n\t&lt;h1&gt;\n\t\tHello, {name}\n\t&lt;/h1&gt;\n&lt;/main&gt;</code></pre></div>\n<p>Note: The <code>@component</code> is necessary in the HTML comment which describes your component.</p>",
-		order: 450,
-	},
-	{
-		title: "How can I get VS Code to syntax-highlight my .svelte files?",
-		slug: "how-can-i-get-syntax-highlighting",
-		file: "400-how-can-i-get-syntax-highlighting.md",
-		content:
-			'<p>There is an <a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode" target="_blank" rel="noopener noreferrer">official VS Code extension for Svelte</a>.</p>',
-		order: 400,
-	},
-	{
-		title: "Are there any books?",
-		slug: "are-there-any-books",
-		file: "250-are-there-any-books.md",
-		content:
-			'<p>There are a few books:</p>\n<ul>\n<li><a href="https://flaviocopes.com/page/download-svelte-handbook/" target="_blank" rel="noopener noreferrer">Svelte Handbook</a> by Flavio Copes</li>\n<li><a href="https://www.amazon.com/dp/B08D6T6BKS/" target="_blank" rel="noopener noreferrer">Svelte 3 Up and Running</a> by Alessandro Segala</li>\n<li><a href="https://www.manning.com/books/svelte-and-sapper-in-action" target="_blank" rel="noopener noreferrer">Svelte and Sapper in Action</a> by R. Mark Volkmann</li>\n</ul>',
-		order: 250,
+			'<p>We think the best way to get started is playing through the interactive <a href="tutorial" rel="noopener noreferrer">Tutorial</a>. Each step there is mainly focused on one specific aspect and is easy to follow. You\'ll be editing and running real Svelte components right in your browser.</p>\n<p>Five to ten minutes should be enough to get you up and running. An hour and a half should get you through the entire tutorial.</p>',
+		order: 100,
 	},
 	{
 		title: "Are there any video courses?",
@@ -60,33 +44,37 @@ export const faq_out_full = [
 		order: 200,
 	},
 	{
-		title: "I'm new to Svelte. Where should I start?",
-		slug: "im-new-to-svelte",
-		file: "100-im-new-to-svelte.md",
+		title: "Are there any books?",
+		slug: "are-there-any-books",
+		file: "250-are-there-any-books.md",
 		content:
-			'<p>We think the best way to get started is playing through the interactive <a href="tutorial" rel="noopener noreferrer">Tutorial</a>. Each step there is mainly focused on one specific aspect and is easy to follow. You\'ll be editing and running real Svelte components right in your browser.</p>\n<p>Five to ten minutes should be enough to get you up and running. An hour and a half should get you through the entire tutorial.</p>',
-		order: 100,
-	},
-];
-
-export const faq_out_list = [
-	{
-		title: "How do I document my components?",
-		slug: "how-do-i-document-my-components",
-		file: "450-how-do-i-document-my-components.md",
-		order: 450,
+			'<p>There are a few books:</p>\n<ul>\n<li><a href="https://flaviocopes.com/page/download-svelte-handbook/" target="_blank" rel="noopener noreferrer">Svelte Handbook</a> by Flavio Copes</li>\n<li><a href="https://www.amazon.com/dp/B08D6T6BKS/" target="_blank" rel="noopener noreferrer">Svelte 3 Up and Running</a> by Alessandro Segala</li>\n<li><a href="https://www.manning.com/books/svelte-and-sapper-in-action" target="_blank" rel="noopener noreferrer">Svelte and Sapper in Action</a> by R. Mark Volkmann</li>\n</ul>',
+		order: 250,
 	},
 	{
 		title: "How can I get VS Code to syntax-highlight my .svelte files?",
 		slug: "how-can-i-get-syntax-highlighting",
 		file: "400-how-can-i-get-syntax-highlighting.md",
+		content:
+			'<p>There is an <a href="https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode" target="_blank" rel="noopener noreferrer">official VS Code extension for Svelte</a>.</p>',
 		order: 400,
 	},
 	{
-		title: "Are there any books?",
-		slug: "are-there-any-books",
-		file: "250-are-there-any-books.md",
-		order: 250,
+		title: "How do I document my components?",
+		slug: "how-do-i-document-my-components",
+		file: "450-how-do-i-document-my-components.md",
+		content:
+			"<p>In editors which use the Svelte Language Server you can document Components, functions and exports using specially formatted comments.</p>\n<div class=\"code-block\"><pre class='language-undefined'><code>&lt;script&gt;\n\t/** What should we call the user? */\n\texport let name = 'world';\n&lt;/script&gt;\n\n&lt;!--\n@component\nHere's some documentation for this component.\nIt will show up on hover.\n\n- You can use markdown here.\n- You can also use code blocks here.\n- Usage:\n  ```tsx\n  &lt;main name=\"Arethra\"&gt;\n  ```\n--&gt;\n&lt;main&gt;\n\t&lt;h1&gt;\n\t\tHello, {name}\n\t&lt;/h1&gt;\n&lt;/main&gt;</code></pre></div>\n<p>Note: The <code>@component</code> is necessary in the HTML comment which describes your component.</p>",
+		order: 450,
+	},
+];
+
+export const faq_out_list = [
+	{
+		title: "I'm new to Svelte. Where should I start?",
+		slug: "im-new-to-svelte",
+		file: "100-im-new-to-svelte.md",
+		order: 100,
 	},
 	{
 		title: "Are there any video courses?",
@@ -95,9 +83,21 @@ export const faq_out_list = [
 		order: 200,
 	},
 	{
-		title: "I'm new to Svelte. Where should I start?",
-		slug: "im-new-to-svelte",
-		file: "100-im-new-to-svelte.md",
-		order: 100,
+		title: "Are there any books?",
+		slug: "are-there-any-books",
+		file: "250-are-there-any-books.md",
+		order: 250,
+	},
+	{
+		title: "How can I get VS Code to syntax-highlight my .svelte files?",
+		slug: "how-can-i-get-syntax-highlighting",
+		file: "400-how-can-i-get-syntax-highlighting.md",
+		order: 400,
+	},
+	{
+		title: "How do I document my components?",
+		slug: "how-do-i-document-my-components",
+		file: "450-how-do-i-document-my-components.md",
+		order: 450,
 	},
 ];

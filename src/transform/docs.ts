@@ -309,17 +309,15 @@ export async function transform_faq(
 				});
 			})
 		)
-	)
-		.map((doc, i) => {
-			return {
-				title: doc.data.section_title,
-				slug: doc.data.section_slug,
-				file: blogs[i].name,
-				content: doc.contents.toString(),
-				order: orders[i],
-			};
-		})
-		.sort((a, b) => (a.order < b.order ? 1 : -1));
+	).map((doc, i) => {
+		return {
+			title: doc.data.section_title,
+			slug: doc.data.section_slug,
+			file: blogs[i].name,
+			content: doc.contents.toString(),
+			order: orders[i],
+		};
+	});
 
 	return {
 		list: final_faq.map((d) => {
