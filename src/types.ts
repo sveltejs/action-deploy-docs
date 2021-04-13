@@ -19,7 +19,6 @@ export type FaqMeta = {
 	title: string;
 	slug: string;
 	file: string;
-	order: number;
 };
 
 export type Faq = FaqMeta & {

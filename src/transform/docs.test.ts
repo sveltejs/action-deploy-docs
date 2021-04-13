@@ -22,6 +22,11 @@ import {
 	transform_tutorials,
 } from "./docs";
 import { faq_in, faq_out_full, faq_out_list } from "./fixtures/faq";
+import {
+	migrating_in,
+	migrating_out_full,
+	migrating_out_list,
+} from "./fixtures/migrating";
 
 const _docs = suite("transform_docs");
 
@@ -48,6 +53,11 @@ _docs("transforms blog", async () => {
 _docs("transforms faq", async () => {
 	const output = await transform_faq(faq_in, "svelte", "faq");
 	assert.equal(output, { list: faq_out_list, full: faq_out_full });
+});
+
+_docs("transforms migrating", async () => {
+	const output = await transform_docs(migrating_in, "svelte", "migrating");
+	assert.equal(output, { list: migrating_out_list, full: migrating_out_full });
 });
 
 _docs.run();

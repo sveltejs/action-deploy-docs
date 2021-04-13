@@ -288,15 +288,13 @@ export async function transform_faq(
 	project: string,
 	dir: string
 ): Promise<{ list: FaqMeta[]; full: Faq[] }> {
-	const orders: number[] = [];
 	const final_faq = (
 		await Promise.all(
 			blogs.map((doc) => {
 				const match = /^(\d+)-(.+)\.md$/.exec(doc.name);
 				if (!match) throw new Error(`Invalid filename for faq: '${doc.name}'`);
 
-				const [, order, slug] = match;
-				orders.push(+order);
+				const [, , slug] = match;
 
 				return format({
 					file: doc.name,
@@ -315,7 +313,6 @@ export async function transform_faq(
 			slug: doc.data.section_slug,
 			file: blogs[i].name,
 			content: doc.contents.toString(),
-			order: orders[i],
 		};
 	});
 
