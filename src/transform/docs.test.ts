@@ -45,7 +45,7 @@ _docs("transforms blog", async () => {
 	assert.equal(output, { list: blog_out_list, full: blog_out_full });
 });
 
-_docs("transforms blog", async () => {
+_docs("transforms faq", async () => {
 	const output = await transform_faq(faq_in, "svelte", "faq");
 	assert.equal(output, { list: faq_out_list, full: faq_out_full });
 });
