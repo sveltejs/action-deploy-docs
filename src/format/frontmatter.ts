@@ -36,9 +36,13 @@ export function parse_frontmatter(): Transformer {
 
 					if (!vFile.data.section_title) {
 						//@ts-ignore
-						vFile.data.section_title = vFile.data.frontmatter.title;
+						vFile.data.section_title =
+							vFile.data.docs_type === "faq"
+								? //@ts-ignore
+								  vFile.data.frontmatter.question
+								: //@ts-ignore
+								  vFile.data.frontmatter.title;
 					}
-
 				}
 			} catch (e) {
 				vFile.messages.push(new Message("YAML failed to parse", e));

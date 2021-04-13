@@ -18,8 +18,10 @@ import {
 	transform_blog,
 	transform_docs,
 	transform_examples,
+	transform_faq,
 	transform_tutorials,
 } from "./docs";
+import { faq_in, faq_out_full, faq_out_list } from "./fixtures/faq";
 
 const _docs = suite("transform_docs");
 
@@ -35,13 +37,17 @@ _docs("transforms examples", async () => {
 
 _docs("transforms examples", async () => {
 	const output = await transform_tutorials(tutorials_in, "svelte");
-	// console.log(JSON.stringify(output.full, null, 2));
 	assert.equal(output, { list: tutorials_out_list, full: tutorials_out_full });
 });
 
 _docs("transforms blog", async () => {
 	const output = await transform_blog(blog_in, "svelte", "blog");
 	assert.equal(output, { list: blog_out_list, full: blog_out_full });
+});
+
+_docs("transforms blog", async () => {
+	const output = await transform_faq(faq_in, "svelte", "faq");
+	assert.equal(output, { list: faq_out_list, full: faq_out_full });
 });
 
 _docs.run();

@@ -6,6 +6,8 @@ import type {
 	Example,
 	ExampleCategory,
 	ExampleMeta,
+	Faq,
+	FaqMeta,
 	File,
 	Tutorial,
 	TutorialMeta,
@@ -279,4 +281,51 @@ export async function transform_tutorials(
 		})
 	);
 	return { list, full };
+}
+
+export async function transform_faq(
+	blogs: DocsSource[],
+	project: string,
+	dir: string
+): Promise<{ list: FaqMeta[]; full: Faq[] }> {
+	const orders: number[] = [];
+	const final_faq = (
+		await Promise.all(
+			blogs.map((doc) => {
+				const match = /^(\d+)-(.+)\.md$/.exec(doc.name);
+				if (!match) throw new Error(`Invalid filename for faq: '${doc.name}'`);
+
+				const [, order, slug] = match;
+				orders.push(+order);
+
+				return format({
+					file: doc.name,
+					markdown: doc.content,
+					project,
+					docs_type: "faq",
+					dir,
+					level: 3,
+					slug,
+				});
+			})
+		)
+	)
+		.map((doc, i) => {
+			return {
+				title: doc.data.section_title,
+				slug: doc.data.section_slug,
+				file: blogs[i].name,
+				content: doc.contents.toString(),
+				order: orders[i],
+			};
+		})
+		.sort((a, b) => (a.order < b.order ? 1 : -1));
+
+	return {
+		list: final_faq.map((d) => {
+			const { content, ...rest } = d;
+			return rest;
+		}),
+		full: final_faq,
+	};
 }

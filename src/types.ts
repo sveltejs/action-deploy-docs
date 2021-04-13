@@ -15,6 +15,17 @@ export type Blog = BlogMeta & {
 	content: string;
 };
 
+export type FaqMeta = {
+	title: string;
+	slug: string;
+	file: string;
+	order: number;
+};
+
+export type Faq = FaqMeta & {
+	content: string;
+};
+
 export type DocMeta = {
 	title: string;
 	slug: string;
