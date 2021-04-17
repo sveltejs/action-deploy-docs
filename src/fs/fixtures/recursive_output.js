@@ -1582,7 +1582,17 @@ export default {
 						{ name: "README.md", is_dir: false, content: "no-package-json\n" },
 					],
 				},
-				{ name: "no-package-or-readme", is_dir: true, content: [] },
+				{
+					name: "no-package-or-readme",
+					is_dir: true,
+					content: [
+						{
+							name: "x.txt",
+							is_dir: false,
+							content: "hi",
+						},
+					],
+				},
 				{
 					name: "no-readme",
 					is_dir: true,
