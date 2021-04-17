@@ -1,13 +1,16 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { docs_full_out } from "../transform/fixtures/docs";
 
 export type SimpleFile = {
 	name: string;
 	content: SimpleFile[] | string;
 };
 
-type File = SimpleFile & {
+type File = {
+	name: string;
 	is_dir: boolean;
+	content: File[] | string;
 };
 
 type doc_types =
@@ -70,6 +73,21 @@ function is_empty<T extends object>(obj: T): boolean {
 	return JSON.stringify(obj) === JSON.stringify({});
 }
 
+function find_folder(
+	files: File,
+	paths: string[],
+	index: number = 0
+): File | false {
+	if (!Array.isArray(files.content)) return false;
+
+	const segment = files.content.find((v) => v.name === paths[index]);
+
+	if (!segment) return false;
+	if (paths[index + 1] === undefined) return segment;
+
+	return find_folder(segment, paths, index + 1);
+}
+
 export function transform_files(
 	file: File,
 	pkg_path: string,
@@ -81,33 +99,33 @@ export function transform_files(
 	const base_docs: DocFiles = {};
 	const pkgs: transformed_docs = [];
 
-	if (file.is_dir && Array.isArray(file.content)) {
-		file.content.forEach(({ name, content }) => {
-			if (name === docs_path && Array.isArray(content)) {
-				is_docs = true;
-				content.forEach((docs) => {
-					if (!doc_types.includes(docs.name) || !Array.isArray(docs.content))
-						return;
+	const docs_folder = find_folder(file, docs_path.split("/"), 0);
+	const pkg_folder = find_folder(file, pkg_path.split("/"), 0);
 
-					base_docs[docs.name as doc_types] = docs.content.map((entry) =>
+	if (docs_folder && Array.isArray(docs_folder.content)) {
+		is_docs = true;
+		docs_folder.content.forEach((docs) => {
+			if (!doc_types.includes(docs.name) || !Array.isArray(docs.content))
+				return;
+
+			base_docs[docs.name as doc_types] = docs.content.map((entry) =>
+				strip_meta(entry.name, entry.content)
+			);
+		});
+	}
+
+	if (pkg_folder && Array.isArray(pkg_folder.content)) {
+		pkg_folder.content.forEach((docs) => {
+			if (!Array.isArray(docs.content)) return;
+
+			pkgs.push([
+				docs.name,
+				{
+					docs: docs.content.map((entry) =>
 						strip_meta(entry.name, entry.content)
-					);
-				});
-			}
-			if (name === pkg_path && Array.isArray(content)) {
-				content.forEach((docs) => {
-					if (!Array.isArray(docs.content)) return;
-
-					pkgs.push([
-						docs.name,
-						{
-							docs: docs.content.map((entry) =>
-								strip_meta(entry.name, entry.content)
-							),
-						},
-					]);
-				});
-			}
+					),
+				},
+			]);
 		});
 	}
 

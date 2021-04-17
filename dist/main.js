@@ -1621,6 +1621,21 @@ function is_empty(obj) {
 	return JSON.stringify(obj) === JSON.stringify({});
 }
 
+function find_folder(
+	files,
+	paths,
+	index = 0
+) {
+	if (!Array.isArray(files.content)) return false;
+
+	const segment = files.content.find((v) => v.name === paths[index]);
+
+	if (!segment) return false;
+	if (paths[index + 1] === undefined) return segment;
+
+	return find_folder(segment, paths, index + 1);
+}
+
 function transform_files(
 	file,
 	pkg_path,
@@ -1632,33 +1647,33 @@ function transform_files(
 	const base_docs = {};
 	const pkgs = [];
 
-	if (file.is_dir && Array.isArray(file.content)) {
-		file.content.forEach(({ name, content }) => {
-			if (name === docs_path && Array.isArray(content)) {
-				is_docs = true;
-				content.forEach((docs) => {
-					if (!doc_types.includes(docs.name) || !Array.isArray(docs.content))
-						return;
+	const docs_folder = find_folder(file, docs_path.split("/"), 0);
+	const pkg_folder = find_folder(file, pkg_path.split("/"), 0);
 
-					base_docs[docs.name ] = docs.content.map((entry) =>
+	if (docs_folder && Array.isArray(docs_folder.content)) {
+		is_docs = true;
+		docs_folder.content.forEach((docs) => {
+			if (!doc_types.includes(docs.name) || !Array.isArray(docs.content))
+				return;
+
+			base_docs[docs.name ] = docs.content.map((entry) =>
+				strip_meta(entry.name, entry.content)
+			);
+		});
+	}
+
+	if (pkg_folder && Array.isArray(pkg_folder.content)) {
+		pkg_folder.content.forEach((docs) => {
+			if (!Array.isArray(docs.content)) return;
+
+			pkgs.push([
+				docs.name,
+				{
+					docs: docs.content.map((entry) =>
 						strip_meta(entry.name, entry.content)
-					);
-				});
-			}
-			if (name === pkg_path && Array.isArray(content)) {
-				content.forEach((docs) => {
-					if (!Array.isArray(docs.content)) return;
-
-					pkgs.push([
-						docs.name,
-						{
-							docs: docs.content.map((entry) =>
-								strip_meta(entry.name, entry.content)
-							),
-						},
-					]);
-				});
-			}
+					),
+				},
+			]);
 		});
 	}
 

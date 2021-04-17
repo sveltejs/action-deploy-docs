@@ -1,6 +1,8 @@
 import { suite } from "uvu";
 import * as assert from "uvu/assert";
 import recursive_output from "./fixtures/recursive_output";
+import repo_4 from "./fixtures/output-repo-4";
+import repo_4_docs from "./fixtures/full_docs";
 
 import * as path from "path";
 
@@ -554,6 +556,11 @@ transform("get docs from root readme when no documentation folder", () => {
 			},
 		],
 	]);
+});
+
+transform("get docs from custom docs directory", () => {
+	const output = transform_files(repo_4, "packages", "sites/content", "svelte");
+	assert.equal(output, repo_4_docs);
 });
 
 recrusive_read.run();

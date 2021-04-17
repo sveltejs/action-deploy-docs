@@ -3,7 +3,7 @@ import * as path from "path";
 import { rc_read_file } from "../get_content";
 
 const base_path = path.join(process.cwd(), "src", "fs", "fixtures");
-const repo_names = ["repo-1", "repo-2", "repo-3"];
+const repo_names = ["repo-1", "repo-2", "repo-3", "repo-4"];
 
 async function run() {
 	const repos = await Promise.all(
