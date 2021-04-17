@@ -3,7 +3,7 @@ import exec from "@actions/exec";
 import fs from "fs";
 import path from "path";
 
-import { get_docs } from "./fs";
+import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 
 async function get_repo(
@@ -43,8 +43,6 @@ async function get_repo(
 
 	await exec.exec("git", ["sparse-checkout", "reapply"]);
 	await exec.exec("git", ["switch", target_branch]);
-
-	const x = fs.readdirSync(process.cwd());
 }
 
 async function run() {
@@ -70,7 +68,7 @@ async function run() {
 	}
 
 	// read docs in
-	let docs: [string, Docs][] | false;
+	let docs: [string, DocFiles][] | false;
 
 	try {
 		docs = await get_docs(target_repo, pkg_path, docs_path);
@@ -82,28 +80,28 @@ async function run() {
 
 	console.log(docs);
 
-	if (docs.length) {
-		docs.forEach(([project, docs]) => {
-			for (const type in docs) {
-				const _docs = format_docs[type](docs[type]);
-			}
-		});
-		const formatted_base_docs = base_docs.docs.map(([name, content]) =>
-			format_api(name, content, "docs", name)
-		);
-		console.log(JSON.stringify(formatted_base_docs, null, 2));
+	// if (docs.length) {
+	// 	docs.forEach(([project, docs]) => {
+	// 		for (const type in docs) {
+	// 			const _docs = format_docs[type](docs[type]);
+	// 		}
+	// 	});
+	// 	const formatted_base_docs = base_docs.docs.map(([name, content]) =>
+	// 		format_api(name, content, "docs", name)
+	// 	);
+	// 	console.log(JSON.stringify(formatted_base_docs, null, 2));
 
-		// transform to cf format (batch keys)
+	// transform to cf format (batch keys)
 
-		// const docs = transform_cloudflare(formatted_base_docs, {
-		// 	project: target_repo,
-		// 	type: "docs",
-		// 	keyby: "slug",
-		// });
+	// const docs = transform_cloudflare(formatted_base_docs, {
+	// 	project: target_repo,
+	// 	type: "docs",
+	// 	keyby: "slug",
+	// });
 
-		console.log("\n");
-		console.log(docs);
-	}
+	// 	console.log("\n");
+	// 	console.log(docs);
+	// }
 
 	// write to cloudflare
 }
