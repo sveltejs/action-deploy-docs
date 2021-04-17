@@ -78,7 +78,7 @@ async function run() {
 		throw new Error("no docs");
 	}
 
-	console.log(docs);
+	console.log(JSON.stringify(docs, null, 2));
 
 	// if (docs.length) {
 	// 	docs.forEach(([project, docs]) => {
