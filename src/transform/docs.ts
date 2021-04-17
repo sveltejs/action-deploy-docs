@@ -148,9 +148,9 @@ function extract_meta(files: SimpleFile[]): [SimpleFile[], { title: string }] {
 
 	if (index < 0) throw new Error("Examples must have a meta.json file.");
 
-	const meta = JSON.parse(files.splice(index, 1)[0].content as string);
+	const meta = JSON.parse(files.slice(index, index + 1)[0].content as string);
 
-	return [files, meta];
+	return [files.filter((_, i) => i !== index), meta];
 }
 
 function process_example(
@@ -324,3 +324,48 @@ export async function transform_faq(
 		full: final_faq,
 	};
 }
+
+const transform_map = {
+	docs: transform_docs,
+	migrating: transform_docs,
+	faq: transform_faq,
+	blog: transform_blog,
+	examples: transform_examples,
+	tutorials: transform_tutorials,
+};
+
+interface Docs {
+	docs?: DocsSource[];
+	migrating?: DocsSource[];
+	faq?: DocsSource[];
+	blog?: DocsSource[];
+	examples?: ExamplesCatSource[];
+	tutorials?: TutorialSource[];
+}
+
+interface TransformedDocs {
+	content: unknown;
+	project: string;
+	type: string;
+}
+
+export async function transform(files: Docs, project: string, dir: string) {
+	const docs: TransformedDocs[] = [];
+
+	for (const key in files) {
+		docs.push({
+			content: await transform_map[key as keyof Docs](
+				//@ts-ignore
+				files[key],
+				project,
+				dir
+			),
+			project,
+			type: key,
+		});
+	}
+
+	return docs;
+}
+
+// docs: Array<Record<string, unknown>>, { project, type, keyby, version }

@@ -3,10 +3,8 @@ import exec from "@actions/exec";
 import fs from "fs";
 import path from "path";
 
-import { get_docs, Docs } from "./fs";
-import { format_api, format_docs } from "./format";
-import { transform_cloudflare } from "./transform";
-import { FormattedFile } from "./format/format_api";
+import { get_docs } from "./fs";
+import { transform_cloudflare, transform_docs } from "./transform";
 
 async function get_repo(
 	target_repo: string,

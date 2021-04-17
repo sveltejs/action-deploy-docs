@@ -20,6 +20,7 @@ import {
 	transform_examples,
 	transform_faq,
 	transform_tutorials,
+	transform,
 } from "./docs";
 import { faq_in, faq_out_full, faq_out_list } from "./fixtures/faq";
 import {
@@ -27,6 +28,7 @@ import {
 	migrating_out_full,
 	migrating_out_list,
 } from "./fixtures/migrating";
+import { everything } from "./fixtures/everything";
 
 const _docs = suite("transform_docs");
 
@@ -40,7 +42,7 @@ _docs("transforms examples", async () => {
 	assert.equal(output, { list: examples_out_list, full: examples_out_full });
 });
 
-_docs("transforms examples", async () => {
+_docs("transforms tutorials", async () => {
 	const output = await transform_tutorials(tutorials_in, "svelte");
 	assert.equal(output, { list: tutorials_out_list, full: tutorials_out_full });
 });
@@ -58,6 +60,20 @@ _docs("transforms faq", async () => {
 _docs("transforms migrating", async () => {
 	const output = await transform_docs(migrating_in, "svelte", "migrating");
 	assert.equal(output, { list: migrating_out_list, full: migrating_out_full });
+});
+
+_docs("transforms everything", async () => {
+	const docs = {
+		docs: docs_in,
+		tutorials: tutorials_in,
+		blog: blog_in,
+		examples: examples_in,
+		faq: faq_in,
+		migrating: migrating_in,
+	};
+	const output = await transform(docs, "svelte", "docs");
+	// console.log(JSON.stringify(output, null, 2));
+	assert.equal(output, everything);
 });
 
 _docs.run();
