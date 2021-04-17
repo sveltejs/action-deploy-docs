@@ -78,7 +78,14 @@ async function run() {
 		throw new Error("no docs");
 	}
 
-	console.log(JSON.stringify(docs, null, 2));
+	const transformed_docs = await Promise.all(
+		docs.map(([project, docs]) =>
+			// @ts-ignore
+			transform_docs(docs, project)
+		)
+	);
+
+	console.log(JSON.stringify(transformed_docs, null, 2));
 
 	// if (docs.length) {
 	// 	docs.forEach(([project, docs]) => {

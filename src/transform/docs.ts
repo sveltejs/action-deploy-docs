@@ -349,10 +349,24 @@ interface TransformedDocs {
 	type: string;
 }
 
-export async function transform(files: Docs, project: string, dir: string) {
+const dir_map = {
+	docs: "docs",
+	migrating: "migrating",
+	faq: "faq",
+	blog: "blog",
+	examples: "examples",
+	tutorial: "tutorial",
+};
+
+export async function transform(files: Docs, project: string) {
 	const docs: TransformedDocs[] = [];
 
 	for (const key in files) {
+		const dir =
+			key === "docs" && project !== "kit" && project !== "svelte"
+				? `docs/${project}`
+				: //@ts-ignore
+				  dir_map[key];
 		docs.push({
 			content: await transform_map[key as keyof Docs](
 				//@ts-ignore

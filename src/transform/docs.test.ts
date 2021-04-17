@@ -71,7 +71,7 @@ _docs("transforms everything", async () => {
 		faq: faq_in,
 		migrating: migrating_in,
 	};
-	const output = await transform(docs, "svelte", "docs");
+	const output = await transform(docs, "svelte");
 	// console.log(JSON.stringify(output, null, 2));
 	assert.equal(output, everything);
 });
