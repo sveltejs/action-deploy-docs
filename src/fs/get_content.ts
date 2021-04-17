@@ -18,7 +18,7 @@ type doc_types =
 	| "faq"
 	| "migrating"
 	| "blog"
-	| "tutorials"
+	| "tutorial"
 	| "examples";
 
 export type DocFiles = {
@@ -26,7 +26,7 @@ export type DocFiles = {
 	faq?: unknown;
 	migrating?: unknown;
 	blog?: unknown;
-	tutorials?: unknown;
+	tutorial?: unknown;
 	examples?: unknown;
 };
 
@@ -52,7 +52,7 @@ export async function rc_read_file(file_path: string): Promise<File> {
 	return file_or_dir;
 }
 
-const doc_types = ["docs", "faq", "migrating", "blog", "tutorials", "examples"];
+const doc_types = ["docs", "faq", "migrating", "blog", "tutorial", "examples"];
 
 function strip_meta(name: string, content: string | SimpleFile[]): SimpleFile {
 	return {

@@ -886,7 +886,7 @@ export const everything = [
 			],
 		},
 		project: "svelte",
-		type: "tutorials",
+		type: "tutorial",
 	},
 	{
 		content: {

@@ -255,7 +255,7 @@ async function process_tutorial(
 	return [full, list];
 }
 
-export async function transform_tutorials(
+export async function transform_tutorial(
 	examples: TutorialSource[],
 	project: string
 	// dir: string
@@ -331,7 +331,7 @@ const transform_map = {
 	faq: transform_faq,
 	blog: transform_blog,
 	examples: transform_examples,
-	tutorials: transform_tutorials,
+	tutorial: transform_tutorial,
 };
 
 interface Docs {
@@ -340,7 +340,7 @@ interface Docs {
 	faq?: DocsSource[];
 	blog?: DocsSource[];
 	examples?: ExamplesCatSource[];
-	tutorials?: TutorialSource[];
+	tutorial?: TutorialSource[];
 }
 
 interface TransformedDocs {

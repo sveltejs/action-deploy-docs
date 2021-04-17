@@ -500,7 +500,7 @@ export default {
 							],
 						},
 						{
-							name: "tutorials",
+							name: "tutorial",
 							is_dir: true,
 							content: [
 								{

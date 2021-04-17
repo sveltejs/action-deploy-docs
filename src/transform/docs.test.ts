@@ -19,7 +19,7 @@ import {
 	transform_docs,
 	transform_examples,
 	transform_faq,
-	transform_tutorials,
+	transform_tutorial,
 	transform,
 } from "./docs";
 import { faq_in, faq_out_full, faq_out_list } from "./fixtures/faq";
@@ -43,7 +43,7 @@ _docs("transforms examples", async () => {
 });
 
 _docs("transforms tutorials", async () => {
-	const output = await transform_tutorials(tutorials_in, "svelte");
+	const output = await transform_tutorial(tutorials_in, "svelte");
 	assert.equal(output, { list: tutorials_out_list, full: tutorials_out_full });
 });
 
@@ -65,7 +65,7 @@ _docs("transforms migrating", async () => {
 _docs("transforms everything", async () => {
 	const docs = {
 		docs: docs_in,
-		tutorials: tutorials_in,
+		tutorial: tutorials_in,
 		blog: blog_in,
 		examples: examples_in,
 		faq: faq_in,
