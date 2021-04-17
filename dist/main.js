@@ -1600,7 +1600,7 @@ async function rc_read_file(file_path) {
 	return file_or_dir;
 }
 
-const doc_types = ["docs", "faq", "migrating", "blog", "tutorials", "examples"];
+const doc_types = ["docs", "faq", "migrating", "blog", "tutorial", "examples"];
 
 function strip_meta(name, content) {
 	return {
