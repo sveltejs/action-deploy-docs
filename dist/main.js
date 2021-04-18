@@ -26061,8 +26061,6 @@ async function transform(files, project) {
 
 // docs: Array<Record<string, unknown>>, { project, type, keyby, version }
 
-`accounts/${CF_ID}/storage/kv/namespaces/${KV_ID}/bulk`;
-
 async function get_repo(
 	target_repo,
 	target_branch,

@@ -8,7 +8,8 @@ import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 
 const API_ROOT = "https://api.cloudflare.com/client/v4/";
-const KV_WRITE = `accounts/${CF_ID}/storage/kv/namespaces/${KV_ID}/bulk`;
+const KV_WRITE = (acc_id: string, ns_id: string) =>
+	`accounts/${acc_id}/storage/kv/namespaces/${ns_id}/bulk`;
 
 async function get_repo(
 	target_repo: string,
