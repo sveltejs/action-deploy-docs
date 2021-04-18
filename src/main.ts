@@ -7,9 +7,11 @@ import { put } from "httpie";
 import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 
+const CF_ACC_ID = "32a8245cd45a24083dd0acae1d482048";
+const CF_NS_ID = "20394261e26444aaa7ad8292db818037";
+
 const API_ROOT = "https://api.cloudflare.com/client/v4/";
-const KV_WRITE = (acc_id: string, ns_id: string) =>
-	`accounts/${acc_id}/storage/kv/namespaces/${ns_id}/bulk`;
+const KV_WRITE = `accounts/${CF_ACC_ID}/storage/kv/namespaces/${CF_NS_ID}/bulk`;
 
 async function get_repo(
 	target_repo: string,
@@ -53,15 +55,13 @@ async function get_repo(
 async function run() {
 	const target_repo = core.getInput("repo");
 	const target_branch = core.getInput("branch");
-	const cf_token = core.getInput("token");
+	const CF_TOKEN = core.getInput("token");
 	const docs_path = core.getInput("docs_path");
 	const pkg_path = core.getInput("pkg_path");
 
 	if (target_branch !== "main" && target_branch !== "master") {
 		core.setFailed("Branch deploys are not yet supported.");
 	}
-
-	// get repo
 
 	try {
 		await get_repo(target_repo, target_branch, docs_path, pkg_path);
@@ -72,7 +72,6 @@ async function run() {
 		);
 	}
 
-	// read docs in
 	let docs: [string, DocFiles][] | false;
 
 	try {
@@ -90,8 +89,6 @@ async function run() {
 		)
 	);
 
-	console.log(JSON.stringify(transformed_docs, null, 2));
-
 	const ready_for_cf = transformed_docs
 		.map((d) =>
 			d.map(({ content, project, type }) =>
@@ -103,48 +100,18 @@ async function run() {
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
 
+	// try {
 	// 	const x = await put(`${API_ROOT}${KV_WRITE}`, {
-	// 		body: keys,
+	// 		body: ready_for_cf,
 	// 		headers: {
-	// 			Authorization: `Bearer ${cf_token}`,
+	// 			Authorization: `Bearer ${CF_TOKEN}`,
 	// 		},
 	// 	});
 	// 	console.log("put: ", x);
-	// 	console.log({
-	// 		type: `${release_keys.map((v) => `${v}: ${repo.repo}:api:${v}`)}`,
-	// 		repo: repo.repo,
-	// 		base,
-	// 		key: `${repo.repo}:api:${version}`,
-	// 	});
 	// } catch (e) {
 	// 	console.log("it didn't work", e.message);
 	// 	throw e;
 	// }
-
-	// if (docs.length) {
-	// 	docs.forEach(([project, docs]) => {
-	// 		for (const type in docs) {
-	// 			const _docs = format_docs[type](docs[type]);
-	// 		}
-	// 	});
-	// 	const formatted_base_docs = base_docs.docs.map(([name, content]) =>
-	// 		format_api(name, content, "docs", name)
-	// 	);
-	// 	console.log(JSON.stringify(formatted_base_docs, null, 2));
-
-	// transform to cf format (batch keys)
-
-	// const docs = transform_cloudflare(formatted_base_docs, {
-	// 	project: target_repo,
-	// 	type: "docs",
-	// 	keyby: "slug",
-	// });
-
-	// 	console.log("\n");
-	// 	console.log(docs);
-	// }
-
-	// write to cloudflare
 }
 
 run();

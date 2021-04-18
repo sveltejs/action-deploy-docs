@@ -488,6 +488,22 @@ transform("transforms package readmes", () => {
 							},
 						],
 					},
+					{
+						name: "with-scope",
+						is_dir: true,
+						content: [
+							{
+								name: "README.md",
+								is_dir: false,
+								content: "@sveltejs/standard-package\n",
+							},
+							{
+								name: "package.json",
+								is_dir: false,
+								content: '{\n\t"name": "@sveltejs/standard-package"\n}\n',
+							},
+						],
+					},
 				],
 			},
 		],
@@ -512,6 +528,17 @@ transform("transforms package readmes", () => {
 					{
 						name: "README.md",
 						content: "standard-package\n",
+					},
+				],
+			},
+		],
+		[
+			"standard-package",
+			{
+				docs: [
+					{
+						name: "README.md",
+						content: "@sveltejs/standard-package\n",
 					},
 				],
 			},

@@ -1638,6 +1638,22 @@ export default {
 						},
 					],
 				},
+				{
+					name: "with-scope",
+					is_dir: true,
+					content: [
+						{
+							name: "README.md",
+							is_dir: false,
+							content: "@sveltejs/with-scope\n",
+						},
+						{
+							name: "package.json",
+							is_dir: false,
+							content: '{\n\t"name": "@sveltejs/standard-package"\n}\n',
+						},
+					],
+				},
 			],
 		},
 	],

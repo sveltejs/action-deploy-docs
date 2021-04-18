@@ -1,0 +1,1 @@
+@sveltejs/with-scope

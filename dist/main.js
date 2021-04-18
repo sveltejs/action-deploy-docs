@@ -1671,7 +1671,7 @@ function transform_files(
 			if (!readme || !pkg) return;
 
 			pkgs.push([
-				JSON.parse(pkg.content ).name,
+				JSON.parse(pkg.content ).name.replace("@sveltejs/", ""),
 				{
 					docs: [strip_meta("README.md", readme.content)],
 				},
@@ -26111,8 +26111,6 @@ async function run() {
 		core$4.setFailed("Branch deploys are not yet supported.");
 	}
 
-	// get repo
-
 	try {
 		await get_repo(target_repo, target_branch, docs_path, pkg_path);
 	} catch (e) {
@@ -26122,7 +26120,6 @@ async function run() {
 		);
 	}
 
-	// read docs in
 	let docs;
 
 	try {
@@ -26140,8 +26137,6 @@ async function run() {
 		)
 	);
 
-	console.log(JSON.stringify(transformed_docs, null, 2));
-
 	const ready_for_cf = transformed_docs
 		.map((d) =>
 			d.map(({ content, project, type }) =>
@@ -26153,48 +26148,18 @@ async function run() {
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
 
+	// try {
 	// 	const x = await put(`${API_ROOT}${KV_WRITE}`, {
-	// 		body: keys,
+	// 		body: ready_for_cf,
 	// 		headers: {
-	// 			Authorization: `Bearer ${cf_token}`,
+	// 			Authorization: `Bearer ${CF_TOKEN}`,
 	// 		},
 	// 	});
 	// 	console.log("put: ", x);
-	// 	console.log({
-	// 		type: `${release_keys.map((v) => `${v}: ${repo.repo}:api:${v}`)}`,
-	// 		repo: repo.repo,
-	// 		base,
-	// 		key: `${repo.repo}:api:${version}`,
-	// 	});
 	// } catch (e) {
 	// 	console.log("it didn't work", e.message);
 	// 	throw e;
 	// }
-
-	// if (docs.length) {
-	// 	docs.forEach(([project, docs]) => {
-	// 		for (const type in docs) {
-	// 			const _docs = format_docs[type](docs[type]);
-	// 		}
-	// 	});
-	// 	const formatted_base_docs = base_docs.docs.map(([name, content]) =>
-	// 		format_api(name, content, "docs", name)
-	// 	);
-	// 	console.log(JSON.stringify(formatted_base_docs, null, 2));
-
-	// transform to cf format (batch keys)
-
-	// const docs = transform_cloudflare(formatted_base_docs, {
-	// 	project: target_repo,
-	// 	type: "docs",
-	// 	keyby: "slug",
-	// });
-
-	// 	console.log("\n");
-	// 	console.log(docs);
-	// }
-
-	// write to cloudflare
 }
 
 run();

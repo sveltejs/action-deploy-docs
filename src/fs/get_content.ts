@@ -123,7 +123,7 @@ export function transform_files(
 			if (!readme || !pkg) return;
 
 			pkgs.push([
-				JSON.parse(pkg.content as string).name,
+				JSON.parse(pkg.content as string).name.replace("@sveltejs/", ""),
 				{
 					docs: [strip_meta("README.md", readme.content)],
 				},
