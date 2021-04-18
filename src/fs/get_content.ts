@@ -44,7 +44,7 @@ export async function rc_read_file(file_path: string): Promise<File> {
 		file_or_dir.is_dir = true;
 		file_or_dir.content = await Promise.all(
 			(await fs.readdir(file_path))
-				.filter((name) => !name.endsWith("DS_Store"))
+				.filter((name) => !name.endsWith("DS_Store") && name !== "node_modules")
 				.map((name) => rc_read_file(path.join(file_path, name)))
 		);
 	}

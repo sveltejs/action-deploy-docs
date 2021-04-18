@@ -11,12 +11,27 @@ export default [
 			resolve(),
 			json(),
 			sucrase({ transforms: ["typescript"] }),
-			// terser(),
 		],
-		input: "src/main.ts",
+		input: "src/action.ts",
 		output: [
 			{
-				file: "dist/main.js",
+				file: "dist/action.js",
+				format: "cjs",
+				sourcemap: false,
+			},
+		],
+	},
+	{
+		plugins: [
+			cjs(),
+			resolve(),
+			json(),
+			sucrase({ transforms: ["typescript"] }),
+		],
+		input: "src/cli.ts",
+		output: [
+			{
+				file: "dist/cli.js",
 				format: "cjs",
 				sourcemap: false,
 			},

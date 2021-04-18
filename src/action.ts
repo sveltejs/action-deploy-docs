@@ -110,7 +110,7 @@ async function run() {
 
 	try {
 		const x = await put(`${API_ROOT}${KV_WRITE}`, {
-			body: [{ key: "kit@latest:migrating:list", value: "somevalue" }],
+			body: ready_for_cf,
 			headers: {
 				Authorization: `Bearer ${CF_TOKEN}`,
 			},

@@ -11,10 +11,12 @@ devDependencies:
   '@types/js-yaml': 4.0.0
   '@types/marked': 2.0.0
   '@types/prismjs': 1.16.4
+  cheap-watch: 1.0.3
   js-yaml: 4.0.0
   marked: 2.0.1
   mdast-util-to-hast: 10.2.0
   mdast-util-to-string: 2.0.0
+  polka: 0.5.2
   prettier: 2.2.1
   prism-svelte: 0.4.7
   prismjs: 1.23.0
@@ -48,6 +50,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-J8KuFqVPr3p6U8W93DOXlXW6zFvrQAJANdS+vw0YhusLIq+bszW8zmK2Fh1C2kDPX8FMvwIl1OUcFgvJoXLbAg==
+  /@arr/every/1.0.1:
+    dev: true
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha512-UQFQ6SgyJ6LX42W8rHCs8KVc0JS0tzVL9ct4XYedJukskYVWTo49tNiMEK9C2HTyarbNiT/RVIRSY82vH+6sTg==
   /@babel/code-frame/7.12.13:
     dependencies:
       '@babel/highlight': 7.13.10
@@ -66,6 +74,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-5aPpe5XQPzflQrFwL1/QoeHkP2MsA4JCntcXHRhEsdsfPVkvPi2w7Qix4iV7t5S/oC9OodGrggd8aco1g3SZFg==
+  /@polka/url/0.5.0:
+    dev: true
+    resolution:
+      integrity: sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==
   /@rollup/plugin-commonjs/17.1.0_rollup@2.43.0:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.43.0
@@ -266,6 +278,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==
+  /cheap-watch/1.0.3:
+    dev: true
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-xC5CruMhLzjPwJ5ecUxGu1uGmwJQykUhqd2QrCrYbwvsFYdRyviu6jG9+pccwDXJR/OpmOTOJ9yLFunVgQu9wg==
   /clipboard/2.0.8:
     dependencies:
       good-listener: 1.2.2
@@ -593,6 +611,14 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-5+/fKgMv2hARmMW7DOpykr2iLhl0NgjyELk5yn92iE7z8Se1IS9n3UsFm86hFXIkvMBmVxki8+ckcpjBeyo/hw==
+  /matchit/1.1.0:
+    dependencies:
+      '@arr/every': 1.0.1
+    dev: true
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-+nGYoOlfHmxe5BW5tE0EMJppXEwdSf8uBA1GTZC7Q77kbT35+VKLYJMzVNWCHSsga1ps1tPYFtFyvxvKzWVmMA==
   /mdast-util-definitions/4.0.0:
     dependencies:
       unist-util-visit: 2.0.3
@@ -730,6 +756,13 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-WuNqLTbMI3tmfef2TKxlQmAiLHKtFhlsCZnPIpuv2Ow0RDVO8lfy1Opf4NUzlMXLjPl+Men7AuVdX6TA+s+uGA==
+  /polka/0.5.2:
+    dependencies:
+      '@polka/url': 0.5.0
+      trouter: 2.0.1
+    dev: true
+    resolution:
+      integrity: sha512-FVg3vDmCqP80tOrs+OeNlgXYmFppTXdjD5E7I4ET1NjvtNmQrb1/mJibybKkb/d4NA7YWAr1ojxuhpL3FHqdlw==
   /prettier/2.2.1:
     dev: true
     engines:
@@ -940,6 +973,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-rvuRbTarPXmMb79SmzEp8aqXNKcK+y0XaB298IXueQ8I2PsrATcPBCSPyK/dDNa2iWOhKlfNnOjdAOTBU/nkFA==
+  /trouter/2.0.1:
+    dependencies:
+      matchit: 1.1.0
+    dev: true
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-kr8SKKw94OI+xTGOkfsvwZQ8mWoikZDd2n8XZHjJVZUARZT+4/VV6cacRS6CLsH9bNm+HFIPU1Zx4CnNnb4qlQ==
   /ts-interface-checker/0.1.13:
     dev: true
     resolution:
@@ -1072,11 +1113,13 @@ specifiers:
   '@types/js-yaml': ^4.0.0
   '@types/marked': ^2.0.0
   '@types/prismjs': ^1.16.4
+  cheap-watch: ^1.0.3
   httpie: ^1.1.2
   js-yaml: ^4.0.0
   marked: ^2.0.1
   mdast-util-to-hast: ^10.2.0
   mdast-util-to-string: ^2.0.0
+  polka: ^0.5.2
   prettier: ^2.2.1
   prism-svelte: ^0.4.7
   prismjs: ^1.23.0
