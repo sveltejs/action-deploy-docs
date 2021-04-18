@@ -26191,7 +26191,7 @@ async function get_repo(
 async function run() {
 	const target_repo = core$4.getInput("repo");
 	const target_branch = core$4.getInput("branch");
-	const CF_TOKEN = core$4.getInput("token");
+	const CF_TOKEN = core$4.getInput("cf_token");
 	const docs_path = core$4.getInput("docs_path");
 	const pkg_path = core$4.getInput("pkg_path");
 
