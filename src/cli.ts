@@ -1,6 +1,8 @@
 // import watch from "cheap-watch";
-
+import type { Request, Response } from "polka";
 import polka from "polka";
+import send from "@polka/send";
+
 import * as path from "path";
 
 import { get_docs, DocFiles } from "./fs";
@@ -54,13 +56,55 @@ export default async function cli() {
 
 	console.log(is_valid ? "\nEVERYTHING IS VALID\n" : "\nTHIS IS NOT VALID\n");
 
+	type RequestDocs = Request & {
+		params: { project: string; type: string };
+		query: {
+			version?: string;
+			content?: string;
+		};
+	};
+
+	type RequestDocEntry = Request & {
+		params: { project: string; type: string; slug: string };
+		query: {
+			version?: string;
+		};
+	};
+
+	console.log(ready_for_cf);
+
 	polka()
-		.get("/docs/:project/:type", (req, res) => {
-			console.log(`~> Hello, ${req.hello}`);
-			res.end(`User: ${req.params.id}`);
+		.get("/docs/:project/:type", (req: RequestDocs, res: Response) => {
+			const { project, type } = req.params;
+			const version = req.query.version || "latest";
+			const full = typeof req.query.content === "string";
+
+			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
+
+			const match = ready_for_cf.find(({ key }) => key === _key);
+			if (match) send(res, 200, match.value);
+			else
+				send(res, 404, {
+					message: `'${project}@${version}' '${type}' entry not found.`,
+				});
 		})
-		.listen(3456, (err) => {
-			if (err) throw err;
+		.get(
+			"/docs/:project/:type/:slug",
+			(req: RequestDocEntry, res: Response) => {
+				const { project, type, slug } = req.params;
+				const version = req.query.version || "latest";
+
+				const _key = `${project}@${version}:${type}:${slug}`;
+				const match = ready_for_cf.find(({ key }) => key === _key);
+
+				if (match) send(res, 200, match.value);
+				else
+					send(res, 404, {
+						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
+					});
+			}
+		)
+		.listen(3456, () => {
 			console.log(`> Running on localhost:3456`);
 		});
 }

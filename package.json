@@ -37,7 +37,7 @@
 		"marked": "^2.0.1",
 		"mdast-util-to-hast": "^10.2.0",
 		"mdast-util-to-string": "^2.0.0",
-		"polka": "^0.5.2",
+		"polka": "^1.0.0-next.14",
 		"prettier": "^2.2.1",
 		"prism-svelte": "^0.4.7",
 		"prismjs": "^1.23.0",
@@ -57,6 +57,7 @@
 		"vfile-message": "^2.0.4"
 	},
 	"dependencies": {
+		"@polka/send": "^1.0.0-next.12",
 		"httpie": "^1.1.2"
 	}
 }

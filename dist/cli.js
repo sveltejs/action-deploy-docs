@@ -357,6 +357,13 @@ class Polka extends trouter {
 
 var polka = opts => new Polka(opts);
 
+const { STATUS_CODES } = http__default['default'];
+
+var send = function (res, code=200, data='', headers={}) {
+	res.writeHead(code, headers);
+	res.end(data || STATUS_CODES[code]);
+};
+
 async function rc_read_file(file_path) {
 	let file_or_dir = {
 		name: file_path.split("/").pop(),
@@ -24901,11 +24908,57 @@ async function cli() {
 
 	console.log(is_valid ? "\nEVERYTHING IS VALID\n" : "\nTHIS IS NOT VALID\n");
 
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	console.log(ready_for_cf);
+
 	polka()
 		.get("/docs/:project/:type", (req, res) => {
-			console.log(`~> Hello, ${req.hello}`);
-			res.end(`User: ${req.params.id}`);
+			const { project, type } = req.params;
+			const version = req.query.version || "latest";
+			const full = typeof req.query.content === "string";
+
+			// const docs = await Docs.list(project, type, version, full);
+			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
+
+			const match = ready_for_cf.find(({ key }) => key === _key);
+			if (match) send(res, 200, match.value);
+			else
+				send(res, 404, {
+					message: `'${project}@${version}' '${type}' entry not found.`,
+				});
+			// res.end(`Project: ${req.params.project}. Type: ${req.params.type}`);
 		})
+		.get(
+			"/docs/:project/:type/:slug",
+			(req, res) => {
+				const { project, type, slug } = req.params;
+				const version = req.query.version || "latest";
+
+				const _key = `${project}@${version}:${type}:${slug}`;
+				const match = ready_for_cf.find(({ key }) => key === _key);
+
+				if (match) send(res, 200, match.value);
+				else
+					send(req, 404, {
+						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
+					});
+				// res.end(`Project: ${req.params.project}. Type: ${req.params.type}`);
+			}
+		)
 		.listen(3456, (err) => {
 			if (err) throw err;
 			console.log(`> Running on localhost:3456`);
