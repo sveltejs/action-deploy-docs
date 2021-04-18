@@ -117,13 +117,15 @@ export function transform_files(
 	if (pkg_folder && Array.isArray(pkg_folder.content)) {
 		pkg_folder.content.forEach((docs) => {
 			if (!Array.isArray(docs.content)) return;
+			const readme = docs.content.find(({ name }) => name === "README.md");
+			const pkg = docs.content.find(({ name }) => name === "package.json");
+
+			if (!readme || !pkg) return;
 
 			pkgs.push([
-				docs.name,
+				JSON.parse(pkg.content as string).name,
 				{
-					docs: docs.content.map((entry) =>
-						strip_meta(entry.name, entry.content)
-					),
+					docs: [strip_meta("README.md", readme.content)],
 				},
 			]);
 		});

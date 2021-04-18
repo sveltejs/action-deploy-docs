@@ -502,15 +502,6 @@ transform("transforms package readmes", () => {
 						name: "README.md",
 						content: "random-extra-files\n",
 					},
-					{ name: "bipbopboom.whatever", content: "" },
-					{
-						name: "package.json",
-						content: '{\n\t"name": "random-extra-files"\n}\n',
-					},
-					{
-						name: "src",
-						content: [{ name: "hello.bopbop", content: "" }],
-					},
 				],
 			},
 		],
@@ -521,10 +512,6 @@ transform("transforms package readmes", () => {
 					{
 						name: "README.md",
 						content: "standard-package\n",
-					},
-					{
-						name: "package.json",
-						content: '{\n\t"name": "standard-package"\n}\n',
 					},
 				],
 			},
