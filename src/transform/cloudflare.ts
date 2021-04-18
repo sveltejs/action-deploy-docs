@@ -10,33 +10,36 @@ interface CF_Key {
 	value: string;
 }
 
+export interface Docs {
+	list: Array<Record<string, unknown>>;
+	full: Array<Record<string, unknown>>;
+}
+
 export function transform_cloudflare(
-	docs: Array<Record<string, unknown>>,
+	docs: Docs,
 	{ project, type, keyby, version = "latest" }: Transform_Options
 ) {
-	const _list = [];
 	const keys: CF_Key[] = [
 		{
 			key: `${project}@${version}:${type}:content`,
-			value: JSON.stringify(docs),
+			value: JSON.stringify(docs.full),
 		},
 	];
 
-	for (let i = 0; i < docs.length; i++) {
-		const { content, ...rest } = docs[i];
-		_list.push(rest);
+	for (let i = 0; i < docs.full.length; i++) {
+		// const { content, ...rest } = docs[i];
 
-		const item_key = docs[i][keyby];
+		const item_key = docs.full[i][keyby];
 
 		keys.push({
 			key: `${project}@${version}:${type}:${item_key}`,
-			value: JSON.stringify(docs[i]),
+			value: JSON.stringify(docs.full[i]),
 		});
 	}
 
 	keys.push({
 		key: `${project}@${version}:${type}:list`,
-		value: JSON.stringify(_list),
+		value: JSON.stringify(docs.list),
 	});
 
 	return keys;
