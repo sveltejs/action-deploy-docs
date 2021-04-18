@@ -1,3 +1,5 @@
+dependencies:
+  httpie: 1.1.2
 devDependencies:
   '@actions/core': 1.2.6
   '@actions/exec': 1.0.4
@@ -475,6 +477,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-uE/TxKuyNIcx44cIWnjr/rfIATDH7ZaOMmstu0CwhFG1Dunhlp4OC6/NMbhiwoq5BpW0ubi303qnEk/PZj614w==
+  /httpie/1.1.2:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-VQ82oXG95oY1fQw/XecHuvcFBA+lZQ9Vwj1RfLcO8a7HpDd4cc2ukwpJt+TUlFaLUAzZErylxWu6wclJ1rUhUQ==
   /inflight/1.0.6:
     dependencies:
       once: 1.4.0
@@ -1064,6 +1072,7 @@ specifiers:
   '@types/js-yaml': ^4.0.0
   '@types/marked': ^2.0.0
   '@types/prismjs': ^1.16.4
+  httpie: ^1.1.2
   js-yaml: ^4.0.0
   marked: ^2.0.1
   mdast-util-to-hast: ^10.2.0

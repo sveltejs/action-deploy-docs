@@ -26061,6 +26061,8 @@ async function transform(files, project) {
 
 // docs: Array<Record<string, unknown>>, { project, type, keyby, version }
 
+`accounts/${CF_ID}/storage/kv/namespaces/${KV_ID}/bulk`;
+
 async function get_repo(
 	target_repo,
 	target_branch,
@@ -26149,9 +26151,27 @@ async function run() {
 				transform_cloudflare(content, { project, type, keyby: "slug" })
 			)
 		)
-		.flat();
+		.flat(Infinity);
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
+
+	// 	const x = await put(`${API_ROOT}${KV_WRITE}`, {
+	// 		body: keys,
+	// 		headers: {
+	// 			Authorization: `Bearer ${cf_token}`,
+	// 		},
+	// 	});
+	// 	console.log("put: ", x);
+	// 	console.log({
+	// 		type: `${release_keys.map((v) => `${v}: ${repo.repo}:api:${v}`)}`,
+	// 		repo: repo.repo,
+	// 		base,
+	// 		key: `${repo.repo}:api:${version}`,
+	// 	});
+	// } catch (e) {
+	// 	console.log("it didn't work", e.message);
+	// 	throw e;
+	// }
 
 	// if (docs.length) {
 	// 	docs.forEach(([project, docs]) => {
