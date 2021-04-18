@@ -26232,9 +26232,15 @@ async function run() {
 				transform_cloudflare(content, { project, type, keyby: "slug" })
 			)
 		)
-		.flat(Infinity);
+		.flat(2);
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
+
+	const is_valid = ready_for_cf.every(
+		({ value, key }) => typeof value === "string" && typeof key === "string"
+	);
+
+	console.log(is_valid ? "\nEVERYTHING IS VALID\n" : "\nTHIS IS NOT VALID\n");
 
 	try {
 		const x = await put(`${API_ROOT}${KV_WRITE}`, {
