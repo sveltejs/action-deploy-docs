@@ -100,18 +100,18 @@ async function run() {
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
 
-	// try {
-	// 	const x = await put(`${API_ROOT}${KV_WRITE}`, {
-	// 		body: ready_for_cf,
-	// 		headers: {
-	// 			Authorization: `Bearer ${CF_TOKEN}`,
-	// 		},
-	// 	});
-	// 	console.log("put: ", x);
-	// } catch (e) {
-	// 	console.log("it didn't work", e.message);
-	// 	throw e;
-	// }
+	try {
+		const x = await put(`${API_ROOT}${KV_WRITE}`, {
+			body: ready_for_cf,
+			headers: {
+				Authorization: `Bearer ${CF_TOKEN}`,
+			},
+		});
+		console.log("put: ", x);
+	} catch (e) {
+		console.log("it didn't work", e.message);
+		throw e;
+	}
 }
 
 run();

@@ -7,6 +7,9 @@ var require$$1 = require('events');
 var childProcess = require('child_process');
 var util_1 = require('util');
 var assert_1 = require('assert');
+var https = require('https');
+var http = require('http');
+var url = require('url');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -1579,6 +1582,72 @@ var exec_2 = exec;
 var exec_1 = /*#__PURE__*/Object.defineProperty({
 	exec: exec_2
 }, '__esModule', {value: true});
+
+function toError(rej, res, err) {
+	err = err || new Error(res.statusMessage);
+	err.statusMessage = res.statusMessage;
+	err.statusCode = res.statusCode;
+	err.headers = res.headers;
+	err.data = res.data;
+	rej(err);
+}
+
+function send(method, uri, opts={}) {
+	return new Promise((res, rej) => {
+		let out = '';
+		opts.method = method;
+		let { redirect=true } = opts;
+		if (uri && !!uri.toJSON) uri = uri.toJSON();
+		Object.assign(opts, typeof uri === 'string' ? url.parse(uri) : uri);
+		opts.agent = opts.protocol === 'http:' ? http.globalAgent : void 0;
+
+		let req = https.request(opts, r => {
+			r.setEncoding('utf8');
+
+			r.on('data', d => {
+				out += d;
+			});
+
+			r.on('end', () => {
+				let type = r.headers['content-type'];
+				if (type && out && type.includes('application/json')) {
+					try {
+						out = JSON.parse(out, opts.reviver);
+					} catch (err) {
+						return toError(rej, r, err);
+					}
+				}
+				r.data = out;
+				if (r.statusCode >= 400) {
+					toError(rej, r);
+				} else if (r.statusCode > 300 && redirect && r.headers.location) {
+					opts.path = url.resolve(opts.path, r.headers.location);
+					return send(method, opts.path.startsWith('/') ? opts : opts.path, opts).then(res, rej);
+				} else {
+					res(r);
+				}
+			});
+		});
+
+		req.on('error', rej);
+
+		if (opts.body) {
+			let isObj = typeof opts.body === 'object' && !Buffer.isBuffer(opts.body);
+			let str = isObj ? JSON.stringify(opts.body) : opts.body;
+			isObj && req.setHeader('content-type', 'application/json');
+			req.setHeader('content-length', Buffer.byteLength(str));
+			req.write(str);
+		}
+
+		req.end();
+	});
+}
+
+send.bind(null, 'GET');
+send.bind(null, 'POST');
+send.bind(null, 'PATCH');
+send.bind(null, 'DELETE');
+const put = send.bind(null, 'PUT');
 
 async function rc_read_file(file_path) {
 	let file_or_dir = {
@@ -26074,6 +26143,12 @@ async function transform(files, project) {
 
 // docs: Array<Record<string, unknown>>, { project, type, keyby, version }
 
+const CF_ACC_ID = "32a8245cd45a24083dd0acae1d482048";
+const CF_NS_ID = "20394261e26444aaa7ad8292db818037";
+
+const API_ROOT = "https://api.cloudflare.com/client/v4/";
+const KV_WRITE = `accounts/${CF_ACC_ID}/storage/kv/namespaces/${CF_NS_ID}/bulk`;
+
 async function get_repo(
 	target_repo,
 	target_branch,
@@ -26116,7 +26191,7 @@ async function get_repo(
 async function run() {
 	const target_repo = core$4.getInput("repo");
 	const target_branch = core$4.getInput("branch");
-	core$4.getInput("token");
+	const CF_TOKEN = core$4.getInput("token");
 	const docs_path = core$4.getInput("docs_path");
 	const pkg_path = core$4.getInput("pkg_path");
 
@@ -26161,18 +26236,18 @@ async function run() {
 
 	console.log(JSON.stringify(ready_for_cf, null, 2));
 
-	// try {
-	// 	const x = await put(`${API_ROOT}${KV_WRITE}`, {
-	// 		body: ready_for_cf,
-	// 		headers: {
-	// 			Authorization: `Bearer ${CF_TOKEN}`,
-	// 		},
-	// 	});
-	// 	console.log("put: ", x);
-	// } catch (e) {
-	// 	console.log("it didn't work", e.message);
-	// 	throw e;
-	// }
+	try {
+		const x = await put(`${API_ROOT}${KV_WRITE}`, {
+			body: ready_for_cf,
+			headers: {
+				Authorization: `Bearer ${CF_TOKEN}`,
+			},
+		});
+		console.log("put: ", x);
+	} catch (e) {
+		console.log("it didn't work", e.message);
+		throw e;
+	}
 }
 
 run();
