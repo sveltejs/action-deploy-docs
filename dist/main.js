@@ -1668,7 +1668,8 @@ function transform_files(
 			const readme = docs.content.find(({ name }) => name === "README.md");
 			const pkg = docs.content.find(({ name }) => name === "package.json");
 
-			if (!readme || !pkg) return;
+			if (!readme || !pkg || JSON.parse(pkg.content ).name === project)
+				return;
 
 			pkgs.push([
 				JSON.parse(pkg.content ).name.replace("@sveltejs/", ""),
