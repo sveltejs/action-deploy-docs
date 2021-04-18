@@ -71,7 +71,7 @@ export async function transform_blog(
 					markdown: doc.content,
 					project,
 					docs_type: "blog",
-					dir,
+					dir: `${dir}/${slug}`,
 					level: 2,
 					slug,
 				});
@@ -367,6 +367,7 @@ export async function transform(files: Docs, project: string) {
 				? `docs/${project}`
 				: //@ts-ignore
 				  dir_map[key];
+
 		docs.push({
 			content: await transform_map[key as keyof Docs](
 				//@ts-ignore

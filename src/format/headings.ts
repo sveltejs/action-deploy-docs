@@ -78,12 +78,23 @@ export function linkify_headings(): Transformer {
 			// innerText for MDAST nodes
 			const title_text = tree_to_string(node);
 
-			let slug = make_slug(
-				node.depth === data.base_level
-					? [data.section_title, title_text].join(" ")
-					: [data.slugs[data.slugs.length - 1], title_text].join(" "),
-				data.seen_slugs
-			);
+			let slug: string;
+
+			if (data.docs_type === "blog") {
+				slug = make_slug(
+					node.depth === data.base_level
+						? title_text
+						: [data.slugs[data.slugs.length - 1], title_text].join(" "),
+					data.seen_slugs
+				);
+			} else {
+				slug = make_slug(
+					node.depth === data.base_level
+						? [data.section_title, title_text].join(" ")
+						: [data.slugs[data.slugs.length - 1], title_text].join(" "),
+					data.seen_slugs
+				);
+			}
 
 			data.slugs.push(slug);
 

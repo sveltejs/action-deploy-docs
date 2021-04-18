@@ -72,8 +72,10 @@ _docs("transforms everything", async () => {
 		migrating: migrating_in,
 	};
 	const output = await transform(docs, "svelte");
-	// console.log(JSON.stringify(output, null, 2));
-	assert.equal(output, everything);
+	function lines(obj: object) {
+		return JSON.stringify(obj, null, 2).split("\n");
+	}
+	assert.equal(lines(output), lines(everything));
 });
 
 _docs.run();

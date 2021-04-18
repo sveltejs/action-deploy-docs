@@ -19294,12 +19294,23 @@ function linkify_headings() {
 			// innerText for MDAST nodes
 			const title_text = mdastUtilToString(node);
 
-			let slug = make_slug$3(
-				node.depth === data.base_level
-					? [data.section_title, title_text].join(" ")
-					: [data.slugs[data.slugs.length - 1], title_text].join(" "),
-				data.seen_slugs
-			);
+			let slug;
+
+			if (data.docs_type === "blog") {
+				slug = make_slug$3(
+					node.depth === data.base_level
+						? title_text
+						: [data.slugs[data.slugs.length - 1], title_text].join(" "),
+					data.seen_slugs
+				);
+			} else {
+				slug = make_slug$3(
+					node.depth === data.base_level
+						? [data.section_title, title_text].join(" ")
+						: [data.slugs[data.slugs.length - 1], title_text].join(" "),
+					data.seen_slugs
+				);
+			}
 
 			data.slugs.push(slug);
 
@@ -25697,7 +25708,7 @@ async function transform_blog(
 					markdown: doc.content,
 					project,
 					docs_type: "blog",
-					dir,
+					dir: `${dir}/${slug}`,
 					level: 2,
 					slug,
 				});
@@ -25993,6 +26004,7 @@ async function transform(files, project) {
 				? `docs/${project}`
 				: //@ts-ignore
 				  dir_map[key];
+
 		docs.push({
 			content: await transform_map[key ](
 				//@ts-ignore

@@ -81,8 +81,8 @@ _headings("transforms and formats multi-level headings", async () => {
 
 	assert.equal(
 		output.contents,
-		`<h3><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h3>
-<h4><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>`
+		`<h3><span id="subsection" class="offset-anchor"></span><a href="blog#subsection" class="anchor" aria-hidden></a>subsection</h3>
+<h4><span id="subsection-subsubsection" class="offset-anchor"></span><a href="blog#subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>`
 	);
 });
 
@@ -113,9 +113,9 @@ _headings("transforms and formats multi-level headings", async () => {
 
 	assert.equal(
 		output.contents,
-		`<h3><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h3>
-<h4><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
-<h5><span id="section-subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>`
+		`<h3><span id="subsection" class="offset-anchor"></span><a href="blog#subsection" class="anchor" aria-hidden></a>subsection</h3>
+<h4><span id="subsection-subsubsection" class="offset-anchor"></span><a href="blog#subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
+<h5><span id="subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>`
 	);
 });
 
@@ -154,13 +154,13 @@ _headings("transforms and formats multi-level headings", async () => {
 
 	assert.equal(
 		output.contents,
-		`<h3><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h3>
-<h4><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
-<h5><span id="section-subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>
-<h3><span id="section-one" class="offset-anchor"></span><a href="blog#section-one" class="anchor" aria-hidden></a>one</h3>
-<h4><span id="section-one-two" class="offset-anchor"></span><a href="blog#section-one-two" class="anchor" aria-hidden></a>two</h4>
-<h5><span id="section-one-two-three" class="offset-anchor" data-scrollignore></span><a href="blog#section-one-two-three" class="anchor" aria-hidden></a>three</h5>
-<h4><span id="section-one-four" class="offset-anchor"></span><a href="blog#section-one-four" class="anchor" aria-hidden></a>four</h4>`
+		`<h3><span id="subsection" class="offset-anchor"></span><a href="blog#subsection" class="anchor" aria-hidden></a>subsection</h3>
+<h4><span id="subsection-subsubsection" class="offset-anchor"></span><a href="blog#subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h4>
+<h5><span id="subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h5>
+<h3><span id="one" class="offset-anchor"></span><a href="blog#one" class="anchor" aria-hidden></a>one</h3>
+<h4><span id="one-two" class="offset-anchor"></span><a href="blog#one-two" class="anchor" aria-hidden></a>two</h4>
+<h5><span id="one-two-three" class="offset-anchor" data-scrollignore></span><a href="blog#one-two-three" class="anchor" aria-hidden></a>three</h5>
+<h4><span id="one-four" class="offset-anchor"></span><a href="blog#one-four" class="anchor" aria-hidden></a>four</h4>`
 	);
 });
 
@@ -201,13 +201,13 @@ _headings(
 
 		assert.equal(
 			output.contents,
-			`<h2><span id="section-subsection" class="offset-anchor"></span><a href="blog#section-subsection" class="anchor" aria-hidden></a>subsection</h2>
-<h3><span id="section-subsection-subsubsection" class="offset-anchor"></span><a href="blog#section-subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h3>
-<h4><span id="section-subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#section-subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h4>
-<h2><span id="section-one" class="offset-anchor"></span><a href="blog#section-one" class="anchor" aria-hidden></a>one</h2>
-<h3><span id="section-one-two" class="offset-anchor"></span><a href="blog#section-one-two" class="anchor" aria-hidden></a>two</h3>
-<h4><span id="section-one-two-three" class="offset-anchor" data-scrollignore></span><a href="blog#section-one-two-three" class="anchor" aria-hidden></a>three</h4>
-<h3><span id="section-one-four" class="offset-anchor"></span><a href="blog#section-one-four" class="anchor" aria-hidden></a>four</h3>`
+			`<h2><span id="subsection" class="offset-anchor"></span><a href="blog#subsection" class="anchor" aria-hidden></a>subsection</h2>
+<h3><span id="subsection-subsubsection" class="offset-anchor"></span><a href="blog#subsection-subsubsection" class="anchor" aria-hidden></a>subsubsection</h3>
+<h4><span id="subsection-subsubsection-subsubsubsection" class="offset-anchor" data-scrollignore></span><a href="blog#subsection-subsubsection-subsubsubsection" class="anchor" aria-hidden></a>subsubsubsection</h4>
+<h2><span id="one" class="offset-anchor"></span><a href="blog#one" class="anchor" aria-hidden></a>one</h2>
+<h3><span id="one-two" class="offset-anchor"></span><a href="blog#one-two" class="anchor" aria-hidden></a>two</h3>
+<h4><span id="one-two-three" class="offset-anchor" data-scrollignore></span><a href="blog#one-two-three" class="anchor" aria-hidden></a>three</h4>
+<h3><span id="one-four" class="offset-anchor"></span><a href="blog#one-four" class="anchor" aria-hidden></a>four</h3>`
 		);
 	}
 );
