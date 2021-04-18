@@ -110,7 +110,7 @@ async function run() {
 		console.log("put: ", x);
 	} catch (e) {
 		console.log("it didn't work", e.message, e.code, e.stack);
-		throw e;
+		// throw e;
 	}
 }
 
