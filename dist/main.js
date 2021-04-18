@@ -26195,6 +26195,8 @@ async function run() {
 	const docs_path = core$4.getInput("docs_path");
 	const pkg_path = core$4.getInput("pkg_path");
 
+	console.log("TOKEN: ", CF_TOKEN, CF_TOKEN.length);
+
 	if (target_branch !== "main" && target_branch !== "master") {
 		core$4.setFailed("Branch deploys are not yet supported.");
 	}
