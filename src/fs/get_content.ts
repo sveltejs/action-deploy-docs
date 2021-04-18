@@ -120,7 +120,13 @@ export function transform_files(
 			const readme = docs.content.find(({ name }) => name === "README.md");
 			const pkg = docs.content.find(({ name }) => name === "package.json");
 
-			if (!readme || !pkg || JSON.parse(pkg.content as string).name === project)
+			if (
+				!readme ||
+				!pkg ||
+				JSON.parse(pkg.content as string).name === project ||
+				JSON.parse(pkg.content as string).name.replace("@sveltejs/", "") ===
+					project
+			)
 				return;
 
 			pkgs.push([
