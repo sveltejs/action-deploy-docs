@@ -5,7 +5,7 @@ interface Transform_Options {
 	version?: string;
 }
 
-interface CF_Key {
+export interface CF_Key {
 	key: string;
 	value: string;
 }

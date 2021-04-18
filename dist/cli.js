@@ -1,9 +1,11 @@
 'use strict';
 
 var http = require('http');
-var require$$0$1 = require('querystring');
+var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
+var https = require('https');
+var url = require('url');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -28,341 +30,276 @@ function _interopNamespace(e) {
 }
 
 var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
-var require$$0__default = /*#__PURE__*/_interopDefaultLegacy(require$$0$1);
 var path__namespace = /*#__PURE__*/_interopNamespace(path);
 var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 
-function every (arr, cb) {
-	var i=0, len=arr.length;
+function parse$6 (str, loose) {
+	if (str instanceof RegExp) return { keys:false, pattern:str };
+	var c, o, tmp, ext, keys=[], pattern='', arr = str.split('/');
+	arr[0] || arr.shift();
 
-	for (; i < len; i++) {
-		if (!cb(arr[i], i, arr)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-const SEP = '/';
-// Types ~> static, param, any, optional
-const STYPE=0, PTYPE=1, ATYPE=2, OTYPE=3;
-// Char Codes ~> / : *
-const SLASH=47, COLON=58, ASTER=42, QMARK=63;
-
-function strip(str) {
-	if (str === SEP) return str;
-	(str.charCodeAt(0) === SLASH) && (str=str.substring(1));
-	var len = str.length - 1;
-	return str.charCodeAt(len) === SLASH ? str.substring(0, len) : str;
-}
-
-function split(str) {
-	return (str=strip(str)) === SEP ? [SEP] : str.split(SEP);
-}
-
-function isMatch(arr, obj, idx) {
-	idx = arr[idx];
-	return (obj.val === idx && obj.type === STYPE) || (idx === SEP ? obj.type > PTYPE : obj.type !== STYPE && (idx || '').endsWith(obj.end));
-}
-
-function match$1(str, all) {
-	var i=0, tmp, segs=split(str), len=segs.length, l;
-	var fn = isMatch.bind(isMatch, segs);
-
-	for (; i < all.length; i++) {
-		tmp = all[i];
-		if ((l=tmp.length) === len || (l < len && tmp[l-1].type === ATYPE) || (l > len && tmp[l-1].type === OTYPE)) {
-			if (every(tmp, fn)) return tmp;
-		}
-	}
-
-	return [];
-}
-
-function parse$7(str) {
-	if (str === SEP) {
-		return [{ old:str, type:STYPE, val:str, end:'' }];
-	}
-
-	var c, x, t, sfx, nxt=strip(str), i=-1, j=0, len=nxt.length, out=[];
-
-	while (++i < len) {
-		c = nxt.charCodeAt(i);
-
-		if (c === COLON) {
-			j = i + 1; // begining of param
-			t = PTYPE; // set type
-			x = 0; // reset mark
-			sfx = '';
-
-			while (i < len && nxt.charCodeAt(i) !== SLASH) {
-				c = nxt.charCodeAt(i);
-				if (c === QMARK) {
-					x=i; t=OTYPE;
-				} else if (c === 46 && sfx.length === 0) {
-					sfx = nxt.substring(x=i);
-				}
-				i++; // move on
-			}
-
-			out.push({
-				old: str,
-				type: t,
-				val: nxt.substring(j, x||i),
-				end: sfx
-			});
-
-			// shorten string & update pointers
-			nxt=nxt.substring(i); len-=i; i=0;
-
-			continue; // loop
-		} else if (c === ASTER) {
-			out.push({
-				old: str,
-				type: ATYPE,
-				val: nxt.substring(i),
-				end: ''
-			});
-			continue; // loop
+	while (tmp = arr.shift()) {
+		c = tmp[0];
+		if (c === '*') {
+			keys.push('wild');
+			pattern += '/(.*)';
+		} else if (c === ':') {
+			o = tmp.indexOf('?', 1);
+			ext = tmp.indexOf('.', 1);
+			keys.push( tmp.substring(1, !!~o ? o : !!~ext ? ext : tmp.length) );
+			pattern += !!~o && !~ext ? '(?:/([^/]+?))?' : '/([^/]+?)';
+			if (!!~ext) pattern += (!!~o ? '?' : '') + '\\' + tmp.substring(ext);
 		} else {
-			j = i;
-			while (i < len && nxt.charCodeAt(i) !== SLASH) {
-				++i; // skip to next slash
-			}
-			out.push({
-				old: str,
-				type: STYPE,
-				val: nxt.substring(j, i),
-				end: ''
-			});
-			// shorten string & update pointers
-			nxt=nxt.substring(i); len-=i; i=j=0;
+			pattern += '/' + tmp;
 		}
 	}
 
-	return out;
+	return {
+		keys: keys,
+		pattern: new RegExp('^' + pattern + (loose ? '(?=$|\/)' : '\/?$'), 'i')
+	};
 }
-
-function exec$1(str, arr) {
-	var i=0, x, y, segs=split(str), out={};
-	for (; i < arr.length; i++) {
-		x=segs[i]; y=arr[i];
-		if (x === SEP) continue;
-		if (x !== void 0 && y.type | 2 === OTYPE) {
-			out[ y.val ] = x.replace(y.end, '');
-		}
-	}
-	return out;
-}
-
-var matchit = /*#__PURE__*/Object.freeze({
-	__proto__: null,
-	match: match$1,
-	parse: parse$7,
-	exec: exec$1
-});
-
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function getAugmentedNamespace(n) {
-	if (n.__esModule) return n;
-	var a = Object.defineProperty({}, '__esModule', {value: true});
-	Object.keys(n).forEach(function (k) {
-		var d = Object.getOwnPropertyDescriptor(n, k);
-		Object.defineProperty(a, k, d.get ? d : {
-			enumerable: true,
-			get: function () {
-				return n[k];
-			}
-		});
-	});
-	return a;
-}
-
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
-
-var require$$0 = /*@__PURE__*/getAugmentedNamespace(matchit);
-
-const { exec, match, parse: parse$6 } = require$$0;
 
 class Trouter {
-	constructor(opts) {
-		this.opts = opts || {};
-		this.routes = {};
-		this.handlers = {};
+	constructor() {
+		this.routes = [];
 
-		this.all = this.add.bind(this, '*');
+		this.all = this.add.bind(this, '');
 		this.get = this.add.bind(this, 'GET');
 		this.head = this.add.bind(this, 'HEAD');
 		this.patch = this.add.bind(this, 'PATCH');
 		this.options = this.add.bind(this, 'OPTIONS');
-    this.connect = this.add.bind(this, 'CONNECT');
+		this.connect = this.add.bind(this, 'CONNECT');
 		this.delete = this.add.bind(this, 'DELETE');
-    this.trace = this.add.bind(this, 'TRACE');
+		this.trace = this.add.bind(this, 'TRACE');
 		this.post = this.add.bind(this, 'POST');
 		this.put = this.add.bind(this, 'PUT');
 	}
 
-	add(method, pattern, ...fns) {
-		// Save decoded pattern info
-		if (this.routes[method] === void 0) this.routes[method]=[];
-		this.routes[method].push(parse$6(pattern));
-		// Save route handler(s)
-		if (this.handlers[method] === void 0) this.handlers[method]={};
-		this.handlers[method][pattern] = fns;
-		// Allow chainable
+	use(route, ...fns) {
+		let handlers = [].concat.apply([], fns);
+		let { keys, pattern } = parse$6(route, true);
+		this.routes.push({ keys, pattern, method:'', handlers });
+		return this;
+	}
+
+	add(method, route, ...fns) {
+		let { keys, pattern } = parse$6(route);
+		let handlers = [].concat.apply([], fns);
+		this.routes.push({ keys, pattern, method, handlers });
 		return this;
 	}
 
 	find(method, url) {
-		let arr = match(url, this.routes[method] || []);
-		if (arr.length === 0) {
-			arr = match(url, this.routes[method='*'] || []);
-			if (!arr.length) return false;
+		let isHEAD=(method === 'HEAD');
+		let i=0, j=0, k, tmp, arr=this.routes;
+		let matches=[], params={}, handlers=[];
+		for (; i < arr.length; i++) {
+			tmp = arr[i];
+			if (tmp.method.length === 0 || tmp.method === method || isHEAD && tmp.method === 'GET') {
+				if (tmp.keys === false) {
+					matches = tmp.pattern.exec(url);
+					if (matches === null) continue;
+					if (matches.groups !== void 0) for (k in matches.groups) params[k]=matches.groups[k];
+					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+				} else if (tmp.keys.length > 0) {
+					matches = tmp.pattern.exec(url);
+					if (matches === null) continue;
+					for (j=0; j < tmp.keys.length;) params[tmp.keys[j]]=matches[++j];
+					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+				} else if (tmp.pattern.test(url)) {
+					tmp.handlers.length > 1 ? (handlers=handlers.concat(tmp.handlers)) : handlers.push(tmp.handlers[0]);
+				}
+			} // else not a match
 		}
-		return {
-			params: exec(url, arr),
-			handlers: this.handlers[method][arr[0].old]
-		};
+
+		return { params, handlers };
 	}
 }
 
-var trouter = Trouter;
+function parse$5(str) {
+	let i=0, j=0, k, v;
+	let out={}, arr=str.split('&');
+	for (; i < arr.length; i++) {
+		j = arr[i].indexOf('=');
+		v = !!~j && arr[i].substring(j+1) || '';
+		k = !!~j ? arr[i].substring(0, j) : arr[i];
+		out[k] = out[k] !== void 0 ? [].concat(out[k], v) : v;
+	}
+	return out;
+}
 
-var url = function (req) {
+function parser (req, toDecode) {
 	let url = req.url;
-	if (url === void 0) return url;
+	if (url == null) return;
 
 	let obj = req._parsedUrl;
 	if (obj && obj._raw === url) return obj;
 
-	obj = {};
-	obj.query = obj.search = null;
-	obj.href = obj.path = obj.pathname = url;
+	obj = {
+		path: url,
+		pathname: url,
+		search: null,
+		query: null,
+		href: url,
+		_raw: url
+	};
 
-	let idx = url.indexOf('?', 1);
-	if (idx !== -1) {
-		obj.search = url.substring(idx);
-		obj.query = obj.search.substring(1);
-		obj.pathname = url.substring(0, idx);
+	if (url.length > 1) {
+		if (toDecode && !req._decoded && !!~url.indexOf('%', 1)) {
+			let nxt = url;
+			try { nxt = decodeURIComponent(url); } catch (e) {/* bad */}
+			url = req.url = obj.href = obj.path = obj.pathname = obj._raw = nxt;
+			req._decoded = true;
+		}
+
+		let idx = url.indexOf('?', 1);
+
+		if (idx !== -1) {
+			obj.search = url.substring(idx);
+			obj.query = obj.search.substring(1);
+			obj.pathname = url.substring(0, idx);
+			if (toDecode && obj.query.length > 0) {
+				obj.query = parse$5(obj.query);
+			}
+		}
 	}
 
-	obj._raw = url;
-
 	return (req._parsedUrl = obj);
-};
-
-const { parse: parse$5 } = require$$0__default['default'];
-
-
-function lead(x) {
-	return x.charCodeAt(0) === 47 ? x : ('/' + x);
 }
 
-function value$1(x) {
-  let y = x.indexOf('/', 1);
-  return y > 1 ? x.substring(0, y) : x;
-}
-
-function mutate$1(str, req) {
-	req.url = req.url.substring(str.length) || '/';
-	req.path = req.path.substring(str.length) || '/';
-}
-
-function onError(err, req, res, next) {
+function onError(err, req, res) {
 	let code = (res.statusCode = err.code || err.status || 500);
-	res.end(err.length && err || err.message || http__default['default'].STATUS_CODES[code]);
+	if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err);
+	else res.end(err.message || http__default['default'].STATUS_CODES[code]);
 }
 
-class Polka extends trouter {
+const mount = fn => fn instanceof Polka ? fn.attach : fn;
+
+class Polka extends Trouter {
 	constructor(opts={}) {
-		super(opts);
-		this.apps = {};
-		this.wares = [];
-		this.bwares = {};
-		this.parse = url;
+		super();
+		this.parse = parser;
 		this.server = opts.server;
 		this.handler = this.handler.bind(this);
 		this.onError = opts.onError || onError; // catch-all handler
 		this.onNoMatch = opts.onNoMatch || this.onError.bind(null, { code:404 });
-	}
-
-	add(method, pattern, ...fns) {
-		let base = lead(value$1(pattern));
-		if (this.apps[base] !== void 0) throw new Error(`Cannot mount ".${method.toLowerCase()}('${lead(pattern)}')" because a Polka application at ".use('${base}')" already exists! You should move this handler into your Polka application instead.`);
-		return super.add(method, pattern, ...fns);
+		this.attach = (req, res) => setImmediate(this.handler, req, res);
 	}
 
 	use(base, ...fns) {
-		if (typeof base === 'function') {
-			this.wares = this.wares.concat(base, fns);
-		} else if (base === '/') {
-			this.wares = this.wares.concat(fns);
+		if (base === '/') {
+			super.use(base, fns.map(mount));
+		} else if (typeof base === 'function' || base instanceof Polka) {
+			super.use('/', [base, ...fns].map(mount));
 		} else {
-			base = lead(base);
-			fns.forEach(fn => {
-				if (fn instanceof Polka) {
-					this.apps[base] = fn;
-				} else {
-					let arr = this.bwares[base] || [];
-					arr.length > 0 || arr.push((r, _, nxt) => (mutate$1(base, r),nxt()));
-					this.bwares[base] = arr.concat(fn);
+			super.use(base,
+				(req, _, next) => {
+					if (typeof base === 'string') {
+						let len = base.length;
+						base.startsWith('/') || len++;
+						req.url = req.url.substring(len) || '/';
+						req.path = req.path.substring(len) || '/';
+					} else {
+						req.url = req.url.replace(base, '') || '/';
+						req.path = req.path.replace(base, '') || '/';
+					}
+					if (req.url.charAt(0) !== '/') {
+						req.url = '/' + req.url;
+					}
+					next();
+				},
+				fns.map(mount),
+				(req, _, next) => {
+					req.url = req._parsedUrl.href;
+					req.path = req._parsedUrl.pathname;
+					next();
 				}
-			});
+			);
 		}
 		return this; // chainable
 	}
 
 	listen() {
-		(this.server = this.server || http__default['default'].createServer()).on('request', this.handler);
+		(this.server = this.server || http__default['default'].createServer()).on('request', this.attach);
 		this.server.listen.apply(this.server, arguments);
 		return this;
 	}
 
-	handler(req, res, info) {
-		info = info || this.parse(req);
-		let fns=[], arr=this.wares, obj=this.find(req.method, info.pathname);
+	handler(req, res, next) {
+		let info = this.parse(req, true);
+		let obj = this.find(req.method, req.path=info.pathname);
+
+		req.params = obj.params;
 		req.originalUrl = req.originalUrl || req.url;
-		let base = value$1(req.path = info.pathname);
-		if (this.bwares[base] !== void 0) {
-			arr = arr.concat(this.bwares[base]);
-		}
-		if (obj) {
-			fns = obj.handlers;
-			req.params = obj.params;
-		} else if (this.apps[base] !== void 0) {
-			mutate$1(base, req); info.pathname=req.path; //=> updates
-			fns.push(this.apps[base].handler.bind(null, req, res, info));
-		} else if (fns.length === 0) {
-			fns.push(this.onNoMatch);
-		}
-		// Grab addl values from `info`
+		req.query = info.query || {};
 		req.search = info.search;
-		req.query = parse$5(info.query);
-		// Exit if only a single function
-		let i=0, len=arr.length, num=fns.length;
-		if (len === i && num === 1) return fns[0](req, res);
-		// Otherwise loop thru all middlware
-		let next = err => err ? this.onError(err, req, res, next) : loop();
-		let loop = _ => res.finished || (i < len) && arr[i++](req, res, next);
-		arr = arr.concat(fns);
-		len += num;
-		loop(); // init
+
+		try {
+			let i=0, arr=obj.handlers.concat(this.onNoMatch), len=arr.length;
+			let loop = () => res.finished || (i < len) && arr[i++](req, res, next);
+			next = next || (err => err ? this.onError(err, req, res, next) : loop());
+			loop(); // init
+		} catch (err) {
+			this.onError(err, req, res, next);
+		}
 	}
 }
 
-var polka = opts => new Polka(opts);
+function polka (opts) {
+	return new Polka(opts);
+}
 
-const { STATUS_CODES } = http__default['default'];
+const TYPE = 'Content-Type';
+const LENGTH = 'Content-Length';
+const OSTREAM = 'application/octet-stream';
 
-var send = function (res, code=200, data='', headers={}) {
-	res.writeHead(code, headers);
-	res.end(data || STATUS_CODES[code]);
-};
+function send$1 (res, code=200, data='', headers={}) {
+	let k, obj={};
+	for (k in headers) {
+		obj[k.toLowerCase()] = headers[k];
+	}
+
+	let type = obj[TYPE.toLowerCase()] || res.getHeader(TYPE);
+
+	if (!!data && typeof data.pipe === 'function') {
+		res.setHeader(TYPE, type || OSTREAM);
+		return data.pipe(res);
+	}
+
+	if (data instanceof Buffer) {
+		type = type || OSTREAM;
+	} else if (typeof data === 'object') {
+		data = JSON.stringify(data);
+		type = type || 'application/json; charset=utf-8';
+	} else {
+		data = data || http.STATUS_CODES[code] || String(code);
+	}
+
+	obj[TYPE] = type || 'text/plain';
+	obj[LENGTH] = Buffer.byteLength(data);
+	delete obj[LENGTH.toLowerCase()];
+	delete obj[TYPE.toLowerCase()];
+
+	if (obj.etag) {
+		let hash = crypto.createHash('sha1').update(data).digest('base64').substring(0, 27);
+		res.setHeader('ETag', `W/"${obj[LENGTH].toString(16)}-${hash}"`);
+		delete obj.etag;
+	}
+
+	if (code === 204 || code === 304) {
+		res.removeHeader(TYPE);
+		res.removeHeader(LENGTH);
+		delete obj[LENGTH];
+		delete obj[TYPE];
+		data = '';
+	} else if (res.socket.parser && res.socket.parser.incoming.method === 'HEAD') {
+		data = '';
+	}
+
+	res.writeHead(code, obj);
+	res.end(data);
+}
 
 async function rc_read_file(file_path) {
 	let file_or_dir = {
@@ -542,6 +479,13 @@ var escapeStringRegexp$1 = string => {
 		.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
 		.replace(/-/g, '\\x2d');
 };
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function createCommonjsModule(fn) {
+  var module = { exports: {} };
+	return fn(module, module.exports), module.exports;
+}
 
 /**
  * lodash (Custom Build) <https://lodash.com/>
@@ -24858,7 +24802,71 @@ async function transform(files, project) {
 
 // docs: Array<Record<string, unknown>>, { project, type, keyby, version }
 
-// import watch from "cheap-watch";
+function toError(rej, res, err) {
+	err = err || new Error(res.statusMessage);
+	err.statusMessage = res.statusMessage;
+	err.statusCode = res.statusCode;
+	err.headers = res.headers;
+	err.data = res.data;
+	rej(err);
+}
+
+function send(method, uri, opts={}) {
+	return new Promise((res, rej) => {
+		let out = '';
+		opts.method = method;
+		let { redirect=true } = opts;
+		if (uri && !!uri.toJSON) uri = uri.toJSON();
+		Object.assign(opts, typeof uri === 'string' ? url.parse(uri) : uri);
+		opts.agent = opts.protocol === 'http:' ? http.globalAgent : void 0;
+
+		let req = https.request(opts, r => {
+			r.setEncoding('utf8');
+
+			r.on('data', d => {
+				out += d;
+			});
+
+			r.on('end', () => {
+				let type = r.headers['content-type'];
+				if (type && out && type.includes('application/json')) {
+					try {
+						out = JSON.parse(out, opts.reviver);
+					} catch (err) {
+						return toError(rej, r, err);
+					}
+				}
+				r.data = out;
+				if (r.statusCode >= 400) {
+					toError(rej, r);
+				} else if (r.statusCode > 300 && redirect && r.headers.location) {
+					opts.path = url.resolve(opts.path, r.headers.location);
+					return send(method, opts.path.startsWith('/') ? opts : opts.path, opts).then(res, rej);
+				} else {
+					res(r);
+				}
+			});
+		});
+
+		req.on('error', rej);
+
+		if (opts.body) {
+			let isObj = typeof opts.body === 'object' && !Buffer.isBuffer(opts.body);
+			let str = isObj ? JSON.stringify(opts.body) : opts.body;
+			isObj && req.setHeader('content-type', 'application/json');
+			req.setHeader('content-length', Buffer.byteLength(str));
+			req.write(str);
+		}
+
+		req.end();
+	});
+}
+
+const get = send.bind(null, 'GET');
+send.bind(null, 'POST');
+send.bind(null, 'PATCH');
+send.bind(null, 'DELETE');
+send.bind(null, 'PUT');
 
 async function cli() {
 	const {
@@ -24926,41 +24934,53 @@ async function cli() {
 	console.log(ready_for_cf);
 
 	polka()
-		.get("/docs/:project/:type", (req, res) => {
+		.get("/docs/:project/:type", async (req, res) => {
 			const { project, type } = req.params;
 			const version = req.query.version || "latest";
 			const full = typeof req.query.content === "string";
 
-			// const docs = await Docs.list(project, type, version, full);
 			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
 
-			const match = ready_for_cf.find(({ key }) => key === _key);
-			if (match) send(res, 200, match.value);
+			let match = ready_for_cf.find(({ key }) => key === _key);
+			console.log(req.originalUrl);
+
+			if (!match)
+				match = await (
+					await get(`https://api.svelte.dev/${req.originalUrl}`)
+				).data;
+
+			if (match)
+				send$1(res, 200, typeof match === "string" ? match : match.value);
 			else
-				send(res, 404, {
+				send$1(res, 404, {
 					message: `'${project}@${version}' '${type}' entry not found.`,
 				});
-			// res.end(`Project: ${req.params.project}. Type: ${req.params.type}`);
 		})
 		.get(
 			"/docs/:project/:type/:slug",
-			(req, res) => {
+			async (req, res) => {
 				const { project, type, slug } = req.params;
 				const version = req.query.version || "latest";
 
 				const _key = `${project}@${version}:${type}:${slug}`;
-				const match = ready_for_cf.find(({ key }) => key === _key);
+				let match = ready_for_cf.find(
+					({ key }) => key === _key
+				);
 
-				if (match) send(res, 200, match.value);
+				if (!match)
+					match = await (
+						await get(`https://api.svelte.dev/${req.originalUrl}`)
+					).data;
+
+				if (match)
+					send$1(res, 200, typeof match === "string" ? match : match.value);
 				else
-					send(req, 404, {
+					send$1(res, 404, {
 						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
 					});
-				// res.end(`Project: ${req.params.project}. Type: ${req.params.type}`);
 			}
 		)
-		.listen(3456, (err) => {
-			if (err) throw err;
+		.listen(3456, () => {
 			console.log(`> Running on localhost:3456`);
 		});
 }

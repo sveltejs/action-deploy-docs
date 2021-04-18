@@ -1,12 +1,13 @@
 // import watch from "cheap-watch";
 import type { Request, Response } from "polka";
+import { CF_Key } from "./transform/cloudflare";
+
 import polka from "polka";
 import send from "@polka/send";
 
-import * as path from "path";
-
 import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
+import { get } from "httpie";
 
 export default async function cli() {
 	const {
@@ -74,15 +75,23 @@ export default async function cli() {
 	console.log(ready_for_cf);
 
 	polka()
-		.get("/docs/:project/:type", (req: RequestDocs, res: Response) => {
+		.get("/docs/:project/:type", async (req: RequestDocs, res: Response) => {
 			const { project, type } = req.params;
 			const version = req.query.version || "latest";
 			const full = typeof req.query.content === "string";
 
 			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
 
-			const match = ready_for_cf.find(({ key }) => key === _key);
-			if (match) send(res, 200, match.value);
+			let match: CF_Key | string = ready_for_cf.find(({ key }) => key === _key);
+			console.log(req.originalUrl);
+
+			if (!match)
+				match = await (
+					await get<string>(`https://api.svelte.dev/${req.originalUrl}`)
+				).data;
+
+			if (match)
+				send(res, 200, typeof match === "string" ? match : match.value);
 			else
 				send(res, 404, {
 					message: `'${project}@${version}' '${type}' entry not found.`,
@@ -90,14 +99,22 @@ export default async function cli() {
 		})
 		.get(
 			"/docs/:project/:type/:slug",
-			(req: RequestDocEntry, res: Response) => {
+			async (req: RequestDocEntry, res: Response) => {
 				const { project, type, slug } = req.params;
 				const version = req.query.version || "latest";
 
 				const _key = `${project}@${version}:${type}:${slug}`;
-				const match = ready_for_cf.find(({ key }) => key === _key);
+				let match: CF_Key | string = ready_for_cf.find(
+					({ key }) => key === _key
+				);
 
-				if (match) send(res, 200, match.value);
+				if (!match)
+					match = await (
+						await get<string>(`https://api.svelte.dev/${req.originalUrl}`)
+					).data;
+
+				if (match)
+					send(res, 200, typeof match === "string" ? match : match.value);
 				else
 					send(res, 404, {
 						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
