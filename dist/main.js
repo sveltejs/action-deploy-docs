@@ -25694,6 +25694,11 @@ async function format({
 		(title && make_slug$1(title, seen_slugs)) ||
 		false;
 
+	if (is_readme) {
+		console.log("BASE_DIR: ", dir);
+		console.log("FULL_DIR: ", `${dir}/${section_slug}`);
+	}
+
 	const vfile$1 = vfile({
 		contents: markdown,
 		data: {
@@ -26038,18 +26043,19 @@ async function transform(files, project) {
 	const docs = [];
 
 	for (const key in files) {
-		const dir =
-			key === "docs" && project !== "kit" && project !== "svelte"
-				? `docs/${project}`
-				: //@ts-ignore
-				  dir_map[key];
+		// const dir =
+		// 	key === "docs" && project !== "kit" && project !== "svelte"
+		// 		? `docs/${project}`
+		// 		: //@ts-ignore
+		// 		  dir_map[key];
 
 		docs.push({
 			content: await transform_map[key ](
 				//@ts-ignore
 				files[key],
 				project,
-				dir
+				//@ts-ignore
+				dir_map[key]
 			),
 			project,
 			type: key,
