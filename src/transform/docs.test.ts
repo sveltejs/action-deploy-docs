@@ -2,7 +2,14 @@ import { suite } from "uvu";
 import * as assert from "uvu/assert";
 
 import { blog_in, blog_out_full, blog_out_list } from "./fixtures/blog";
-import { docs_list_out, docs_full_out, docs_in } from "./fixtures/docs";
+import {
+	docs_list_out,
+	docs_full_out,
+	docs_in,
+	docs_readme_in,
+	docs_readme_full_out,
+	docs_readme_list_out,
+} from "./fixtures/docs";
 import {
 	examples_in,
 	examples_out_full,
@@ -35,6 +42,19 @@ const _docs = suite("transform_docs");
 _docs("transforms docs", async () => {
 	const output = await transform_docs(docs_in, "svelte", "docs");
 	assert.equal(output, { list: docs_list_out, full: docs_full_out });
+});
+
+_docs("transforms readme docs", async () => {
+	const output = await transform_docs(
+		docs_readme_in,
+		"@sveltejs/adapter-vercel",
+		"docs"
+	);
+
+	assert.equal(output, {
+		list: docs_readme_list_out,
+		full: docs_readme_full_out,
+	});
 });
 
 _docs("transforms examples", async () => {

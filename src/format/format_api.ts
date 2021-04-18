@@ -89,10 +89,17 @@ export async function format({
 	title,
 	slug,
 }: Format): Promise<custom_vfile> {
+	const file_type = file.toLowerCase().endsWith("readme.md")
+		? "readme"
+		: "other";
+
+	const is_readme = file_type === "readme";
+
 	const sections: section[] = [];
-	const section_title = title || false;
+	const section_title = title || (is_readme && project) || false;
 
 	const section_slug =
+		(is_readme && make_slug(project.replace("@sveltejs/", ""), seen_slugs)) ||
 		(slug && make_slug(slug, seen_slugs)) ||
 		(title && make_slug(title, seen_slugs)) ||
 		false;
@@ -105,8 +112,8 @@ export async function format({
 			section_stack: [sections],
 			section_title,
 			section_slug,
-			dir,
-			file_type: file.toLowerCase().endsWith("readme.md") ? "readme" : "other",
+			dir: is_readme ? `${dir}/${section_slug}` : dir,
+			file_type,
 			docs_type,
 			base_level: level,
 			prev_level: level,

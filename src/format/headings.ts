@@ -80,7 +80,7 @@ export function linkify_headings(): Transformer {
 
 			let slug: string;
 
-			if (data.docs_type === "blog") {
+			if (data.docs_type === "blog" || data.file_type === "readme") {
 				slug = make_slug(
 					node.depth === data.base_level
 						? title_text

@@ -25,6 +25,65 @@ title: part 3
 ### docs3 content`,
 	},
 ];
+export const docs_readme_in = [
+	{
+		name: "README.md",
+		content: `# docs1 content
+asdasdas
+
+## hello
+
+asdasd
+
+### Third heading
+
+asdasdasd`,
+	},
+];
+
+export const docs_readme_full_out: Doc[] = [
+	{
+		title: "@sveltejs/adapter-vercel",
+		slug: "adapter-vercel",
+		file: "README.md",
+		sections: [
+			{
+				slug: "hello",
+				title: "hello",
+				sections: [
+					{
+						slug: "hello-third-heading",
+						title: "Third heading",
+						sections: [],
+					},
+				],
+			},
+		],
+		content:
+			'<p>asdasdas</p>\n<h3><span id="hello" class="offset-anchor"></span><a href="docs/adapter-vercel#hello" class="anchor" aria-hidden></a>hello</h3>\n<p>asdasd</p>\n<h4><span id="hello-third-heading" class="offset-anchor"></span><a href="docs/adapter-vercel#hello-third-heading" class="anchor" aria-hidden></a>Third heading</h4>\n<p>asdasdasd</p>',
+	},
+];
+
+export const docs_readme_list_out: DocMeta[] = [
+	{
+		title: "@sveltejs/adapter-vercel",
+		slug: "adapter-vercel",
+		file: "README.md",
+		sections: [
+			{
+				slug: "hello",
+				title: "hello",
+				sections: [
+					{
+						slug: "hello-third-heading",
+						title: "Third heading",
+						sections: [],
+					},
+				],
+			},
+		],
+	},
+];
 
 export const docs_full_out: Doc[] = [
 	{
@@ -109,4 +168,3 @@ export const docs_list_out: DocMeta[] = [
 		],
 	},
 ];
-
