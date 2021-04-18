@@ -344,7 +344,7 @@ interface Docs {
 }
 
 interface TransformedDocs {
-	content: unknown;
+	content: Record<string, unknown>;
 	project: string;
 	type: string;
 }

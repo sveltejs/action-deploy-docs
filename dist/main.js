@@ -1708,6 +1708,36 @@ async function get_docs(
 	);
 }
 
+function transform_cloudflare(
+	docs,
+	{ project, type, keyby, version = "latest" }
+) {
+	const keys = [
+		{
+			key: `${project}@${version}:${type}:content`,
+			value: JSON.stringify(docs.full),
+		},
+	];
+
+	for (let i = 0; i < docs.full.length; i++) {
+		// const { content, ...rest } = docs[i];
+
+		const item_key = docs.full[i][keyby];
+
+		keys.push({
+			key: `${project}@${version}:${type}:${item_key}`,
+			value: JSON.stringify(docs.full[i]),
+		});
+	}
+
+	keys.push({
+		key: `${project}@${version}:${type}:list`,
+		value: JSON.stringify(docs.list),
+	});
+
+	return keys;
+}
+
 var escapeStringRegexp$1 = string => {
 	if (typeof string !== 'string') {
 		throw new TypeError('Expected a string');
@@ -26102,6 +26132,17 @@ async function run() {
 	);
 
 	console.log(JSON.stringify(transformed_docs, null, 2));
+
+	const ready_for_cf = transformed_docs
+		.map((d) =>
+			d.map(({ content, project, type }) =>
+				//@ts-ignore
+				transform_cloudflare(content, { project, type, keyby: "slug" })
+			)
+		)
+		.flat();
+
+	console.log(JSON.stringify(ready_for_cf, null, 2));
 
 	// if (docs.length) {
 	// 	docs.forEach(([project, docs]) => {
