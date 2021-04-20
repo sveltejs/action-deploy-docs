@@ -1,37 +1,141 @@
 'use strict';
 
+var EventEmitter = require('events');
+var fs = require('fs');
+var util = require('util');
 var http = require('http');
 var crypto = require('crypto');
-var fs = require('fs');
 var path = require('path');
 var https = require('https');
 var url = require('url');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-function _interopNamespace(e) {
-	if (e && e.__esModule) return e;
-	var n = Object.create(null);
-	if (e) {
-		Object.keys(e).forEach(function (k) {
-			if (k !== 'default') {
-				var d = Object.getOwnPropertyDescriptor(e, k);
-				Object.defineProperty(n, k, d.get ? d : {
-					enumerable: true,
-					get: function () {
-						return e[k];
-					}
-				});
-			}
-		});
-	}
-	n['default'] = e;
-	return Object.freeze(n);
+const readdir = util.promisify(fs.readdir);
+const stat = util.promisify(fs.stat);
+class CheapWatch extends EventEmitter {
+    constructor(data) {
+        super();
+        this.watch = true;
+        this.debounce = 10;
+        this.paths = new Map();
+        this._watchers = new Map();
+        this._timeouts = new Map();
+        this._queue = [];
+        this._status = 0;
+        Object.assign(this, data);
+        if (typeof this.dir !== 'string') {
+            throw new TypeError('dir must be a string');
+        }
+        if (this.filter && typeof this.filter !== 'function') {
+            throw new TypeError('filter must be a function');
+        }
+        if (typeof this.watch !== 'boolean') {
+            throw new TypeError('watch must be a boolean');
+        }
+        if (typeof this.debounce !== 'number') {
+            throw new TypeError('debounce must be a number');
+        }
+    }
+    async init() {
+        if (this._status !== 0) {
+            throw new Error('cannot call init() twice');
+        }
+        this._status = 1;
+        await this._recurse(this.dir);
+        this._status = 2;
+    }
+    close() {
+        if (this._status === 0 || this._status === 1) {
+            throw new Error('cannot call close() before init() finishes');
+        }
+        if (this._status === 4) {
+            throw new Error('cannot call close() twice');
+        }
+        this._status = 4;
+        for (const watcher of this._watchers.values()) {
+            watcher.close();
+        }
+    }
+    async _recurse(full) {
+        const path = full.slice(this.dir.length + 1);
+        const stats = await stat(full);
+        if (path) {
+            if (this.filter && !(await this.filter({ path, stats }))) {
+                return;
+            }
+            this.paths.set(path, stats);
+        }
+        if (stats.isDirectory()) {
+            if (this.watch) {
+                this._watchers.set(path, fs.watch(full, this._handle.bind(this, full)).on('error', () => { }));
+            }
+            await Promise.all((await readdir(full)).map(sub => this._recurse(full + '/' + sub)));
+        }
+    }
+    _handle(dir, event, file) {
+        this._debounce(dir);
+        this._debounce(dir + '/' + file);
+    }
+    _debounce(path) {
+        if (this._timeouts.has(path)) {
+            clearTimeout(this._timeouts.get(path));
+        }
+        this._timeouts.set(path, setTimeout(() => {
+            this._timeouts.delete(path);
+            this._enqueue(path);
+        }, this.debounce));
+    }
+    async _enqueue(full) {
+        this._queue.push(full);
+        if (this._status !== 2) {
+            return;
+        }
+        this._status = 3;
+        while (this._queue.length) {
+            const full = this._queue.shift();
+            const path = full.slice(this.dir.length + 1);
+            const stats = await stat(full).catch(() => { });
+            if (stats) {
+                if (this.filter && !(await this.filter({ path, stats }))) {
+                    continue;
+                }
+                const isNew = !this.paths.has(path);
+                this.paths.set(path, stats);
+                if (path) {
+                    this.emit('+', { path, stats, isNew });
+                }
+                if (stats.isDirectory() && !this._watchers.has(path)) {
+                    await this._recurse(full);
+                    for (const [new_path, stats] of this.paths.entries()) {
+                        if (new_path.startsWith(path + '/')) {
+                            this.emit('+', { path: new_path, stats, isNew: true });
+                        }
+                    }
+                }
+            }
+            else if (this.paths.has(path)) {
+                const stats = this.paths.get(path);
+                this.paths.delete(path);
+                this.emit('-', { path, stats });
+                if (this._watchers.has(path)) {
+                    for (const old_path of this._watchers.keys()) {
+                        if (old_path === path || old_path.startsWith(path + '/')) {
+                            this._watchers.get(old_path).close();
+                            this._watchers.delete(old_path);
+                        }
+                    }
+                    for (const old_path of this.paths.keys()) {
+                        if (old_path.startsWith(path + '/')) {
+                            const stats = this.paths.get(old_path);
+                            this.paths.delete(old_path);
+                            this.emit('-', { path: old_path, stats });
+                        }
+                    }
+                }
+            }
+        }
+        this._status = 2;
+    }
 }
-
-var http__default = /*#__PURE__*/_interopDefaultLegacy(http);
-var path__namespace = /*#__PURE__*/_interopNamespace(path);
-var path__default = /*#__PURE__*/_interopDefaultLegacy(path);
 
 function parse$6 (str, loose) {
 	if (str instanceof RegExp) return { keys:false, pattern:str };
@@ -171,7 +275,7 @@ function parser (req, toDecode) {
 function onError(err, req, res) {
 	let code = (res.statusCode = err.code || err.status || 500);
 	if (typeof err === 'string' || Buffer.isBuffer(err)) res.end(err);
-	else res.end(err.message || http__default['default'].STATUS_CODES[code]);
+	else res.end(err.message || http.STATUS_CODES[code]);
 }
 
 const mount = fn => fn instanceof Polka ? fn.attach : fn;
@@ -221,7 +325,7 @@ class Polka extends Trouter {
 	}
 
 	listen() {
-		(this.server = this.server || http__default['default'].createServer()).on('request', this.attach);
+		(this.server = this.server || http.createServer()).on('request', this.attach);
 		this.server.listen.apply(this.server, arguments);
 		return this;
 	}
@@ -314,7 +418,7 @@ async function rc_read_file(file_path) {
 		file_or_dir.content = await Promise.all(
 			(await fs.promises.readdir(file_path))
 				.filter((name) => !name.endsWith("DS_Store") && name !== "node_modules")
-				.map((name) => rc_read_file(path__namespace.join(file_path, name)))
+				.map((name) => rc_read_file(path.join(file_path, name)))
 		);
 	}
 
@@ -2172,7 +2276,7 @@ function parseOrigin(origin) {
   return result
 }
 
-var minpath = path__default['default'];
+var minpath = path;
 
 var minproc = process;
 
@@ -24429,11 +24533,6 @@ async function format({
 		(title && make_slug$1(title, seen_slugs)) ||
 		false;
 
-	if (is_readme) {
-		console.log("BASE_DIR: ", dir);
-		console.log("FULL_DIR: ", `${dir}/${section_slug}`);
-	}
-
 	const vfile$1 = vfile({
 		contents: markdown,
 		data: {
@@ -24868,6 +24967,8 @@ send.bind(null, 'PATCH');
 send.bind(null, 'DELETE');
 send.bind(null, 'PUT');
 
+const cache = {};
+
 async function cli() {
 	const {
 		pkg = "packages",
@@ -24879,42 +24980,38 @@ async function cli() {
 		return acc;
 	}, {});
 
-	// new CheapWatch({ dir, filter, watch = true, debounce = 10 });
-
-	console.log(pkg, docs, project);
-
-	let _docs;
-
-	try {
-		_docs = await get_docs(project, pkg, docs);
-	} catch (e) {
-		console.log(e);
-		throw new Error("no docs");
-	}
-
-	const transformed_docs = await Promise.all(
-		_docs.map(([project, docs]) =>
-			// @ts-ignore
-			transform(docs, project)
-		)
+	let ready_for_cf;
+	await process_docs(
+		project,
+		pkg,
+		docs,
+		(data) => (ready_for_cf = data)
 	);
 
-	const ready_for_cf = transformed_docs
-		.map((d) =>
-			d.map(({ content, project, type }) =>
-				//@ts-ignore
-				transform_cloudflare(content, { project, type, keyby: "slug" })
-			)
-		)
-		.flat(2);
+	const pkg_watch = new CheapWatch({
+		dir: path.join(process.cwd(), pkg),
+		debounce: 40,
+	});
+	const doc_watch = new CheapWatch({
+		dir: path.join(process.cwd(), docs),
+		debounce: 40,
+	});
 
-	console.log(JSON.stringify(ready_for_cf, null, 2));
+	await pkg_watch.init();
+	await doc_watch.init();
+	let cons = 0;
+	pkg_watch.on("+", ({ path, stats, isNew }) => {
+		if (!/.*\.\w+/.test(path)) return;
 
-	const is_valid = ready_for_cf.every(
-		({ value, key }) => typeof value === "string" && typeof key === "string"
-	);
-
-	console.log(is_valid ? "\nEVERYTHING IS VALID\n" : "\nTHIS IS NOT VALID\n");
+		process_docs(project, pkg, docs, (data) => (ready_for_cf = data));
+	});
+	doc_watch.on("+", ({ path, stats, isNew }) => {
+		if (!/.*\.\w+/.test(path)) return;
+		console.log("docs", path);
+		console.time(`docs${cons}`);
+		process_docs(project, pkg, docs, (data) => (ready_for_cf = data));
+		console.timeEnd(`docs${cons++}`);
+	});
 
 	
 
@@ -24945,9 +25042,8 @@ async function cli() {
 			console.log(req.originalUrl);
 
 			if (!match)
-				match = await (
-					await get(`https://api.svelte.dev/${req.originalUrl}`)
-				).data;
+				match =
+					cache[req.originalUrl] || (await fetch_and_cache(req.originalUrl));
 
 			if (match)
 				send$1(res, 200, typeof match === "string" ? match : match.value);
@@ -24967,13 +25063,12 @@ async function cli() {
 					({ key }) => key === _key
 				);
 
+				//TODO: cache this lcoally
 				if (!match)
-					match = await (
-						await get(`https://api.svelte.dev/${req.originalUrl}`)
-					).data;
+					match =
+						cache[req.originalUrl] || (await fetch_and_cache(req.originalUrl));
 
-				if (match)
-					send$1(res, 200, typeof match === "string" ? match : match.value);
+				if (match) send$1(res, 200, match.value);
 				else
 					send$1(res, 404, {
 						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
@@ -24983,6 +25078,53 @@ async function cli() {
 		.listen(3456, () => {
 			console.log(`> Running on localhost:3456`);
 		});
+}
+
+async function fetch_and_cache(url) {
+	try {
+		const res = await (await get(`https://api.svelte.dev/${url}`)).data;
+
+		cache[url] = { key: url, value: res };
+		return { key: url, value: res };
+	} catch (e2) {
+		return false;
+	}
+}
+let count = 0;
+async function process_docs(
+	project,
+	pkg,
+	docs,
+	cb
+) {
+	let _docs;
+
+	try {
+		_docs = await get_docs(project, pkg, docs);
+	} catch (e) {
+		console.log(e);
+		throw new Error("no docs");
+	}
+
+	const transformed_docs = await Promise.all(
+		_docs.map(([project, docs]) =>
+			// @ts-ignore
+			transform(docs, project)
+		)
+	);
+
+	const ready_for_cf = transformed_docs
+		.map((d) =>
+			d.map(({ content, project, type }) =>
+				//@ts-ignore
+				transform_cloudflare(content, { project, type, keyby: "slug" })
+			)
+		)
+		.flat(2);
+
+	cb(ready_for_cf);
+	count += 1;
+	console.log(count);
 }
 
 module.exports = cli;

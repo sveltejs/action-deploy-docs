@@ -25770,11 +25770,6 @@ async function format({
 		(title && make_slug$1(title, seen_slugs)) ||
 		false;
 
-	if (is_readme) {
-		console.log("BASE_DIR: ", dir);
-		console.log("FULL_DIR: ", `${dir}/${section_slug}`);
-	}
-
 	const vfile$1 = vfile({
 		contents: markdown,
 		data: {

@@ -34,6 +34,7 @@ export default [
 				file: "dist/cli.js",
 				format: "cjs",
 				sourcemap: false,
+				interop: false,
 			},
 		],
 	},

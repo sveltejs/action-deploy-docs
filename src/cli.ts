@@ -1,13 +1,16 @@
-// import watch from "cheap-watch";
 import type { Request, Response } from "polka";
 import { CF_Key } from "./transform/cloudflare";
 
+import CheapWatch from "cheap-watch";
 import polka from "polka";
 import send from "@polka/send";
+import * as path from "path";
 
 import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 import { get } from "httpie";
+
+const cache: Record<string, CF_Key> = {};
 
 export default async function cli() {
 	const {
@@ -20,42 +23,38 @@ export default async function cli() {
 		return acc;
 	}, {});
 
-	// new CheapWatch({ dir, filter, watch = true, debounce = 10 });
-
-	console.log(pkg, docs, project);
-
-	let _docs: [string, DocFiles][] | false;
-
-	try {
-		_docs = await get_docs(project, pkg, docs);
-	} catch (e) {
-		console.log(e);
-		throw new Error("no docs");
-	}
-
-	const transformed_docs = await Promise.all(
-		_docs.map(([project, docs]) =>
-			// @ts-ignore
-			transform_docs(docs, project)
-		)
+	let ready_for_cf: CF_Key[];
+	await process_docs(
+		project,
+		pkg,
+		docs,
+		(data: CF_Key[]) => (ready_for_cf = data)
 	);
 
-	const ready_for_cf = transformed_docs
-		.map((d) =>
-			d.map(({ content, project, type }) =>
-				//@ts-ignore
-				transform_cloudflare(content, { project, type, keyby: "slug" })
-			)
-		)
-		.flat(2);
+	const pkg_watch = new CheapWatch({
+		dir: path.join(process.cwd(), pkg),
+		debounce: 40,
+	});
+	const doc_watch = new CheapWatch({
+		dir: path.join(process.cwd(), docs),
+		debounce: 40,
+	});
 
-	console.log(JSON.stringify(ready_for_cf, null, 2));
+	await pkg_watch.init();
+	await doc_watch.init();
+	let cons = 0;
+	pkg_watch.on("+", ({ path, stats, isNew }) => {
+		if (!/.*\.\w+/.test(path)) return;
 
-	const is_valid = ready_for_cf.every(
-		({ value, key }) => typeof value === "string" && typeof key === "string"
-	);
-
-	console.log(is_valid ? "\nEVERYTHING IS VALID\n" : "\nTHIS IS NOT VALID\n");
+		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
+	});
+	doc_watch.on("+", ({ path, stats, isNew }) => {
+		if (!/.*\.\w+/.test(path)) return;
+		console.log("docs", path);
+		console.time(`docs${cons}`);
+		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
+		console.timeEnd(`docs${cons++}`);
+	});
 
 	type RequestDocs = Request & {
 		params: { project: string; type: string };
@@ -82,13 +81,12 @@ export default async function cli() {
 
 			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
 
-			let match: CF_Key | string = ready_for_cf.find(({ key }) => key === _key);
+			let match: CF_Key | false = ready_for_cf.find(({ key }) => key === _key);
 			console.log(req.originalUrl);
 
 			if (!match)
-				match = await (
-					await get<string>(`https://api.svelte.dev/${req.originalUrl}`)
-				).data;
+				match =
+					cache[req.originalUrl] || (await fetch_and_cache(req.originalUrl));
 
 			if (match)
 				send(res, 200, typeof match === "string" ? match : match.value);
@@ -104,17 +102,16 @@ export default async function cli() {
 				const version = req.query.version || "latest";
 
 				const _key = `${project}@${version}:${type}:${slug}`;
-				let match: CF_Key | string = ready_for_cf.find(
+				let match: CF_Key | false = ready_for_cf.find(
 					({ key }) => key === _key
 				);
 
+				//TODO: cache this lcoally
 				if (!match)
-					match = await (
-						await get<string>(`https://api.svelte.dev/${req.originalUrl}`)
-					).data;
+					match =
+						cache[req.originalUrl] || (await fetch_and_cache(req.originalUrl));
 
-				if (match)
-					send(res, 200, typeof match === "string" ? match : match.value);
+				if (match) send(res, 200, match.value);
 				else
 					send(res, 404, {
 						message: `'${project}@${version}' '${type}' entry for '${slug}' not found.`,
@@ -124,4 +121,51 @@ export default async function cli() {
 		.listen(3456, () => {
 			console.log(`> Running on localhost:3456`);
 		});
+}
+
+async function fetch_and_cache(url: string): Promise<CF_Key | false> {
+	try {
+		const res = await (await get<string>(`https://api.svelte.dev/${url}`)).data;
+
+		cache[url] = { key: url, value: res };
+		return { key: url, value: res };
+	} catch {
+		return false;
+	}
+}
+let count = 0;
+async function process_docs(
+	project: string,
+	pkg: string,
+	docs: string,
+	cb: Function
+) {
+	let _docs: [string, DocFiles][] | false;
+
+	try {
+		_docs = await get_docs(project, pkg, docs);
+	} catch (e) {
+		console.log(e);
+		throw new Error("no docs");
+	}
+
+	const transformed_docs = await Promise.all(
+		_docs.map(([project, docs]) =>
+			// @ts-ignore
+			transform_docs(docs, project)
+		)
+	);
+
+	const ready_for_cf = transformed_docs
+		.map((d) =>
+			d.map(({ content, project, type }) =>
+				//@ts-ignore
+				transform_cloudflare(content, { project, type, keyby: "slug" })
+			)
+		)
+		.flat(2);
+
+	cb(ready_for_cf);
+	count += 1;
+	console.log(count);
 }
