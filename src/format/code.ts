@@ -16,6 +16,7 @@ enum LanguageMap {
 	js = "javascript",
 	css = "css",
 	diff = "diff",
+	ts = "typescript",
 	"" = "",
 }
 
