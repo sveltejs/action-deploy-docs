@@ -57,6 +57,14 @@ _highlight("highlights javascript", () => {
 	);
 });
 
+_highlight("highlights typescript", () => {
+	const highlighted = highlight(`console.log('boo')`, "ts");
+	assert.snapshot(
+		highlighted,
+		`<div class="code-block"><pre class='language-typescript'><code><span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'boo'</span><span class="token punctuation">)</span></code></pre></div>`
+	);
+});
+
 _highlight("highlights css", () => {
 	const highlighted = highlight(`.thing { color: pink; }`, "css");
 	assert.snapshot(

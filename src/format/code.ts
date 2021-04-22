@@ -5,12 +5,15 @@ import visit from "unist-util-visit";
 import PrismJS from "prismjs";
 import "prismjs/components/prism-bash.js";
 import "prismjs/components/prism-diff.js";
+import "prismjs/components/prism-typescript.js";
+
 import "prism-svelte";
 
 export type language = keyof typeof LanguageMap;
 
 enum LanguageMap {
 	bash = "bash",
+	env = "bash",
 	html = "markup",
 	sv = "svelte",
 	js = "javascript",
