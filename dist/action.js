@@ -1661,7 +1661,12 @@ async function rc_read_file(file_path) {
 		file_or_dir.is_dir = true;
 		file_or_dir.content = await Promise.all(
 			(await fs$1.promises.readdir(file_path))
-				.filter((name) => !name.endsWith("DS_Store") && name !== "node_modules")
+				.filter(
+					(name) =>
+						!name.endsWith("DS_Store") &&
+						name !== "node_modules" &&
+						!name.startsWith("xx")
+				)
 				.map((name) => rc_read_file(path__namespace.join(file_path, name)))
 		);
 	}
@@ -21724,6 +21729,7 @@ var LanguageMap; (function (LanguageMap) {
 	const js = "javascript"; LanguageMap["js"] = js;
 	const css = "css"; LanguageMap["css"] = css;
 	const diff = "diff"; LanguageMap["diff"] = diff;
+	const ts = "typescript"; LanguageMap["ts"] = ts;
 	LanguageMap[""] = "";
 })(LanguageMap || (LanguageMap = {}));
 
