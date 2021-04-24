@@ -69,6 +69,7 @@ _docs("transforms tutorials", async () => {
 
 _docs("transforms blog", async () => {
 	const output = await transform_blog(blog_in, "svelte", "blog");
+	assert.equal(output.full[0].content, blog_out_full[0].content);
 	assert.equal(output, { list: blog_out_list, full: blog_out_full });
 });
 

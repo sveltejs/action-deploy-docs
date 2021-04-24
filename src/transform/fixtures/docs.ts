@@ -60,7 +60,7 @@ export const docs_readme_full_out: Doc[] = [
 			},
 		],
 		content:
-			'<p>asdasdas</p>\n<h3><span id="hello" class="offset-anchor"></span><a href="docs/adapter-vercel#hello" class="anchor" aria-hidden></a>hello</h3>\n<p>asdasd</p>\n<h4><span id="hello-third-heading" class="offset-anchor"></span><a href="docs/adapter-vercel#hello-third-heading" class="anchor" aria-hidden></a>Third heading</h4>\n<p>asdasdasd</p>',
+			'<p>asdasdas</p>\n<h3><span id="hello" class="offset-anchor"></span><a href="docs/adapter-vercel#hello" class="anchor" aria-hidden rel="noopener noreferrer"></a>hello</h3>\n<p>asdasd</p>\n<h4><span id="hello-third-heading" class="offset-anchor"></span><a href="docs/adapter-vercel#hello-third-heading" class="anchor" aria-hidden rel="noopener noreferrer"></a>Third heading</h4>\n<p>asdasdasd</p>',
 	},
 ];
 
@@ -98,7 +98,7 @@ export const docs_full_out: Doc[] = [
 			},
 		],
 		content:
-			'<h3><span id="part-1-docs1-content" class="offset-anchor"></span><a href="docs#part-1-docs1-content" class="anchor" aria-hidden></a>docs1 content</h3>',
+			'<h3><span id="part-1-docs1-content" class="offset-anchor"></span><a href="docs#part-1-docs1-content" class="anchor" aria-hidden rel="noopener noreferrer"></a>docs1 content</h3>',
 	},
 	{
 		title: "part 2",
@@ -112,7 +112,7 @@ export const docs_full_out: Doc[] = [
 			},
 		],
 		content:
-			'<h3><span id="part-2-docs2-content" class="offset-anchor"></span><a href="docs#part-2-docs2-content" class="anchor" aria-hidden></a>docs2 content</h3>',
+			'<h3><span id="part-2-docs2-content" class="offset-anchor"></span><a href="docs#part-2-docs2-content" class="anchor" aria-hidden rel="noopener noreferrer"></a>docs2 content</h3>',
 	},
 	{
 		title: "part 3",
@@ -126,7 +126,7 @@ export const docs_full_out: Doc[] = [
 			},
 		],
 		content:
-			'<h3><span id="part-3-docs3-content" class="offset-anchor"></span><a href="docs#part-3-docs3-content" class="anchor" aria-hidden></a>docs3 content</h3>',
+			'<h3><span id="part-3-docs3-content" class="offset-anchor"></span><a href="docs#part-3-docs3-content" class="anchor" aria-hidden rel="noopener noreferrer"></a>docs3 content</h3>',
 	},
 ];
 

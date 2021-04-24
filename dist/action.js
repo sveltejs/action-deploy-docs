@@ -19561,20 +19561,15 @@ function increment_headings() {
  */
 function set_link_attributes() {
 	return function transformer(tree) {
-		unistUtilVisit(tree, "link", (node) => {
-			let target_attr = "";
-			let title_attr = "";
+		unistUtilVisit(tree, "element", (node) => {
+			// console.log(node);
+			if (node.tagName === "a") {
+				if (node.properties.href && node.properties.href.startsWith("http")) {
+					node.properties.target = "_blank";
+				}
 
-			if (node.url.startsWith("http")) {
-				target_attr = ' target="_blank"';
+				node.properties.rel = "noopener noreferrer";
 			}
-
-			if (node.title !== null) {
-				title_attr = ` title="${node.title}"`;
-			}
-
-			((node ) ).type = "html";
-			((node ) ).value = `<a href="${node.url}"${target_attr}${title_attr} rel="noopener noreferrer">${node.children[0].value}</a>`;
 		});
 	};
 }
@@ -25772,7 +25767,6 @@ const { process: process$1 } = unified_1()
 	.use(increment_headings)
 	.use(validate_headings)
 	.use(linkify_headings)
-	.use(set_link_attributes)
 	.use(highight_code_block)
 	// MDAST -> HAST
 	.use(remarkRehype, {
@@ -25790,6 +25784,7 @@ const { process: process$1 } = unified_1()
 		},
 	})
 	// HAST transforms
+	.use(set_link_attributes)
 	.use(split_view)
 	// HAST -> string
 	.use(rehypeStringify, { allowDangerousCharacters: true, allowDangerousHtml: true });

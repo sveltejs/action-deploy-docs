@@ -56,7 +56,6 @@ const { process } = unified()
 	.use(increment_headings)
 	.use(validate_headings)
 	.use(linkify_headings)
-	.use(set_link_attributes)
 	.use(highight_code_block)
 	// MDAST -> HAST
 	.use(rehype, {
@@ -74,6 +73,7 @@ const { process } = unified()
 		},
 	})
 	// HAST transforms
+	.use(set_link_attributes)
 	.use(split_view)
 	// HAST -> string
 	.use(stringify, { allowDangerousCharacters: true, allowDangerousHtml: true });
