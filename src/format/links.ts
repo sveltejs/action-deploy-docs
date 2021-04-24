@@ -18,7 +18,6 @@ interface Element extends Node {
 export function set_link_attributes(): Transformer {
 	return function transformer(tree) {
 		visit<Element>(tree, "element", (node) => {
-			// console.log(node);
 			if (node.tagName === "a") {
 				if (node.properties.href && node.properties.href.startsWith("http")) {
 					node.properties.target = "_blank";
