@@ -48,7 +48,7 @@ export default [
 		input: "dispatch/main.ts",
 		output: [
 			{
-				file: "dispatch/dist/main.js",
+				file: "dispatch/dist/action.js",
 				format: "cjs",
 				sourcemap: false,
 				interop: false,
