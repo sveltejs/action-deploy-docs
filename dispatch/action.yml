@@ -1,0 +1,26 @@
+name: "Generate Docs"
+
+description: "Generate docs from markdown"
+
+inputs:
+  repo:
+    description: "the target repo of the docs"
+    required: true
+  branch:
+    description: "the target branch of the docs"
+    required: true
+  docs_path:
+    description: "the path to your root documentation (without a leading slash)"
+    required: false
+    default: "documentation"
+  pkg_path:
+    description: "the path to your packages in a monorepo (without a leading slash)"
+    required: false
+    default: "packages"
+  token:
+    description: "github PAT with permissions to trigger this workflow"
+    required: true
+
+runs:
+  using: "node12"
+  main: "dist/action.js"

@@ -57,6 +57,7 @@
 		"vfile-message": "^2.0.4"
 	},
 	"dependencies": {
+		"@actions/github": "^4.0.0",
 		"@polka/send": "^1.0.0-next.12",
 		"httpie": "^1.1.2"
 	}

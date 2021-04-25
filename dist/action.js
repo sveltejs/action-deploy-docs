@@ -19562,7 +19562,6 @@ function increment_headings() {
 function set_link_attributes() {
 	return function transformer(tree) {
 		unistUtilVisit(tree, "element", (node) => {
-			// console.log(node);
 			if (node.tagName === "a") {
 				if (node.properties.href && node.properties.href.startsWith("http")) {
 					node.properties.target = "_blank";

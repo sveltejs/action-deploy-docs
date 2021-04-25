@@ -38,21 +38,4 @@ export default [
 			},
 		],
 	},
-	{
-		plugins: [
-			cjs(),
-			resolve(),
-			json(),
-			sucrase({ transforms: ["typescript"] }),
-		],
-		input: "dispatch/main.ts",
-		output: [
-			{
-				file: "dispatch/dist/main.js",
-				format: "cjs",
-				sourcemap: false,
-				interop: false,
-			},
-		],
-	},
 ];
