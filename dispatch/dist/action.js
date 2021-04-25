@@ -6013,6 +6013,8 @@ async function run() {
 		const docs_path = core.getInput("docs_path");
 		const pkg_path = core.getInput("pkg_path");
 
+		console.log(token.length);
+
 		const octokit = github.getOctokit(token);
 
 		const dispatchResp = await octokit.rest.actions.createWorkflowDispatch({
@@ -6029,7 +6031,7 @@ async function run() {
 		});
 		core.info(`API response status: ${dispatchResp.status} 🚀`);
 	} catch (error) {
-		core.setFailed(error.message);
+		throw error;
 	}
 }
 
