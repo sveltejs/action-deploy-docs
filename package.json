@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "github action for the svelte org to deploy documentation to the svelte api",
 	"main": "dist/cli.js",
-	"bin": "dist/cli.js",
+	"bin": "cli.js",
 	"scripts": {
 		"test": "uvu -r ts-node/register src test.ts$",
 		"build": "rollup -c",
