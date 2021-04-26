@@ -16,6 +16,10 @@ var zlib = require('zlib');
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
 function getAugmentedNamespace(n) {
 	if (n.__esModule) return n;
 	var a = Object.defineProperty({}, '__esModule', {value: true});
@@ -415,6 +419,8 @@ function getState(name) {
 exports.getState = getState;
 //# sourceMappingURL=core.js.map
 });
+
+var core$1 = /*@__PURE__*/getDefaultExportFromCjs(core);
 
 var context = createCommonjsModule(function (module, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -6005,47 +6011,35 @@ exports.getOctokit = getOctokit;
 //# sourceMappingURL=github.js.map
 });
 
+var github$1 = /*@__PURE__*/getDefaultExportFromCjs(github);
+
 async function run() {
 	try {
-		const token = core.getInput("token");
-		const repo = core.getInput("repo");
-		const branch = core.getInput("branch");
-		const docs_path = core.getInput("docs_path");
-		const pkg_path = core.getInput("pkg_path");
+		const token = core$1.getInput("token");
+		const repo = core$1.getInput("repo");
+		const branch = core$1.getInput("branch");
+		const docs_path = core$1.getInput("docs_path");
+		const pkg_path = core$1.getInput("pkg_path");
 
 		console.log(token.length);
 
-		const octokit = github.getOctokit(token);
-		const dispatchResp = await octokit.request(
-			"POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
-			{
-				owner: "sveltejs",
-				repo: "sites",
-				workflow_id: "docs-deploy-trigger.yml",
-				ref: "master",
-				inputs: {
-					repo,
-					branch,
-					docs_path,
-					pkg_path,
-				},
-			}
-		);
-		// const dispatchResp = await octokit.rest.actions.createWorkflowDispatch({
-		// 	owner: "sveltejs",
-		// 	repo: "sites",
-		// 	workflow_id: "docs-deploy-trigger.yml",
-		// 	ref: "master",
-		// 	inputs: {
-		// 		repo,
-		// 		branch,
-		// 		docs_path,
-		// 		pkg_path,
-		// 	},
-		// });
-		core.info(`API response status: ${dispatchResp.status} 🚀`);
+		const octokit = github$1.getOctokit(token);
+
+		const dispatchResp = await octokit.rest.actions.createWorkflowDispatch({
+			owner: "sveltejs",
+			repo: "sites",
+			workflow_id: "docs-deploy-trigger.yml",
+			ref: "master",
+			inputs: {
+				repo,
+				branch,
+				docs_path,
+				pkg_path,
+			},
+		});
+		core$1.info(`API response status: ${dispatchResp.status} 🚀`);
 	} catch (error) {
-		core.setFailed(error.message);
+		core$1.setFailed(error.message);
 	}
 }
 
