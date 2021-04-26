@@ -6016,22 +6016,36 @@ async function run() {
 		console.log(token.length);
 
 		const octokit = github.getOctokit(token);
-
-		const dispatchResp = await octokit.rest.actions.createWorkflowDispatch({
-			owner: "sveltejs",
-			repo: "sites",
-			workflow_id: "docs-deploy-trigger.yml",
-			ref: "master",
-			inputs: {
-				repo,
-				branch,
-				docs_path,
-				pkg_path,
-			},
-		});
+		const dispatchResp = await octokit.request(
+			"POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+			{
+				owner: "sveltejs",
+				repo: "sites",
+				workflow_id: "docs-deploy-trigger.yml",
+				ref: "master",
+				inputs: {
+					repo,
+					branch,
+					docs_path,
+					pkg_path,
+				},
+			}
+		);
+		// const dispatchResp = await octokit.rest.actions.createWorkflowDispatch({
+		// 	owner: "sveltejs",
+		// 	repo: "sites",
+		// 	workflow_id: "docs-deploy-trigger.yml",
+		// 	ref: "master",
+		// 	inputs: {
+		// 		repo,
+		// 		branch,
+		// 		docs_path,
+		// 		pkg_path,
+		// 	},
+		// });
 		core.info(`API response status: ${dispatchResp.status} 🚀`);
 	} catch (error) {
-		throw error;
+		core.setFailed(error.message);
 	}
 }
 
