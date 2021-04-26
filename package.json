@@ -2,7 +2,8 @@
 	"name": "action-deploy-docs",
 	"version": "1.0.0",
 	"description": "github action for the svelte org to deploy documentation to the svelte api",
-	"main": "dist/main.js",
+	"main": "dist/cli.js",
+	"bin": "dist/cli.js",
 	"scripts": {
 		"test": "uvu -r ts-node/register src test.ts$",
 		"build": "rollup -c",
