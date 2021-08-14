@@ -37,6 +37,7 @@ export default async function cli() {
 		dir: path.join(process.cwd()),
 		debounce: 40,
 		filter: ({ path }: { path: string }) => {
+			console.log(path);
 			return path.startsWith(pkg) || path.startsWith(docs);
 		},
 	});
@@ -46,6 +47,7 @@ export default async function cli() {
 	// });
 
 	await pkg_watch.init();
+	console.log("watcher initialised");
 	// await doc_watch.init();
 	// let cons = 0;
 	pkg_watch.on("+", ({ path, stats, isNew }) => {
