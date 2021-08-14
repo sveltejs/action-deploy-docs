@@ -69,7 +69,7 @@ export default async function cli() {
 	polka()
 		.get("/docs/:project/:type", async (req: RequestDocs, res: Response) => {
 			setCors(res);
-			console.log(`> GET: ${req.originalUrl}.`);
+			console.log(`> GET: ${req.originalUrl}`);
 			const { project, type } = req.params;
 			const version = req.query.version || "latest";
 			const full = typeof req.query.content === "string";
@@ -93,7 +93,7 @@ export default async function cli() {
 			"/docs/:project/:type/:slug",
 			async (req: RequestDocEntry, res: Response) => {
 				setCors(res);
-				console.log(`> GET: ${req.originalUrl}.`);
+				console.log(`> GET: ${req.originalUrl}`);
 				const { project, type, slug } = req.params;
 				const version = req.query.version || "latest";
 
