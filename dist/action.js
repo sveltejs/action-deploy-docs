@@ -26259,6 +26259,8 @@ async function run() {
 		throw new Error("no docs");
 	}
 
+	console.log(docs);
+
 	const transformed_docs = await Promise.all(
 		docs.map(([project, docs]) =>
 			// @ts-ignore
@@ -26275,7 +26277,7 @@ async function run() {
 		)
 		.flat(2);
 
-	console.log(JSON.stringify(ready_for_cf, null, 2));
+	// console.log(JSON.stringify(ready_for_cf, null, 2));
 
 	const is_valid = ready_for_cf.every(
 		({ value, key }) => typeof value === "string" && typeof key === "string"
