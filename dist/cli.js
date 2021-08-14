@@ -25038,7 +25038,9 @@ async function cli() {
 		dir: path.join(process.cwd()),
 		debounce: 40,
 		filter: ({ path }) => {
+			if (/.*\/node_modules\/.*/.test(path)) return false;
 			console.log(path);
+
 			return path.startsWith(pkg) || path.startsWith(docs);
 		},
 	});
