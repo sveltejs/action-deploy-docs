@@ -26236,8 +26236,6 @@ async function run() {
 	const docs_path = core$4.getInput("docs_path");
 	const pkg_path = core$4.getInput("pkg_path");
 
-	console.log("TOKEN: ", CF_TOKEN, CF_TOKEN.length);
-
 	if (target_branch !== "main" && target_branch !== "master") {
 		core$4.setFailed("Branch deploys are not yet supported.");
 	}
@@ -26261,16 +26259,12 @@ async function run() {
 		throw new Error("no docs");
 	}
 
-	console.log(docs);
-
 	const transformed_docs = await Promise.all(
 		docs.map(([project, docs]) =>
 			// @ts-ignore
 			transform(docs, project)
 		)
 	);
-
-	console.log(JSON.stringify(transformed_docs, null, 2));
 
 	const ready_for_cf = transformed_docs
 		.map((d) =>
@@ -26280,8 +26274,6 @@ async function run() {
 			)
 		)
 		.flat(2);
-
-	// console.log(JSON.stringify(ready_for_cf, null, 2));
 
 	const is_valid = ready_for_cf.every(
 		({ value, key }) => typeof value === "string" && typeof key === "string"
@@ -26300,6 +26292,7 @@ async function run() {
 	} catch (e) {
 		console.error(JSON.stringify(e.data));
 		console.log("it didn't work", e.message, e.code, e.stack);
+		core$4.setFailed("Something went wrong: " + e.message);
 		// throw e;
 	}
 }
