@@ -13,7 +13,7 @@ import { get } from "httpie";
 const cache: Record<string, CF_Key> = {};
 
 export default async function cli() {
-	console.log(`Starting docs preview server.\n`);
+	console.log(`> Starting docs preview server.\n`);
 
 	const {
 		pkg = "packages",
@@ -38,35 +38,17 @@ export default async function cli() {
 		debounce: 40,
 		filter: ({ path }: { path: string }) => {
 			if (/.*\/node_modules\/.*/.test(path)) return false;
-			console.log(path);
-
 			return path.startsWith(pkg) || path.startsWith(docs);
 		},
 	});
-	// const doc_watch = new CheapWatch({
-	// 	dir: path.join(process.cwd(), docs),
-	// 	debounce: 40,
-	// });
 
 	await pkg_watch.init();
-	console.log("watcher initialised");
-	// await doc_watch.init();
-	// let cons = 0;
+
 	pkg_watch.on("+", ({ path, stats, isNew }) => {
-		console.log("change detected", path);
 		if (!/.*\.\w+/.test(path)) return;
-		console.log("passed regex");
 
 		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
 	});
-
-	// doc_watch.on("+", ({ path, stats, isNew }) => {
-	// 	if (!/.*\.\w+/.test(path)) return;
-	// 	console.log("docs", path);
-	// 	console.time(`docs${cons}`);
-	// 	process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
-	// 	console.timeEnd(`docs${cons++}`);
-	// });
 
 	type RequestDocs = Request & {
 		params: { project: string; type: string };
@@ -93,7 +75,6 @@ export default async function cli() {
 			const _key = `${project}@${version}:${type}:${full ? "content" : "list"}`;
 
 			let match: CF_Key | false = ready_for_cf.find(({ key }) => key === _key);
-			console.log(req.originalUrl);
 
 			if (!match)
 				match =
