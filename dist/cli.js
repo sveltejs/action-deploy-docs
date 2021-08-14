@@ -25049,6 +25049,7 @@ async function cli() {
 
 		process_docs(project, pkg, docs, (data) => (ready_for_cf = data));
 	});
+
 	doc_watch.on("+", ({ path, stats, isNew }) => {
 		if (!/.*\.\w+/.test(path)) return;
 		console.log("docs", path);
@@ -25076,6 +25077,7 @@ async function cli() {
 
 	polka()
 		.get("/docs/:project/:type", async (req, res) => {
+			setCors(res);
 			const { project, type } = req.params;
 			const version = req.query.version || "latest";
 			const full = typeof req.query.content === "string";
@@ -25099,6 +25101,7 @@ async function cli() {
 		.get(
 			"/docs/:project/:type/:slug",
 			async (req, res) => {
+				setCors(res);
 				const { project, type, slug } = req.params;
 				const version = req.query.version || "latest";
 
@@ -25134,7 +25137,15 @@ async function fetch_and_cache(url) {
 		return false;
 	}
 }
-let count = 0;
+
+function setCors(res) {
+	res.setHeader("Access-Control-Allow-Origin", "*");
+	res.setHeader(
+		"Access-Control-Allow-Headers",
+		"Origin, Content-Type, Accept, Range"
+	);
+}
+
 async function process_docs(
 	project,
 	pkg,
@@ -25167,8 +25178,6 @@ async function process_docs(
 		.flat(2);
 
 	cb(ready_for_cf);
-	count += 1;
-	console.log(count);
 }
 
 module.exports = cli;
