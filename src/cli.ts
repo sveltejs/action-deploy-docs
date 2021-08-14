@@ -10,11 +10,11 @@ import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 import { get } from "httpie";
 
-console.log(`Starting docs preview server.\n`);
-
 const cache: Record<string, CF_Key> = {};
 
 export default async function cli() {
+	console.log(`Starting docs preview server.\n`);
+
 	const {
 		pkg = "packages",
 		docs = "documentation",
