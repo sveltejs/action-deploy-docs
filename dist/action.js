@@ -26268,7 +26268,7 @@ async function run() {
 		)
 	);
 
-	console.log(transformed_docs);
+	console.log(JSON.stringify(transformed_docs));
 
 	const ready_for_cf = transformed_docs
 		.map((d) =>
