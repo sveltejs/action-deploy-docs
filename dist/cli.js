@@ -25011,11 +25011,11 @@ send.bind(null, 'PATCH');
 send.bind(null, 'DELETE');
 send.bind(null, 'PUT');
 
-console.log(`Starting docs preview server.\n`);
-
 const cache = {};
 
 async function cli() {
+	console.log(`Starting docs preview server.\n`);
+
 	const {
 		pkg = "packages",
 		docs = "documentation",
@@ -25038,6 +25038,7 @@ async function cli() {
 		dir: path.join(process.cwd()),
 		debounce: 40,
 		filter: ({ path }) => {
+			console.log(path);
 			return path.startsWith(pkg) || path.startsWith(docs);
 		},
 	});
@@ -25047,6 +25048,7 @@ async function cli() {
 	// });
 
 	await pkg_watch.init();
+	console.log("watcher initialised");
 	// await doc_watch.init();
 	// let cons = 0;
 	pkg_watch.on("+", ({ path, stats, isNew }) => {
