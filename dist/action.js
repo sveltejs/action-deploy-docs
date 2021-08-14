@@ -26292,7 +26292,7 @@ async function run() {
 		});
 		console.log("put: ", x);
 	} catch (e) {
-		console.error(e);
+		console.error(JSON.stringify(e.data));
 		console.log("it didn't work", e.message, e.code, e.stack);
 		// throw e;
 	}
