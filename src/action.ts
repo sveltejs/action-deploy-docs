@@ -93,6 +93,8 @@ async function run() {
 		)
 	);
 
+	console.log(transformed_docs);
+
 	const ready_for_cf = transformed_docs
 		.map((d) =>
 			d.map(({ content, project, type }) =>
