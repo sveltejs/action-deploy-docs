@@ -208,7 +208,8 @@ export async function transform_examples(
 async function process_tutorial(
 	content: SimpleFile[],
 	seen_slugs: Map<string, number>,
-	project: string
+	project: string,
+	cat_title: string
 ): Promise<[Tutorial[], TutorialMeta[]]> {
 	let full: Tutorial[] = [];
 	let list = await Promise.all(
@@ -238,7 +239,7 @@ async function process_tutorial(
 
 			const _example = {
 				name: vfile.data.section_title,
-				slug: vfile.data.section_slug,
+				slug: `${cat_title}-${vfile.data.section_slug}`,
 			};
 
 			full.push({
@@ -269,7 +270,8 @@ export async function transform_tutorial(
 			const [example_full, example_list] = await process_tutorial(
 				files,
 				seen_slugs,
-				project
+				project,
+				meta.title
 			);
 
 			example_full.forEach((v) => full.push(v));
