@@ -239,7 +239,7 @@ async function process_tutorial(
 
 			const _example = {
 				name: vfile.data.section_title,
-				slug: `${cat_title}-${vfile.data.section_slug}`,
+				slug: `${make_slug(cat_title, seen_slugs)}-${vfile.data.section_slug}`,
 			};
 
 			full.push({
