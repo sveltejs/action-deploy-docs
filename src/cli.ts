@@ -48,6 +48,7 @@ export default async function cli() {
 		if (!/.*\.\w+/.test(path)) return;
 
 		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
+		console.log(`> Change detected: ${path}. Docs rebuilt.`);
 	});
 
 	type RequestDocs = Request & {
