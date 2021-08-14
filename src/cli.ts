@@ -10,6 +10,8 @@ import { get_docs, DocFiles } from "./fs";
 import { transform_cloudflare, transform_docs } from "./transform";
 import { get } from "httpie";
 
+console.log(`Starting docs preview server.\n`);
+
 const cache: Record<string, CF_Key> = {};
 
 export default async function cli() {
@@ -32,30 +34,35 @@ export default async function cli() {
 	);
 
 	const pkg_watch = new CheapWatch({
-		dir: path.join(process.cwd(), pkg),
+		dir: path.join(process.cwd()),
 		debounce: 40,
+		filter: ({ path }: { path: string }) => {
+			return path.startsWith(pkg) || path.startsWith(docs);
+		},
 	});
-	const doc_watch = new CheapWatch({
-		dir: path.join(process.cwd(), docs),
-		debounce: 40,
-	});
+	// const doc_watch = new CheapWatch({
+	// 	dir: path.join(process.cwd(), docs),
+	// 	debounce: 40,
+	// });
 
 	await pkg_watch.init();
-	await doc_watch.init();
-	let cons = 0;
+	// await doc_watch.init();
+	// let cons = 0;
 	pkg_watch.on("+", ({ path, stats, isNew }) => {
+		console.log("change detected", path);
 		if (!/.*\.\w+/.test(path)) return;
+		console.log("passed regex");
 
 		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
 	});
 
-	doc_watch.on("+", ({ path, stats, isNew }) => {
-		if (!/.*\.\w+/.test(path)) return;
-		console.log("docs", path);
-		console.time(`docs${cons}`);
-		process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
-		console.timeEnd(`docs${cons++}`);
-	});
+	// doc_watch.on("+", ({ path, stats, isNew }) => {
+	// 	if (!/.*\.\w+/.test(path)) return;
+	// 	console.log("docs", path);
+	// 	console.time(`docs${cons}`);
+	// 	process_docs(project, pkg, docs, (data: CF_Key[]) => (ready_for_cf = data));
+	// 	console.timeEnd(`docs${cons++}`);
+	// });
 
 	type RequestDocs = Request & {
 		params: { project: string; type: string };
@@ -71,8 +78,6 @@ export default async function cli() {
 			version?: string;
 		};
 	};
-
-	console.log(ready_for_cf);
 
 	polka()
 		.get("/docs/:project/:type", async (req: RequestDocs, res: Response) => {
@@ -156,7 +161,7 @@ async function process_docs(
 	try {
 		_docs = await get_docs(project, pkg, docs);
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		throw new Error("no docs");
 	}
 
