@@ -25070,6 +25070,7 @@ async function cli() {
 	polka()
 		.get("/docs/:project/:type", async (req, res) => {
 			setCors(res);
+			console.log(`> GET: ${req.originalUrl}.`);
 			const { project, type } = req.params;
 			const version = req.query.version || "latest";
 			const full = typeof req.query.content === "string";
@@ -25093,6 +25094,7 @@ async function cli() {
 			"/docs/:project/:type/:slug",
 			async (req, res) => {
 				setCors(res);
+				console.log(`> GET: ${req.originalUrl}.`);
 				const { project, type, slug } = req.params;
 				const version = req.query.version || "latest";
 
