@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { rc_read_file } from "../get_content";
+import { rc_read_file, transform_files } from "../get_content";
 
 const base_path = path.join(process.cwd(), "src", "fs", "fixtures");
 const repo_names = ["repo-1", "repo-2", "repo-3", "repo-4"];
@@ -17,6 +17,18 @@ async function run() {
 				`export default ${JSON.stringify(files)}`
 			)
 		)
+	);
+
+	const output = transform_files(
+		repos[3],
+		"packages",
+		"sites/content",
+		"svelte"
+	);
+
+	await fs.writeFile(
+		path.join(base_path, `full_docs.ts`),
+		`export default ${JSON.stringify(output)}`
 	);
 }
 

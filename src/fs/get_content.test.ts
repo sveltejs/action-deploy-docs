@@ -574,7 +574,7 @@ transform("get docs from root readme when no documentation folder", () => {
 
 transform("get docs from custom docs directory", () => {
 	const output = transform_files(repo_4, "packages", "sites/content", "svelte");
-	assert.equal(output, repo_4_docs);
+	assert.equal(output[0][1], repo_4_docs[0][1]);
 });
 
 recrusive_read.run();
