@@ -212,6 +212,41 @@ _headings(
 	}
 );
 
+_headings(
+	"transforms and formats multi-level headings: level 2 headings",
+	async () => {
+		const sections: unknown[] = [];
+		const src = vFile({
+			contents: `### script
+
+#### one
+
+#### two
+`,
+			data: {
+				dir: "docs",
+				docs_type: "docs",
+				sections,
+				section_stack: [sections],
+				section_title: "component format",
+				base_level: 3,
+				prev_level: 3,
+				slugs: [],
+				seen_slugs: new Map(),
+			},
+		});
+
+		const output = await linkify_only(src);
+
+		assert.equal(
+			output.contents,
+			`<h3><span id="component-format-script" class="offset-anchor"></span><a href="docs#component-format-script" class="anchor" aria-hidden></a>script</h3>
+<h4><span id="component-format-script-one" class="offset-anchor"></span><a href="docs#component-format-script-one" class="anchor" aria-hidden></a>one</h4>
+<h4><span id="component-format-script-two" class="offset-anchor"></span><a href="docs#component-format-script-two" class="anchor" aria-hidden></a>two</h4>`
+		);
+	}
+);
+
 strip("strips leading level 1 headings", async () => {
 	const src = `
 	

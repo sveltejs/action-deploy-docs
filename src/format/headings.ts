@@ -97,6 +97,7 @@ export function linkify_headings(): Transformer {
 			}
 
 			data.slugs.push(slug);
+			console.log(data.slugs);
 
 			// We keep a 'section_stack' to keep track of the section structure
 			if (node.depth > data.prev_level) {

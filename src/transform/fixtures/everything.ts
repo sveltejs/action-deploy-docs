@@ -96,31 +96,31 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Basics",
-							slug: "basics",
+							slug: "introduction-basics",
 						},
 						{
 							name: "Adding data",
-							slug: "adding-data",
+							slug: "introduction-adding-data",
 						},
 						{
 							name: "Dynamic attributes",
-							slug: "dynamic-attributes",
+							slug: "introduction-dynamic-attributes",
 						},
 						{
 							name: "Styling",
-							slug: "styling",
+							slug: "introduction-styling",
 						},
 						{
 							name: "Nested components",
-							slug: "nested-components",
+							slug: "introduction-nested-components",
 						},
 						{
 							name: "HTML tags",
-							slug: "html-tags",
+							slug: "introduction-html-tags",
 						},
 						{
 							name: "Making an app",
-							slug: "making-an-app",
+							slug: "introduction-making-an-app",
 						},
 					],
 				},
@@ -129,19 +129,19 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Assignments",
-							slug: "assignments",
+							slug: "reactivity-assignments",
 						},
 						{
 							name: "Declarations",
-							slug: "declarations",
+							slug: "reactivity-declarations",
 						},
 						{
 							name: "Statements",
-							slug: "statements",
+							slug: "reactivity-statements",
 						},
 						{
 							name: "Updating arrays and objects",
-							slug: "updating-arrays-and-objects",
+							slug: "reactivity-updating-arrays-and-objects",
 						},
 					],
 				},
@@ -150,15 +150,15 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Declaring props",
-							slug: "declaring-props",
+							slug: "props-declaring-props",
 						},
 						{
 							name: "Default values",
-							slug: "default-values",
+							slug: "props-default-values",
 						},
 						{
 							name: "Spread props",
-							slug: "spread-props",
+							slug: "props-spread-props",
 						},
 					],
 				},
@@ -167,27 +167,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "If blocks",
-							slug: "if-blocks",
+							slug: "logic-if-blocks",
 						},
 						{
 							name: "Else blocks",
-							slug: "else-blocks",
+							slug: "logic-else-blocks",
 						},
 						{
 							name: "Else-if blocks",
-							slug: "else-if-blocks",
+							slug: "logic-else-if-blocks",
 						},
 						{
 							name: "Each blocks",
-							slug: "each-blocks",
+							slug: "logic-each-blocks",
 						},
 						{
 							name: "Keyed each blocks",
-							slug: "keyed-each-blocks",
+							slug: "logic-keyed-each-blocks",
 						},
 						{
 							name: "Await blocks",
-							slug: "await-blocks",
+							slug: "logic-await-blocks",
 						},
 					],
 				},
@@ -196,27 +196,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "DOM events",
-							slug: "dom-events",
+							slug: "events-dom-events",
 						},
 						{
 							name: "Inline handlers",
-							slug: "inline-handlers",
+							slug: "events-inline-handlers",
 						},
 						{
 							name: "Event modifiers",
-							slug: "event-modifiers",
+							slug: "events-event-modifiers",
 						},
 						{
 							name: "Component events",
-							slug: "component-events",
+							slug: "events-component-events",
 						},
 						{
 							name: "Event forwarding",
-							slug: "event-forwarding",
+							slug: "events-event-forwarding",
 						},
 						{
 							name: "DOM event forwarding",
-							slug: "dom-event-forwarding",
+							slug: "events-dom-event-forwarding",
 						},
 					],
 				},
@@ -224,7 +224,7 @@ export const everything = [
 			full: [
 				{
 					name: "Basics",
-					slug: "basics",
+					slug: "introduction-basics",
 					initial: [
 						{
 							name: "App.svelte",
@@ -238,7 +238,7 @@ export const everything = [
 				},
 				{
 					name: "Adding data",
-					slug: "adding-data",
+					slug: "introduction-adding-data",
 					initial: [
 						{
 							name: "App.svelte",
@@ -259,7 +259,7 @@ export const everything = [
 				},
 				{
 					name: "Dynamic attributes",
-					slug: "dynamic-attributes",
+					slug: "introduction-dynamic-attributes",
 					initial: [
 						{
 							name: "App.svelte",
@@ -281,7 +281,7 @@ export const everything = [
 				},
 				{
 					name: "Styling",
-					slug: "styling",
+					slug: "introduction-styling",
 					initial: [
 						{
 							name: "App.svelte",
@@ -303,7 +303,7 @@ export const everything = [
 				},
 				{
 					name: "Nested components",
-					slug: "nested-components",
+					slug: "introduction-nested-components",
 					initial: [
 						{
 							name: "App.svelte",
@@ -335,7 +335,7 @@ export const everything = [
 				},
 				{
 					name: "HTML tags",
-					slug: "html-tags",
+					slug: "introduction-html-tags",
 					initial: [
 						{
 							name: "App.svelte",
@@ -357,7 +357,7 @@ export const everything = [
 				},
 				{
 					name: "Making an app",
-					slug: "making-an-app",
+					slug: "introduction-making-an-app",
 					initial: [
 						{
 							name: "App.svelte",
@@ -371,7 +371,7 @@ export const everything = [
 				},
 				{
 					name: "Assignments",
-					slug: "assignments",
+					slug: "reactivity-assignments",
 					initial: [
 						{
 							name: "App.svelte",
@@ -393,7 +393,7 @@ export const everything = [
 				},
 				{
 					name: "Declarations",
-					slug: "declarations",
+					slug: "reactivity-declarations",
 					initial: [
 						{
 							name: "App.svelte",
@@ -415,7 +415,7 @@ export const everything = [
 				},
 				{
 					name: "Statements",
-					slug: "statements",
+					slug: "reactivity-statements",
 					initial: [
 						{
 							name: "App.svelte",
@@ -437,7 +437,7 @@ export const everything = [
 				},
 				{
 					name: "Updating arrays and objects",
-					slug: "updating-arrays-and-objects",
+					slug: "reactivity-updating-arrays-and-objects",
 					initial: [
 						{
 							name: "App.svelte",
@@ -459,7 +459,7 @@ export const everything = [
 				},
 				{
 					name: "Declaring props",
-					slug: "declaring-props",
+					slug: "props-declaring-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -493,7 +493,7 @@ export const everything = [
 				},
 				{
 					name: "Default values",
-					slug: "default-values",
+					slug: "props-default-values",
 					initial: [
 						{
 							name: "App.svelte",
@@ -527,7 +527,7 @@ export const everything = [
 				},
 				{
 					name: "Spread props",
-					slug: "spread-props",
+					slug: "props-spread-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -561,7 +561,7 @@ export const everything = [
 				},
 				{
 					name: "If blocks",
-					slug: "if-blocks",
+					slug: "logic-if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -583,7 +583,7 @@ export const everything = [
 				},
 				{
 					name: "Else blocks",
-					slug: "else-blocks",
+					slug: "logic-else-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -605,7 +605,7 @@ export const everything = [
 				},
 				{
 					name: "Else-if blocks",
-					slug: "else-if-blocks",
+					slug: "logic-else-if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -627,7 +627,7 @@ export const everything = [
 				},
 				{
 					name: "Each blocks",
-					slug: "each-blocks",
+					slug: "logic-each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -649,7 +649,7 @@ export const everything = [
 				},
 				{
 					name: "Keyed each blocks",
-					slug: "keyed-each-blocks",
+					slug: "logic-keyed-each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -683,7 +683,7 @@ export const everything = [
 				},
 				{
 					name: "Await blocks",
-					slug: "await-blocks",
+					slug: "logic-await-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -705,7 +705,7 @@ export const everything = [
 				},
 				{
 					name: "DOM events",
-					slug: "dom-events",
+					slug: "events-dom-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -727,7 +727,7 @@ export const everything = [
 				},
 				{
 					name: "Inline handlers",
-					slug: "inline-handlers",
+					slug: "events-inline-handlers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -749,7 +749,7 @@ export const everything = [
 				},
 				{
 					name: "Event modifiers",
-					slug: "event-modifiers",
+					slug: "events-event-modifiers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -771,7 +771,7 @@ export const everything = [
 				},
 				{
 					name: "Component events",
-					slug: "component-events",
+					slug: "events-component-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -805,7 +805,7 @@ export const everything = [
 				},
 				{
 					name: "Event forwarding",
-					slug: "event-forwarding",
+					slug: "events-event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
@@ -851,7 +851,7 @@ export const everything = [
 				},
 				{
 					name: "DOM event forwarding",
-					slug: "dom-event-forwarding",
+					slug: "events-dom-event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
