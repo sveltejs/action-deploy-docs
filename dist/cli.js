@@ -18206,7 +18206,9 @@ function linkify_headings() {
 					data.section_stack.pop();
 				}
 			}
-
+			if (!data.section_stack) {
+				console.log(data.section_slug, node);
+			}
 			data.section_stack[data.section_stack.length - 1].push({
 				slug,
 				title: title_text,
