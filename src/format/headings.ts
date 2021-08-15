@@ -103,6 +103,9 @@ export function linkify_headings(): Transformer {
 				// TODO: check that prev_section[prev_section.length - 1] exists
 				// skipping heading levels can cause problems here
 				// maybe check current level against prev_level to validate?
+				if (!data.section_stack) {
+					console.log(data.section_slug, node);
+				}
 				data.section_stack.push(
 					prev_section[prev_section.length - 1].sections || []
 				);
