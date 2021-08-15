@@ -8,8 +8,8 @@
 		"test": "uvu -r ts-node/register src test.ts$",
 		"build": "rollup -c",
 		"ts": "tsc --noEmit",
-		"generate:format": "node -r ts-node/register src/format/fixtures/generateFixtures.ts",
-		"generate:fs": "node -r ts-node/register src/fs/fixtures/generateFixtures.ts"
+		"generate:format": "node -r ts-node/register src/format/fixtures/generate_fixtures.ts",
+		"generate:fs": "node -r ts-node/register src/fs/fixtures/generate_fixtures.ts"
 	},
 	"repository": {
 		"type": "git",
