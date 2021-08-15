@@ -19436,7 +19436,9 @@ function linkify_headings() {
 					prev_section[prev_section.length - 1].sections || []
 				);
 			} else if (node.depth < data.prev_level) {
-				data.section_stack.pop();
+				for (let i = 0; i < data.prev_level - node.depth; i++) {
+					data.section_stack.pop();
+				}
 			}
 
 			data.section_stack[data.section_stack.length - 1].push({

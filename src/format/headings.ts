@@ -97,7 +97,6 @@ export function linkify_headings(): Transformer {
 			}
 
 			data.slugs.push(slug);
-			console.log(data.slugs);
 
 			// We keep a 'section_stack' to keep track of the section structure
 			if (node.depth > data.prev_level) {
@@ -108,7 +107,9 @@ export function linkify_headings(): Transformer {
 					prev_section[prev_section.length - 1].sections || []
 				);
 			} else if (node.depth < data.prev_level) {
-				data.section_stack.pop();
+				for (let i = 0; i < data.prev_level - node.depth; i++) {
+					data.section_stack.pop();
+				}
 			}
 
 			data.section_stack[data.section_stack.length - 1].push({

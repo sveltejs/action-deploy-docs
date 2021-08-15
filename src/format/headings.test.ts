@@ -221,7 +221,9 @@ _headings(
 
 #### one
 
-#### two
+##### two
+
+### style
 `,
 			data: {
 				dir: "docs",
@@ -242,8 +244,31 @@ _headings(
 			output.contents,
 			`<h3><span id="component-format-script" class="offset-anchor"></span><a href="docs#component-format-script" class="anchor" aria-hidden></a>script</h3>
 <h4><span id="component-format-script-one" class="offset-anchor"></span><a href="docs#component-format-script-one" class="anchor" aria-hidden></a>one</h4>
-<h4><span id="component-format-script-two" class="offset-anchor"></span><a href="docs#component-format-script-two" class="anchor" aria-hidden></a>two</h4>`
+<h5><span id="component-format-script-one-two" class="offset-anchor" data-scrollignore></span><a href="docs#component-format-script-one-two" class="anchor" aria-hidden></a>two</h5>
+<h3><span id="component-format-style" class="offset-anchor"></span><a href="docs#component-format-style" class="anchor" aria-hidden></a>style</h3>`
 		);
+
+		//@ts-ignore
+		assert.equal(output.data.sections, [
+			{
+				slug: "component-format-script",
+				title: "script",
+				sections: [
+					{
+						slug: "component-format-script-one",
+						title: "one",
+						sections: [
+							{
+								slug: "component-format-script-one-two",
+								title: "two",
+								sections: [],
+							},
+						],
+					},
+				],
+			},
+			{ slug: "component-format-style", title: "style", sections: [] },
+		]);
 	}
 );
 
