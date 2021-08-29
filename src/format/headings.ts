@@ -65,7 +65,7 @@ type Heading_with_hProps = Heading & {
 
 export function linkify_headings(): Transformer {
 	return function (tree, { data }: custom_vfile) {
-		if (data.docs_type !== "docs" && data.docs_type !== "blog") return;
+		if (data.docs_type !== "docs" && data.docs_type !== "blog" && data.docs_type !== "faq") return;
 
 		visit(tree, "heading", (node: Heading_with_hProps) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];
