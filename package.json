@@ -47,7 +47,6 @@
 		"remark-parse": "^9.0.0",
 		"remark-rehype": "^8.0.0",
 		"rollup": "^2.41.2",
-		"rollup-plugin-terser": "^7.0.2",
 		"ts-node": "^9.1.1",
 		"typescript": "^4.2.3",
 		"unified": "^9.2.1",
