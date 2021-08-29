@@ -19394,7 +19394,7 @@ function validate_headings() {
 
 function linkify_headings() {
 	return function (tree, { data }) {
-		if (data.docs_type !== "docs" && data.docs_type !== "blog") return;
+		if (data.docs_type !== "docs" && data.docs_type !== "blog" && data.docs_type !== "faq") return;
 
 		unistUtilVisit(tree, "heading", (node) => {
 			const prev_section = data.section_stack[data.section_stack.length - 1];

@@ -2,7 +2,6 @@ import resolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import sucrase from "@rollup/plugin-sucrase";
 import json from "@rollup/plugin-json";
-import { terser } from "rollup-plugin-terser";
 
 export default [
 	{
