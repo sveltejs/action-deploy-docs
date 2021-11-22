@@ -60,7 +60,7 @@ export const docs_readme_full_out: Doc[] = [
 			},
 		],
 		content:
-			'<p>asdasdas</p>\n<h3><span id="hello" class="offset-anchor"></span><a href="docs/adapter-vercel#hello" class="anchor" aria-hidden rel="noopener noreferrer"></a>hello</h3>\n<p>asdasd</p>\n<h4><span id="hello-third-heading" class="offset-anchor"></span><a href="docs/adapter-vercel#hello-third-heading" class="anchor" aria-hidden rel="noopener noreferrer"></a>Third heading</h4>\n<p>asdasdasd</p>',
+			'<p>asdasdas</p>\n<h3 id="hello">hello</h3>\n<p>asdasd</p>\n<h4><span id="hello-third-heading" class="offset-anchor"></span><a href="docs/adapter-vercel#hello-third-heading" class="anchor" aria-hidden rel="noopener noreferrer"></a>Third heading</h4>\n<p>asdasdasd</p>',
 	},
 ];
 

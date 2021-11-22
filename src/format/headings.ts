@@ -128,30 +128,32 @@ export function linkify_headings(): Transformer {
 			const children = (to_hast(node) as Parent).children;
 
 			if (!node.data) node.data = {};
-			if (!node.data.hProperties) node.data.hProperties = {};
+			if (!node.data.hProperties) node.data.hProperties = {
+				id: slug
+			};
 			if (!node.data.hChildren) node.data.hChildren = [];
 
-			const span_node = {
-				type: "element",
-				tagName: "span",
-				properties: { id: [slug], className: ["offset-anchor"] },
-			};
+			// const span_node = {
+			// 	type: "element",
+			// 	tagName: "span",
+			// 	properties: { id: [slug], className: ["offset-anchor"] },
+			// };
 
-			const a_node = {
-				type: "element",
-				tagName: "a",
-				properties: {
-					href: `${data.dir}#${slug}`,
-					className: ["anchor"],
-					"aria-hidden": true,
-				},
-			};
+			// const a_node = {
+			// 	type: "element",
+			// 	tagName: "a",
+			// 	properties: {
+			// 		href: `${data.dir}#${slug}`,
+			// 		className: ["anchor"],
+			// 		"aria-hidden": true,
+			// 	},
+			// };
 
-			if (node.depth > data.base_level + 1)
-				//@ts-ignore
-				span_node.properties["data-scrollignore"] = true;
+			// if (node.depth > data.base_level + 1)
+			// 	//@ts-ignore
+			// 	span_node.properties["data-scrollignore"] = true;
 
-			node.data.hChildren = [span_node, a_node];
+			// node.data.hChildren = [span_node, a_node];
 
 			children.forEach((v) => node.data.hChildren.push(v));
 		});
