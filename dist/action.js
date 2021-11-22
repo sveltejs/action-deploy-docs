@@ -19460,28 +19460,7 @@ function linkify_headings() {
 			if (!node.data.hProperties) node.data.hProperties = {};
 			if (!node.data.hChildren) node.data.hChildren = [];
 
-			const span_node = {
-				type: "element",
-				tagName: "span",
-				properties: { id: [slug], className: ["offset-anchor"] },
-			};
-
-			const a_node = {
-				type: "element",
-				tagName: "a",
-				properties: {
-					href: `${data.dir}#${slug}`,
-					className: ["anchor"],
-					"aria-hidden": true,
-				},
-			};
-
-			if (node.depth > data.base_level + 1)
-				//@ts-ignore
-				span_node.properties["data-scrollignore"] = true;
-
-			node.data.hChildren = [span_node, a_node];
-
+			node.data.hProperties.id = slug;
 			children.forEach((v) => node.data.hChildren.push(v));
 		});
 	};
