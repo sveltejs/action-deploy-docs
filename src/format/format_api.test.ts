@@ -53,4 +53,42 @@ console.log('boo')
 	// console.log(x);
 });
 
+_format("formats", async () => {
+	const md = `### Table
+
+| Branch  | Commit           |
+| ------- | ---------------- |
+| main    | 0123456789abcdef |
+| staging | fedcba9876543210 |`;
+
+	const x = await format({
+		file: "boo.md",
+		markdown: md,
+		project: "svelte",
+		docs_type: "docs",
+		dir: "docs/boo",
+		level: 3,
+	});
+
+	assert.equal(x.contents, `<h3 id="false-table">Table</h3>
+<table>
+<thead>
+<tr>
+<th>Branch</th>
+<th>Commit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>0123456789abcdef</td>
+</tr>
+<tr>
+<td>staging</td>
+<td>fedcba9876543210</td>
+</tr>
+</tbody>
+</table>`);
+});
+
 _format.run();

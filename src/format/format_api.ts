@@ -15,6 +15,7 @@ import extract_frontmatter from "remark-frontmatter";
 import rehype from "remark-rehype";
 import stringify from "rehype-stringify";
 import vFile from "vfile";
+import remarkGfm from 'remark-gfm'
 
 import {
 	strip_h1,
@@ -49,6 +50,7 @@ interface Format {
 const { process } = unified()
 	// parse to MDAST
 	.use(markdown)
+	.use(remarkGfm, undefined)
 	.use(extract_frontmatter)
 	//  MDAST transforms
 	.use(parse_frontmatter)

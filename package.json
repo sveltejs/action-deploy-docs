@@ -57,12 +57,13 @@
 		"unist-builder": "^2.0.3",
 		"unist-util-visit": "^2.0.3",
 		"uvu": "^0.5.1",
-		"vfile": "^4.2.1",
+		"vfile": "4",
 		"vfile-message": "^2.0.4"
 	},
 	"dependencies": {
 		"@actions/github": "^4.0.0",
 		"@polka/send": "^1.0.0-next.12",
-		"httpie": "^1.1.2"
+		"httpie": "^1.1.2",
+		"remark-gfm": "1"
 	}
 }
