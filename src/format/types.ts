@@ -23,5 +23,6 @@ export type custom_vfile = VFile & {
 		seen_slugs: Map<string, number>;
 		docs_type: docs_type;
 		file_type: "readme" | "other";
+		frontmatter: Record<string, unknown>
 	};
 };

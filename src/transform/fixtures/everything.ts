@@ -899,6 +899,11 @@ export const everything = [
 						pretty: "Sun Dec 31 2017",
 						numeric: "2017-12-31",
 					},
+					description: "Taking the next-plus-one step",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title: "The zen of Just Writing CSS",
@@ -908,6 +913,11 @@ export const everything = [
 						pretty: "Wed Sep 06 2017",
 						numeric: "2017-09-06",
 					},
+					description: "I would say this is the future, but we're already doing it.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -917,6 +927,11 @@ export const everything = [
 						pretty: "Mon Aug 07 2017",
 						numeric: "2017-08-07",
 					},
+					description: "This'll only take a minute.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title:
@@ -927,6 +942,11 @@ export const everything = [
 						pretty: "Sat Nov 26 2016",
 						numeric: "2016-11-26",
 					},
+					description: "You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 			],
 			full: [
@@ -940,6 +960,11 @@ export const everything = [
 						pretty: "Sun Dec 31 2017",
 						numeric: "2017-12-31",
 					},
+					description: "Taking the next-plus-one step",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title: "The zen of Just Writing CSS",
@@ -951,6 +976,11 @@ export const everything = [
 						pretty: "Wed Sep 06 2017",
 						numeric: "2017-09-06",
 					},
+					description: "I would say this is the future, but we're already doing it.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -962,6 +992,11 @@ export const everything = [
 						pretty: "Mon Aug 07 2017",
 						numeric: "2017-08-07",
 					},
+					description: "This'll only take a minute.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 				{
 					title:
@@ -974,6 +1009,11 @@ export const everything = [
 						pretty: "Sat Nov 26 2016",
 						numeric: "2016-11-26",
 					},
+					description: "You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
+					author: {
+						name: 'Rich Harris',
+						url: 'https://twitter.com/Rich_Harris'
+					}
 				},
 			],
 		},

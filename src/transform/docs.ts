@@ -19,6 +19,7 @@ import type { SimpleFile } from "../fs";
 import { format } from "../format";
 import { make_session_slug_processor } from "../format/slug";
 import { name } from "vfile-message";
+import { data } from "vfile";
 
 type DocsSource = {
 	name: string;
@@ -85,6 +86,11 @@ export async function transform_blog(
 				file: blogs[i].name,
 				content: doc.contents.toString(),
 				date: dates[i],
+				description: doc.data.frontmatter.description,
+				author: {
+					name: doc.data.frontmatter.author,
+					url: doc.data.frontmatter.authorURL,
+				}
 			};
 		})
 		.sort((a, b) => (a.date.numeric < b.date.numeric ? 1 : -1));
