@@ -69,6 +69,10 @@ _docs("transforms tutorials", async () => {
 
 _docs("transforms blog", async () => {
 	const output = await transform_blog(blog_in, "svelte", "blog");
+	// console.log(output)
+
+	
+	
 	assert.equal(output.full[0].content, blog_out_full[0].content);
 	assert.equal(output, { list: blog_out_list, full: blog_out_full });
 });
@@ -96,6 +100,7 @@ _docs("transforms everything", async () => {
 	function lines(obj: object) {
 		return JSON.stringify(obj, null, 2).split("\n");
 	}
+
 	assert.equal(lines(output), lines(everything));
 });
 
