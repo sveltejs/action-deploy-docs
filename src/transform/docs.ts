@@ -90,7 +90,8 @@ export async function transform_blog(
 				author: {
 					name: doc.data.frontmatter.author,
 					url: doc.data.frontmatter.authorURL,
-				}
+				},
+				draft: doc.data.frontmatter.draft || false
 			};
 		})
 		.sort((a, b) => (a.date.numeric < b.date.numeric ? 1 : -1));
