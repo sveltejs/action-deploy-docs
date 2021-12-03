@@ -21,6 +21,10 @@
 	"bugs": {
 		"url": "https://github.com/sveltejs/action-deploy-docs/issues"
 	},
+	"files": [
+		"cli.js",
+		"dist/"
+	],
 	"homepage": "https://github.com/sveltejs/action-deploy-docs#readme",
 	"devDependencies": {
 		"@actions/core": "^1.2.6",
