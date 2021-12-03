@@ -903,7 +903,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title: "The zen of Just Writing CSS",
@@ -917,7 +918,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -931,7 +933,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title:
@@ -946,7 +949,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 			],
 			full: [
@@ -964,7 +968,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title: "The zen of Just Writing CSS",
@@ -980,7 +985,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -996,7 +1002,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 				{
 					title:
@@ -1013,7 +1020,8 @@ export const everything = [
 					author: {
 						name: 'Rich Harris',
 						url: 'https://twitter.com/Rich_Harris'
-					}
+					},
+					draft: false
 				},
 			],
 		},
