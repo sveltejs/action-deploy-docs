@@ -209,7 +209,7 @@ export async function transform_examples(
 			examples: example_list,
 		};
 	});
-	return { list, full };
+	return { list, full: full.filter(({name}) => name !== 'embeds') };
 }
 
 async function process_tutorial(
@@ -264,7 +264,7 @@ async function process_tutorial(
 		})
 	);
 
-	return [full, list.filter(({name}) => name !== 'embeds')];
+	return [full, list];
 }
 
 export async function transform_tutorial(
