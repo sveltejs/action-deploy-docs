@@ -97,8 +97,10 @@ export function make_session_slug_processor({
 		const slug = processor(url, { separator });
 		let count;
 		if ((count = seen_slugs.get(slug))) {
-			seen_slugs.set(slug, count + 1);
-			return `${slug}${separator}${count}`;
+			throw new Error(
+				`Found duplicate slug: "${slug}" when slugifying: "${url}".
+Duplicate slugs are not allowed. You need to take yourself outside and have a word with yourself.`
+			);
 		} else {
 			seen_slugs.set(slug, 1);
 			return slug;

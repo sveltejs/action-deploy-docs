@@ -899,31 +899,31 @@ export const tutorials_out_list = [
 		tutorials: [
 			{
 				name: "Basics",
-				slug: "introduction-basics",
+				slug: "basics",
 			},
 			{
 				name: "Adding data",
-				slug: "introduction-adding-data",
+				slug: "adding-data",
 			},
 			{
 				name: "Dynamic attributes",
-				slug: "introduction-dynamic-attributes",
+				slug: "dynamic-attributes",
 			},
 			{
 				name: "Styling",
-				slug: "introduction-styling",
+				slug: "styling",
 			},
 			{
 				name: "Nested components",
-				slug: "introduction-nested-components",
+				slug: "nested-components",
 			},
 			{
 				name: "HTML tags",
-				slug: "introduction-html-tags",
+				slug: "html-tags",
 			},
 			{
 				name: "Making an app",
-				slug: "introduction-making-an-app",
+				slug: "making-an-app",
 			},
 		],
 	},
@@ -932,19 +932,19 @@ export const tutorials_out_list = [
 		tutorials: [
 			{
 				name: "Assignments",
-				slug: "reactivity-assignments",
+				slug: "reactive-assignments",
 			},
 			{
 				name: "Declarations",
-				slug: "reactivity-declarations",
+				slug: "reactive-declarations",
 			},
 			{
 				name: "Statements",
-				slug: "reactivity-statements",
+				slug: "reactive-statements",
 			},
 			{
 				name: "Updating arrays and objects",
-				slug: "reactivity-updating-arrays-and-objects",
+				slug: "updating-arrays-and-objects",
 			},
 		],
 	},
@@ -953,15 +953,15 @@ export const tutorials_out_list = [
 		tutorials: [
 			{
 				name: "Declaring props",
-				slug: "props-declaring-props",
+				slug: "declaring-props",
 			},
 			{
 				name: "Default values",
-				slug: "props-default-values",
+				slug: "default-values",
 			},
 			{
 				name: "Spread props",
-				slug: "props-spread-props",
+				slug: "spread-props",
 			},
 		],
 	},
@@ -970,27 +970,27 @@ export const tutorials_out_list = [
 		tutorials: [
 			{
 				name: "If blocks",
-				slug: "logic-if-blocks",
+				slug: "if-blocks",
 			},
 			{
 				name: "Else blocks",
-				slug: "logic-else-blocks",
+				slug: "else-blocks",
 			},
 			{
 				name: "Else-if blocks",
-				slug: "logic-else-if-blocks",
+				slug: "else-if-blocks",
 			},
 			{
 				name: "Each blocks",
-				slug: "logic-each-blocks",
+				slug: "each-blocks",
 			},
 			{
 				name: "Keyed each blocks",
-				slug: "logic-keyed-each-blocks",
+				slug: "keyed-each-blocks",
 			},
 			{
 				name: "Await blocks",
-				slug: "logic-await-blocks",
+				slug: "await-blocks",
 			},
 		],
 	},
@@ -999,27 +999,27 @@ export const tutorials_out_list = [
 		tutorials: [
 			{
 				name: "DOM events",
-				slug: "events-dom-events",
+				slug: "dom-events",
 			},
 			{
 				name: "Inline handlers",
-				slug: "events-inline-handlers",
+				slug: "inline-handlers",
 			},
 			{
 				name: "Event modifiers",
-				slug: "events-event-modifiers",
+				slug: "event-modifiers",
 			},
 			{
 				name: "Component events",
-				slug: "events-component-events",
+				slug: "component-events",
 			},
 			{
 				name: "Event forwarding",
-				slug: "events-event-forwarding",
+				slug: "event-forwarding",
 			},
 			{
 				name: "DOM event forwarding",
-				slug: "events-dom-event-forwarding",
+				slug: "dom-event-forwarding",
 			},
 		],
 	},
@@ -1028,7 +1028,7 @@ export const tutorials_out_list = [
 export const tutorials_out_full = [
 	{
 		name: "Basics",
-		slug: "introduction-basics",
+		slug: "basics",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1042,7 +1042,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Adding data",
-		slug: "introduction-adding-data",
+		slug: "adding-data",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1063,7 +1063,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Dynamic attributes",
-		slug: "introduction-dynamic-attributes",
+		slug: "dynamic-attributes",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1085,7 +1085,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Styling",
-		slug: "introduction-styling",
+		slug: "styling",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1107,7 +1107,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Nested components",
-		slug: "introduction-nested-components",
+		slug: "nested-components",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1139,7 +1139,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "HTML tags",
-		slug: "introduction-html-tags",
+		slug: "html-tags",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1161,7 +1161,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Making an app",
-		slug: "introduction-making-an-app",
+		slug: "making-an-app",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1175,7 +1175,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Assignments",
-		slug: "reactivity-assignments",
+		slug: "reactive-assignments",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1197,7 +1197,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Declarations",
-		slug: "reactivity-declarations",
+		slug: "reactive-declarations",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1219,7 +1219,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Statements",
-		slug: "reactivity-statements",
+		slug: "reactive-statements",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1241,7 +1241,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Updating arrays and objects",
-		slug: "reactivity-updating-arrays-and-objects",
+		slug: "updating-arrays-and-objects",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1263,7 +1263,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Declaring props",
-		slug: "props-declaring-props",
+		slug: "declaring-props",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1297,7 +1297,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Default values",
-		slug: "props-default-values",
+		slug: "default-values",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1331,7 +1331,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Spread props",
-		slug: "props-spread-props",
+		slug: "spread-props",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1365,7 +1365,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "If blocks",
-		slug: "logic-if-blocks",
+		slug: "if-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1387,7 +1387,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Else blocks",
-		slug: "logic-else-blocks",
+		slug: "else-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1409,7 +1409,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Else-if blocks",
-		slug: "logic-else-if-blocks",
+		slug: "else-if-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1431,7 +1431,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Each blocks",
-		slug: "logic-each-blocks",
+		slug: "each-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1453,7 +1453,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Keyed each blocks",
-		slug: "logic-keyed-each-blocks",
+		slug: "keyed-each-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1487,7 +1487,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Await blocks",
-		slug: "logic-await-blocks",
+		slug: "await-blocks",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1509,7 +1509,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "DOM events",
-		slug: "events-dom-events",
+		slug: "dom-events",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1531,7 +1531,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Inline handlers",
-		slug: "events-inline-handlers",
+		slug: "inline-handlers",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1553,7 +1553,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Event modifiers",
-		slug: "events-event-modifiers",
+		slug: "event-modifiers",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1575,7 +1575,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Component events",
-		slug: "events-component-events",
+		slug: "component-events",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1609,7 +1609,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "Event forwarding",
-		slug: "events-event-forwarding",
+		slug: "event-forwarding",
 		initial: [
 			{
 				name: "App.svelte",
@@ -1655,7 +1655,7 @@ export const tutorials_out_full = [
 	},
 	{
 		name: "DOM event forwarding",
-		slug: "events-dom-event-forwarding",
+		slug: "dom-event-forwarding",
 		initial: [
 			{
 				name: "App.svelte",

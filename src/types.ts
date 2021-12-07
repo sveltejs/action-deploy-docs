@@ -66,11 +66,11 @@ export type tutorials = TutorialCategory[];
 export type ExampleMeta = {
 	name: string;
 	slug: string;
-	thumbnail: string;
 };
 
 // single example
-export type Example = ExampleMeta & {
+export type Example = {
+	name: string;
 	files: File[];
 };
 

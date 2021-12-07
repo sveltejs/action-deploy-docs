@@ -91,7 +91,7 @@ export async function transform_blog(
 					name: doc.data.frontmatter.author,
 					url: doc.data.frontmatter.authorURL,
 				},
-				draft: doc.data.frontmatter.draft || false
+				draft: doc.data.frontmatter.draft || false,
 			};
 		})
 		.sort((a, b) => (a.date.numeric < b.date.numeric ? 1 : -1));
@@ -165,17 +165,18 @@ function process_example(
 	seen_slugs: Map<string, number>
 ): [Example[], ExampleMeta[]] {
 	let full: Example[] = [];
-	let list = content.map(({ content }) => {
+	let list = content.map(({ content, name }) => {
 		if (typeof content === "string")
 			throw new Error("Example contents cannot contain further directories.");
 
 		const [files, meta] = extract_meta(content);
-		const slug = make_slug(meta.title, seen_slugs);
+
+		const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
+		const slug = make_slug(_slug, seen_slugs);
 
 		const _example = {
 			name: meta.title,
-			slug,
-			thumbnail: `examples/thumbnails/${slug}.jpg`,
+			slug: slug,
 		};
 
 		full.push({ ..._example, files: files.map(get_files) });
@@ -192,10 +193,9 @@ export async function transform_examples(
 	// project: string,
 	// dir: string
 ): Promise<{ full: Example[]; list: ExampleCategory[] }> {
-	const seen_slugs = new Map();
-
 	const full: Example[] = [];
-	const list = examples.map(({ content }) => {
+	const list = examples.map(({ content, name }) => {
+		const seen_slugs = new Map();
 		if (typeof content === "string")
 			throw new Error("Example contents cannot contain further directories.");
 
@@ -220,7 +220,7 @@ async function process_tutorial(
 ): Promise<[Tutorial[], TutorialMeta[]]> {
 	let full: Tutorial[] = [];
 	let list = await Promise.all(
-		content.map(async ({ content }) => {
+		content.map(async ({ content, name }) => {
 			// TODO: this is backwards, fix
 			if (typeof content === "string")
 				throw new Error("Example contents cannot contain further directories.");
@@ -244,9 +244,13 @@ async function process_tutorial(
 				level: 3,
 			});
 
+			const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
+			const slug = make_slug(_slug, seen_slugs);
+
 			const _example = {
 				name: vfile.data.section_title,
-				slug: make_slug(`${cat_title} ${vfile.data.section_slug}`, seen_slugs),
+				slug: slug,
+				
 			};
 
 			full.push({

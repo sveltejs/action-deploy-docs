@@ -52,8 +52,7 @@ export const everything = [
 							sections: [],
 						},
 					],
-					content:
-						'<h3 id="part-1-docs1-content">docs1 content</h3>',
+					content: '<h3 id="part-1-docs1-content">docs1 content</h3>',
 				},
 				{
 					title: "part 2",
@@ -66,8 +65,7 @@ export const everything = [
 							sections: [],
 						},
 					],
-					content:
-						'<h3 id="part-2-docs2-content">docs2 content</h3>',
+					content: '<h3 id="part-2-docs2-content">docs2 content</h3>',
 				},
 				{
 					title: "part 3",
@@ -80,8 +78,7 @@ export const everything = [
 							sections: [],
 						},
 					],
-					content:
-						'<h3 id="part-3-docs3-content">docs3 content</h3>',
+					content: '<h3 id="part-3-docs3-content">docs3 content</h3>',
 				},
 			],
 		},
@@ -96,31 +93,31 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Basics",
-							slug: "introduction-basics",
+							slug: "basics",
 						},
 						{
 							name: "Adding data",
-							slug: "introduction-adding-data",
+							slug: "adding-data",
 						},
 						{
 							name: "Dynamic attributes",
-							slug: "introduction-dynamic-attributes",
+							slug: "dynamic-attributes",
 						},
 						{
 							name: "Styling",
-							slug: "introduction-styling",
+							slug: "styling",
 						},
 						{
 							name: "Nested components",
-							slug: "introduction-nested-components",
+							slug: "nested-components",
 						},
 						{
 							name: "HTML tags",
-							slug: "introduction-html-tags",
+							slug: "html-tags",
 						},
 						{
 							name: "Making an app",
-							slug: "introduction-making-an-app",
+							slug: "making-an-app",
 						},
 					],
 				},
@@ -129,19 +126,19 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Assignments",
-							slug: "reactivity-assignments",
+							slug: "reactive-assignments",
 						},
 						{
 							name: "Declarations",
-							slug: "reactivity-declarations",
+							slug: "reactive-declarations",
 						},
 						{
 							name: "Statements",
-							slug: "reactivity-statements",
+							slug: "reactive-statements",
 						},
 						{
 							name: "Updating arrays and objects",
-							slug: "reactivity-updating-arrays-and-objects",
+							slug: "updating-arrays-and-objects",
 						},
 					],
 				},
@@ -150,15 +147,15 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Declaring props",
-							slug: "props-declaring-props",
+							slug: "declaring-props",
 						},
 						{
 							name: "Default values",
-							slug: "props-default-values",
+							slug: "default-values",
 						},
 						{
 							name: "Spread props",
-							slug: "props-spread-props",
+							slug: "spread-props",
 						},
 					],
 				},
@@ -167,27 +164,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "If blocks",
-							slug: "logic-if-blocks",
+							slug: "if-blocks",
 						},
 						{
 							name: "Else blocks",
-							slug: "logic-else-blocks",
+							slug: "else-blocks",
 						},
 						{
 							name: "Else-if blocks",
-							slug: "logic-else-if-blocks",
+							slug: "else-if-blocks",
 						},
 						{
 							name: "Each blocks",
-							slug: "logic-each-blocks",
+							slug: "each-blocks",
 						},
 						{
 							name: "Keyed each blocks",
-							slug: "logic-keyed-each-blocks",
+							slug: "keyed-each-blocks",
 						},
 						{
 							name: "Await blocks",
-							slug: "logic-await-blocks",
+							slug: "await-blocks",
 						},
 					],
 				},
@@ -196,27 +193,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "DOM events",
-							slug: "events-dom-events",
+							slug: "dom-events",
 						},
 						{
 							name: "Inline handlers",
-							slug: "events-inline-handlers",
+							slug: "inline-handlers",
 						},
 						{
 							name: "Event modifiers",
-							slug: "events-event-modifiers",
+							slug: "event-modifiers",
 						},
 						{
 							name: "Component events",
-							slug: "events-component-events",
+							slug: "component-events",
 						},
 						{
 							name: "Event forwarding",
-							slug: "events-event-forwarding",
+							slug: "event-forwarding",
 						},
 						{
 							name: "DOM event forwarding",
-							slug: "events-dom-event-forwarding",
+							slug: "dom-event-forwarding",
 						},
 					],
 				},
@@ -224,7 +221,7 @@ export const everything = [
 			full: [
 				{
 					name: "Basics",
-					slug: "introduction-basics",
+					slug: "basics",
 					initial: [
 						{
 							name: "App.svelte",
@@ -238,7 +235,7 @@ export const everything = [
 				},
 				{
 					name: "Adding data",
-					slug: "introduction-adding-data",
+					slug: "adding-data",
 					initial: [
 						{
 							name: "App.svelte",
@@ -259,7 +256,7 @@ export const everything = [
 				},
 				{
 					name: "Dynamic attributes",
-					slug: "introduction-dynamic-attributes",
+					slug: "dynamic-attributes",
 					initial: [
 						{
 							name: "App.svelte",
@@ -281,7 +278,7 @@ export const everything = [
 				},
 				{
 					name: "Styling",
-					slug: "introduction-styling",
+					slug: "styling",
 					initial: [
 						{
 							name: "App.svelte",
@@ -303,7 +300,7 @@ export const everything = [
 				},
 				{
 					name: "Nested components",
-					slug: "introduction-nested-components",
+					slug: "nested-components",
 					initial: [
 						{
 							name: "App.svelte",
@@ -335,7 +332,7 @@ export const everything = [
 				},
 				{
 					name: "HTML tags",
-					slug: "introduction-html-tags",
+					slug: "html-tags",
 					initial: [
 						{
 							name: "App.svelte",
@@ -357,7 +354,7 @@ export const everything = [
 				},
 				{
 					name: "Making an app",
-					slug: "introduction-making-an-app",
+					slug: "making-an-app",
 					initial: [
 						{
 							name: "App.svelte",
@@ -371,7 +368,7 @@ export const everything = [
 				},
 				{
 					name: "Assignments",
-					slug: "reactivity-assignments",
+					slug: "reactive-assignments",
 					initial: [
 						{
 							name: "App.svelte",
@@ -393,7 +390,7 @@ export const everything = [
 				},
 				{
 					name: "Declarations",
-					slug: "reactivity-declarations",
+					slug: "reactive-declarations",
 					initial: [
 						{
 							name: "App.svelte",
@@ -415,7 +412,7 @@ export const everything = [
 				},
 				{
 					name: "Statements",
-					slug: "reactivity-statements",
+					slug: "reactive-statements",
 					initial: [
 						{
 							name: "App.svelte",
@@ -437,7 +434,7 @@ export const everything = [
 				},
 				{
 					name: "Updating arrays and objects",
-					slug: "reactivity-updating-arrays-and-objects",
+					slug: "updating-arrays-and-objects",
 					initial: [
 						{
 							name: "App.svelte",
@@ -459,7 +456,7 @@ export const everything = [
 				},
 				{
 					name: "Declaring props",
-					slug: "props-declaring-props",
+					slug: "declaring-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -493,7 +490,7 @@ export const everything = [
 				},
 				{
 					name: "Default values",
-					slug: "props-default-values",
+					slug: "default-values",
 					initial: [
 						{
 							name: "App.svelte",
@@ -527,7 +524,7 @@ export const everything = [
 				},
 				{
 					name: "Spread props",
-					slug: "props-spread-props",
+					slug: "spread-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -561,7 +558,7 @@ export const everything = [
 				},
 				{
 					name: "If blocks",
-					slug: "logic-if-blocks",
+					slug: "if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -583,7 +580,7 @@ export const everything = [
 				},
 				{
 					name: "Else blocks",
-					slug: "logic-else-blocks",
+					slug: "else-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -605,7 +602,7 @@ export const everything = [
 				},
 				{
 					name: "Else-if blocks",
-					slug: "logic-else-if-blocks",
+					slug: "else-if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -627,7 +624,7 @@ export const everything = [
 				},
 				{
 					name: "Each blocks",
-					slug: "logic-each-blocks",
+					slug: "each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -649,7 +646,7 @@ export const everything = [
 				},
 				{
 					name: "Keyed each blocks",
-					slug: "logic-keyed-each-blocks",
+					slug: "keyed-each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -683,7 +680,7 @@ export const everything = [
 				},
 				{
 					name: "Await blocks",
-					slug: "logic-await-blocks",
+					slug: "await-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -705,7 +702,7 @@ export const everything = [
 				},
 				{
 					name: "DOM events",
-					slug: "events-dom-events",
+					slug: "dom-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -727,7 +724,7 @@ export const everything = [
 				},
 				{
 					name: "Inline handlers",
-					slug: "events-inline-handlers",
+					slug: "inline-handlers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -749,7 +746,7 @@ export const everything = [
 				},
 				{
 					name: "Event modifiers",
-					slug: "events-event-modifiers",
+					slug: "event-modifiers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -771,7 +768,7 @@ export const everything = [
 				},
 				{
 					name: "Component events",
-					slug: "events-component-events",
+					slug: "component-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -805,7 +802,7 @@ export const everything = [
 				},
 				{
 					name: "Event forwarding",
-					slug: "events-event-forwarding",
+					slug: "event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
@@ -851,7 +848,7 @@ export const everything = [
 				},
 				{
 					name: "DOM event forwarding",
-					slug: "events-dom-event-forwarding",
+					slug: "dom-event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
@@ -901,10 +898,10 @@ export const everything = [
 					},
 					description: "Taking the next-plus-one step",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title: "The zen of Just Writing CSS",
@@ -914,12 +911,13 @@ export const everything = [
 						pretty: "Wed Sep 06 2017",
 						numeric: "2017-09-06",
 					},
-					description: "I would say this is the future, but we're already doing it.",
+					description:
+						"I would say this is the future, but we're already doing it.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -931,10 +929,10 @@ export const everything = [
 					},
 					description: "This'll only take a minute.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title:
@@ -945,12 +943,13 @@ export const everything = [
 						pretty: "Sat Nov 26 2016",
 						numeric: "2016-11-26",
 					},
-					description: "You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
+					description:
+						"You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 			],
 			full: [
@@ -966,27 +965,28 @@ export const everything = [
 					},
 					description: "Taking the next-plus-one step",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title: "The zen of Just Writing CSS",
 					slug: "the-zen-of-just-writing-css",
 					file: "2017-09-06-the-zen-of-just-writing-css.md",
 					content:
-						'<p>It\'s fashionable to dislike CSS. There are lots of reasons why that\'s the case, but it boils down to this: CSS is <em>unpredictable</em>. If you\'ve never had the experience of tweaking a style rule and accidentally breaking some layout that you thought was completely unrelated — usually when you\'re trying to ship — then you\'re either new at this or you\'re a much better programmer than the rest of us.</p>\n<p>So the JavaScript community rolled up its sleeves and got to work. Over the last couple of years, there\'s been a Cambrian explosion of libraries aimed at making CSS behave, collectively referred to as <em>CSS-in-JS</em>.</p>\n<p>What you might not realise is that <strong>the biggest problems with CSS can be solved without CSS-in-JS</strong>. Without those problems, writing CSS isn\'t just tolerable — it\'s enjoyable. And you don\'t have to find solutions to the additional problems that CSS-in-JS introduces.</p>\n<p>This article isn\'t in any way intended as criticism of the hard work the CSS-in-JS community has done. It\'s one of the most active corners of the JS ecosystem, and new ideas are springing up every week. Instead, my purpose is to illustrate why an alternative approach — based on Single File Components with real CSS — is so damn delightful.</p>\n<h2 id="the-biggest-problem-with-css">The biggest problem with CSS</h2>\n<p>Everything in CSS is global. Because of that, styles intended for one bit of markup often end up affecting another. Because of <em>that</em>, developers often resort to wild namespacing conventions (not \'rules\', since they\'re very difficult to enforce) that mostly just increase your risk of RSI.</p>\n<p>It gets worse when you\'re working on a team. No-one dares touch styles authored by someone else, because it\'s often unclear what they\'re doing, what markup they apply to, and what disasters will unfold if you remove them.</p>\n<p>The consequence of all this is the <strong>append-only stylesheet</strong>. There\'s no way of knowing which code can safely be removed, so it\'s common to undo some existing style with another, more specific style — even on relatively small projects.</p>\n<h2 id="single-file-components-change-all-that">Single File Components change all that</h2>\n<p>The idea behind SFCs is simple: you write your components in an HTML file that (optionally) contains a <code>&#x3C;style></code> and <code>&#x3C;script></code> attribute describing the component\'s styles and behaviour. Svelte, Ractive, Vue and Polymer all follow this basic pattern.</p>\n<aside>\n\t<p><a href="blog/frameworks-without-the-framework">Read the introductory blog post</a> if you\'re new to Svelte. Or <a href="https://twitter.com/padolsey/status/899717303234908160">read</a> <a href="https://twitter.com/sveltejs/status/901818357644701696">the</a> <a href="https://twitter.com/sveltejs/status/901818106309476352">testimonials</a>.</p>\n</aside>\n<p>(For the rest of this article we\'ll be using Svelte, obviously. But if the idea of using a template language makes you shudder — your fears are misplaced, but that\'s a topic for another day — then just use Vue which lets you use JSX in your SFCs.)</p>\n<p>Several wonderful things happen as a result:</p>\n<ul>\n<li>Your styles are <em>scoped to the component</em>. No more leakage, no more unpredictable cascade. And no more sesquipedalian classnames designed to prevent conflicts.</li>\n<li>You don\'t need to go spelunking through your folder structure to find the rules that are breaking your stuff.</li>\n<li>The compiler (in Svelte\'s case) can <strong>identify and remove unused styles</strong>. No more append-only stylesheets!</li>\n</ul>\n<p>Let\'s see what that looks like in practice.</p>\n<figure>\n\t<video controls poster=\'https://svelte-technology-assets.surge.sh/just-write-css.jpg\'>\n\t\t<source type=\'video/mp4\' src=\'https://svelte-technology-assets.surge.sh/just-write-css.mp4\'>\n\t</video>\n<div class="code-block"><pre class=\'language-undefined\'><code>&lt;figcaption&gt;\n\tIs this what they mean by \'use the platform\'?\n&lt;/figcaption&gt;</code></pre></div>\n</figure>\n<p>Every code editor already knows about CSS, so there\'s a good chance that you\'ll get autocomplete, linting, syntax highlighting and so on — all without additional JS-fatigue-inducing tools.</p>\n<p>And because it\'s real CSS, rather than some camelCased quotes-everywhere impostor, we can take advantage of the \'tweak in devtools, paste back into our source code\' workflow, which I personally couldn\'t live without. Notice that we get CSS sourcemaps out of the box, so you can instantly pinpoint the lines in question. It\'s hard to overstate the importance of this: when you\'re in WYSIWYG mode, you\'re not thinking in terms of your component tree, so having a robust way to figure out <em>where these damn styles came from</em> is essential. Doubly so if someone else originally wrote the component. (I promise you, this is the single biggest productivity boost to your CSS workflow. If you\'re writing styles without sourcemaps, you are almost certainly wasting a lot of time. I know I was.)</p>\n<p>Svelte transforms your selectors (using an attribute that\'s also applied to affected elements, though the exact mechanism is unimportant and subject to change) to achieve the scoping. It warns on and removes any unused rules, then it minifies the result and lets you write it out to a <code>.css</code> file. There\'s also an experimental new option to compile to web components, using shadow DOM to encapsulate the styles, if that\'s your jam.</p>\n<p>This is all possible because your CSS is parsed (with <a href="https://github.com/csstree/csstree" target="_blank" rel="noopener noreferrer">css-tree</a>) and statically analysed in the context of your markup. Static analysis opens the doors to all kinds of exciting future possibilities — smarter optimisations, a11y hints — that are much harder if your styles are computed dynamically at runtime. We\'re just getting started.</p>\n<h2 id="but-we-can-add-tools-to-do-x">But we can add tools to do [x]!</h2>\n<p>If your reaction to the video was \'fine, but if we use TypeScript and write plugins for each editor then we can get all the autocomplete and syntax highlighting stuff\' — in other words, if you believe that in order to achieve parity with CSS it makes sense to build, document, promote and maintain a fleet of ancillary projects — then, well, you and I may never see eye to eye!</p>\n<h2 id="we-don-t-have-all-the-answers-yet">We don\'t have all the answers — yet</h2>\n<p>Having said all that, CSS-in-JS does point to answers to some lingering questions:</p>\n<ul>\n<li>How can we install styles from npm?</li>\n<li>How can we reuse constants that are defined in a single place?</li>\n<li>How can we compose declarations?</li>\n</ul>\n<p>Personally, I haven\'t found these issues to outweigh the benefits of the approach outlined above. You may well have a different set of priorities, and they may be reason enough for you to abandon CSS.</p>\n<p>But at the end of the day, you have to know CSS anyway. Love it or loathe it, you must at least <em>learn</em> it. As custodians of the web, we have a choice: create abstractions that steepen the web dev learning curve yet further, or work together to fix the bad parts of CSS. I know which I choose.</p>',
+						"<p>It's fashionable to dislike CSS. There are lots of reasons why that's the case, but it boils down to this: CSS is <em>unpredictable</em>. If you've never had the experience of tweaking a style rule and accidentally breaking some layout that you thought was completely unrelated — usually when you're trying to ship — then you're either new at this or you're a much better programmer than the rest of us.</p>\n<p>So the JavaScript community rolled up its sleeves and got to work. Over the last couple of years, there's been a Cambrian explosion of libraries aimed at making CSS behave, collectively referred to as <em>CSS-in-JS</em>.</p>\n<p>What you might not realise is that <strong>the biggest problems with CSS can be solved without CSS-in-JS</strong>. Without those problems, writing CSS isn't just tolerable — it's enjoyable. And you don't have to find solutions to the additional problems that CSS-in-JS introduces.</p>\n<p>This article isn't in any way intended as criticism of the hard work the CSS-in-JS community has done. It's one of the most active corners of the JS ecosystem, and new ideas are springing up every week. Instead, my purpose is to illustrate why an alternative approach — based on Single File Components with real CSS — is so damn delightful.</p>\n<h2 id=\"the-biggest-problem-with-css\">The biggest problem with CSS</h2>\n<p>Everything in CSS is global. Because of that, styles intended for one bit of markup often end up affecting another. Because of <em>that</em>, developers often resort to wild namespacing conventions (not 'rules', since they're very difficult to enforce) that mostly just increase your risk of RSI.</p>\n<p>It gets worse when you're working on a team. No-one dares touch styles authored by someone else, because it's often unclear what they're doing, what markup they apply to, and what disasters will unfold if you remove them.</p>\n<p>The consequence of all this is the <strong>append-only stylesheet</strong>. There's no way of knowing which code can safely be removed, so it's common to undo some existing style with another, more specific style — even on relatively small projects.</p>\n<h2 id=\"single-file-components-change-all-that\">Single File Components change all that</h2>\n<p>The idea behind SFCs is simple: you write your components in an HTML file that (optionally) contains a <code>&#x3C;style></code> and <code>&#x3C;script></code> attribute describing the component's styles and behaviour. Svelte, Ractive, Vue and Polymer all follow this basic pattern.</p>\n<aside>\n\t<p><a href=\"blog/frameworks-without-the-framework\">Read the introductory blog post</a> if you're new to Svelte. Or <a href=\"https://twitter.com/padolsey/status/899717303234908160\">read</a> <a href=\"https://twitter.com/sveltejs/status/901818357644701696\">the</a> <a href=\"https://twitter.com/sveltejs/status/901818106309476352\">testimonials</a>.</p>\n</aside>\n<p>(For the rest of this article we'll be using Svelte, obviously. But if the idea of using a template language makes you shudder — your fears are misplaced, but that's a topic for another day — then just use Vue which lets you use JSX in your SFCs.)</p>\n<p>Several wonderful things happen as a result:</p>\n<ul>\n<li>Your styles are <em>scoped to the component</em>. No more leakage, no more unpredictable cascade. And no more sesquipedalian classnames designed to prevent conflicts.</li>\n<li>You don't need to go spelunking through your folder structure to find the rules that are breaking your stuff.</li>\n<li>The compiler (in Svelte's case) can <strong>identify and remove unused styles</strong>. No more append-only stylesheets!</li>\n</ul>\n<p>Let's see what that looks like in practice.</p>\n<figure>\n\t<video controls poster='https://svelte-technology-assets.surge.sh/just-write-css.jpg'>\n\t\t<source type='video/mp4' src='https://svelte-technology-assets.surge.sh/just-write-css.mp4'>\n\t</video>\n<div class=\"code-block\"><pre class='language-undefined'><code>&lt;figcaption&gt;\n\tIs this what they mean by 'use the platform'?\n&lt;/figcaption&gt;</code></pre></div>\n</figure>\n<p>Every code editor already knows about CSS, so there's a good chance that you'll get autocomplete, linting, syntax highlighting and so on — all without additional JS-fatigue-inducing tools.</p>\n<p>And because it's real CSS, rather than some camelCased quotes-everywhere impostor, we can take advantage of the 'tweak in devtools, paste back into our source code' workflow, which I personally couldn't live without. Notice that we get CSS sourcemaps out of the box, so you can instantly pinpoint the lines in question. It's hard to overstate the importance of this: when you're in WYSIWYG mode, you're not thinking in terms of your component tree, so having a robust way to figure out <em>where these damn styles came from</em> is essential. Doubly so if someone else originally wrote the component. (I promise you, this is the single biggest productivity boost to your CSS workflow. If you're writing styles without sourcemaps, you are almost certainly wasting a lot of time. I know I was.)</p>\n<p>Svelte transforms your selectors (using an attribute that's also applied to affected elements, though the exact mechanism is unimportant and subject to change) to achieve the scoping. It warns on and removes any unused rules, then it minifies the result and lets you write it out to a <code>.css</code> file. There's also an experimental new option to compile to web components, using shadow DOM to encapsulate the styles, if that's your jam.</p>\n<p>This is all possible because your CSS is parsed (with <a href=\"https://github.com/csstree/csstree\" target=\"_blank\" rel=\"noopener noreferrer\">css-tree</a>) and statically analysed in the context of your markup. Static analysis opens the doors to all kinds of exciting future possibilities — smarter optimisations, a11y hints — that are much harder if your styles are computed dynamically at runtime. We're just getting started.</p>\n<h2 id=\"but-we-can-add-tools-to-do-x\">But we can add tools to do [x]!</h2>\n<p>If your reaction to the video was 'fine, but if we use TypeScript and write plugins for each editor then we can get all the autocomplete and syntax highlighting stuff' — in other words, if you believe that in order to achieve parity with CSS it makes sense to build, document, promote and maintain a fleet of ancillary projects — then, well, you and I may never see eye to eye!</p>\n<h2 id=\"we-don-t-have-all-the-answers-yet\">We don't have all the answers — yet</h2>\n<p>Having said all that, CSS-in-JS does point to answers to some lingering questions:</p>\n<ul>\n<li>How can we install styles from npm?</li>\n<li>How can we reuse constants that are defined in a single place?</li>\n<li>How can we compose declarations?</li>\n</ul>\n<p>Personally, I haven't found these issues to outweigh the benefits of the approach outlined above. You may well have a different set of priorities, and they may be reason enough for you to abandon CSS.</p>\n<p>But at the end of the day, you have to know CSS anyway. Love it or loathe it, you must at least <em>learn</em> it. As custodians of the web, we have a choice: create abstractions that steepen the web dev learning curve yet further, or work together to fix the bad parts of CSS. I know which I choose.</p>",
 					date: {
 						pretty: "Wed Sep 06 2017",
 						numeric: "2017-09-06",
 					},
-					description: "I would say this is the future, but we're already doing it.",
+					description:
+						"I would say this is the future, but we're already doing it.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title: "The easiest way to get started with Svelte",
@@ -1000,10 +1000,10 @@ export const everything = [
 					},
 					description: "This'll only take a minute.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 				{
 					title:
@@ -1016,12 +1016,13 @@ export const everything = [
 						pretty: "Sat Nov 26 2016",
 						numeric: "2016-11-26",
 					},
-					description: "You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
+					description:
+						"You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.",
 					author: {
-						name: 'Rich Harris',
-						url: 'https://twitter.com/Rich_Harris'
+						name: "Rich Harris",
+						url: "https://twitter.com/Rich_Harris",
 					},
-					draft: false
+					draft: false,
 				},
 			],
 		},
@@ -1037,27 +1038,22 @@ export const everything = [
 						{
 							name: "Hello world",
 							slug: "hello-world",
-							thumbnail: "examples/thumbnails/hello-world.jpg",
 						},
 						{
 							name: "Dynamic attributes",
 							slug: "dynamic-attributes",
-							thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 						},
 						{
 							name: "Styling",
 							slug: "styling",
-							thumbnail: "examples/thumbnails/styling.jpg",
 						},
 						{
 							name: "Nested components",
 							slug: "nested-components",
-							thumbnail: "examples/thumbnails/nested-components.jpg",
 						},
 						{
 							name: "HTML tags",
 							slug: "html-tags",
-							thumbnail: "examples/thumbnails/html-tags.jpg",
 						},
 					],
 				},
@@ -1067,17 +1063,14 @@ export const everything = [
 						{
 							name: "Reactive assignments",
 							slug: "reactive-assignments",
-							thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 						},
 						{
 							name: "Reactive declarations",
 							slug: "reactive-declarations",
-							thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 						},
 						{
 							name: "Reactive statements",
 							slug: "reactive-statements",
-							thumbnail: "examples/thumbnails/reactive-statements.jpg",
 						},
 					],
 				},
@@ -1087,17 +1080,14 @@ export const everything = [
 						{
 							name: "Declaring props",
 							slug: "declaring-props",
-							thumbnail: "examples/thumbnails/declaring-props.jpg",
 						},
 						{
 							name: "Default values",
 							slug: "default-values",
-							thumbnail: "examples/thumbnails/default-values.jpg",
 						},
 						{
 							name: "Spread props",
 							slug: "spread-props",
-							thumbnail: "examples/thumbnails/spread-props.jpg",
 						},
 					],
 				},
@@ -1107,32 +1097,26 @@ export const everything = [
 						{
 							name: "If blocks",
 							slug: "if-blocks",
-							thumbnail: "examples/thumbnails/if-blocks.jpg",
 						},
 						{
 							name: "Else blocks",
 							slug: "else-blocks",
-							thumbnail: "examples/thumbnails/else-blocks.jpg",
 						},
 						{
 							name: "Else-if blocks",
 							slug: "else-if-blocks",
-							thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 						},
 						{
 							name: "Each blocks",
 							slug: "each-blocks",
-							thumbnail: "examples/thumbnails/each-blocks.jpg",
 						},
 						{
 							name: "Keyed each blocks",
 							slug: "keyed-each-blocks",
-							thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 						},
 						{
 							name: "Await blocks",
 							slug: "await-blocks",
-							thumbnail: "examples/thumbnails/await-blocks.jpg",
 						},
 					],
 				},
@@ -1141,7 +1125,6 @@ export const everything = [
 				{
 					name: "Hello world",
 					slug: "hello-world",
-					thumbnail: "examples/thumbnails/hello-world.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1154,7 +1137,6 @@ export const everything = [
 				{
 					name: "Dynamic attributes",
 					slug: "dynamic-attributes",
-					thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1167,7 +1149,6 @@ export const everything = [
 				{
 					name: "Styling",
 					slug: "styling",
-					thumbnail: "examples/thumbnails/styling.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1180,7 +1161,6 @@ export const everything = [
 				{
 					name: "Nested components",
 					slug: "nested-components",
-					thumbnail: "examples/thumbnails/nested-components.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1198,7 +1178,6 @@ export const everything = [
 				{
 					name: "HTML tags",
 					slug: "html-tags",
-					thumbnail: "examples/thumbnails/html-tags.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1211,7 +1190,6 @@ export const everything = [
 				{
 					name: "Reactive assignments",
 					slug: "reactive-assignments",
-					thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1224,7 +1202,6 @@ export const everything = [
 				{
 					name: "Reactive declarations",
 					slug: "reactive-declarations",
-					thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1237,7 +1214,6 @@ export const everything = [
 				{
 					name: "Reactive statements",
 					slug: "reactive-statements",
-					thumbnail: "examples/thumbnails/reactive-statements.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1250,7 +1226,6 @@ export const everything = [
 				{
 					name: "Declaring props",
 					slug: "declaring-props",
-					thumbnail: "examples/thumbnails/declaring-props.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1269,7 +1244,6 @@ export const everything = [
 				{
 					name: "Default values",
 					slug: "default-values",
-					thumbnail: "examples/thumbnails/default-values.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1288,7 +1262,6 @@ export const everything = [
 				{
 					name: "Spread props",
 					slug: "spread-props",
-					thumbnail: "examples/thumbnails/spread-props.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1307,7 +1280,6 @@ export const everything = [
 				{
 					name: "If blocks",
 					slug: "if-blocks",
-					thumbnail: "examples/thumbnails/if-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1320,7 +1292,6 @@ export const everything = [
 				{
 					name: "Else blocks",
 					slug: "else-blocks",
-					thumbnail: "examples/thumbnails/else-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1333,7 +1304,6 @@ export const everything = [
 				{
 					name: "Else-if blocks",
 					slug: "else-if-blocks",
-					thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1346,7 +1316,6 @@ export const everything = [
 				{
 					name: "Each blocks",
 					slug: "each-blocks",
-					thumbnail: "examples/thumbnails/each-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1359,7 +1328,6 @@ export const everything = [
 				{
 					name: "Keyed each blocks",
 					slug: "keyed-each-blocks",
-					thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1378,7 +1346,6 @@ export const everything = [
 				{
 					name: "Await blocks",
 					slug: "await-blocks",
-					thumbnail: "examples/thumbnails/await-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
