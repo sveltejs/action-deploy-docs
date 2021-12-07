@@ -27570,7 +27570,7 @@ async function transform_examples(
 			examples: example_list,
 		};
 	});
-	return { list, full: full.filter(({name}) => name !== 'embeds') };
+	return { list: list.filter(({name}) => name !== 'embeds') , full};
 }
 
 async function process_tutorial(
