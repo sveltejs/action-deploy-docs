@@ -28771,9 +28771,8 @@ function process_example(
 
 		const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
 		const slug = make_slug(_slug, seen_slugs);
-
 		const _example = {
-			name: meta.title,
+			name: meta.title || slug,
 			slug: slug,
 		};
 
@@ -28800,10 +28799,11 @@ async function transform_examples(
 		const [files, meta] = extract_meta(content);
 		const [example_full, example_list] = process_example(files, seen_slugs);
 
+		const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
 		example_full.forEach((v) => full.push(v));
 
 		return {
-			name: meta.title,
+			name: meta.title || make_slug(_slug, new Map()),
 			examples: example_list,
 		};
 	});
