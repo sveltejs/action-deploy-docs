@@ -264,7 +264,7 @@ async function process_tutorial(
 		})
 	);
 
-	return [full, list];
+	return [full, list.filter(({name}) => name !== 'embeds')];
 }
 
 export async function transform_tutorial(
