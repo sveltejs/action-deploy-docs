@@ -1852,10 +1852,11 @@ function make_session_slug_processor({
 
 	return function (url, seen_slugs) {
 		const slug = processor(url, { separator });
-		let count;
-		if ((count = seen_slugs.get(slug))) {
-			seen_slugs.set(slug, count + 1);
-			return `${slug}${separator}${count}`;
+		if ((seen_slugs.get(slug))) {
+			throw new Error(
+				`Found duplicate slug: "${slug}" when slugifying: "${url}".
+Duplicate slugs are not allowed. You need to take yourself outside and have a word with yourself.`
+			);
 		} else {
 			seen_slugs.set(slug, 1);
 			return slug;
@@ -27451,7 +27452,7 @@ async function transform_blog(
 					name: doc.data.frontmatter.author,
 					url: doc.data.frontmatter.authorURL,
 				},
-				draft: doc.data.frontmatter.draft || false
+				draft: doc.data.frontmatter.draft || false,
 			};
 		})
 		.sort((a, b) => (a.date.numeric < b.date.numeric ? 1 : -1));
@@ -27525,17 +27526,18 @@ function process_example(
 	seen_slugs
 ) {
 	let full = [];
-	let list = content.map(({ content }) => {
+	let list = content.map(({ content, name }) => {
 		if (typeof content === "string")
 			throw new Error("Example contents cannot contain further directories.");
 
 		const [files, meta] = extract_meta(content);
-		const slug = make_slug(meta.title, seen_slugs);
+
+		const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
+		const slug = make_slug(_slug, seen_slugs);
 
 		const _example = {
 			name: meta.title,
-			slug,
-			thumbnail: `examples/thumbnails/${slug}.jpg`,
+			slug: slug,
 		};
 
 		full.push({ ..._example, files: files.map(get_files) });
@@ -27552,10 +27554,9 @@ async function transform_examples(
 	// project: string,
 	// dir: string
 ) {
-	const seen_slugs = new Map();
-
 	const full = [];
-	const list = examples.map(({ content }) => {
+	const list = examples.map(({ content, name }) => {
+		const seen_slugs = new Map();
 		if (typeof content === "string")
 			throw new Error("Example contents cannot contain further directories.");
 
@@ -27580,7 +27581,7 @@ async function process_tutorial(
 ) {
 	let full = [];
 	let list = await Promise.all(
-		content.map(async ({ content }) => {
+		content.map(async ({ content, name }) => {
 			// TODO: this is backwards, fix
 			if (typeof content === "string")
 				throw new Error("Example contents cannot contain further directories.");
@@ -27596,7 +27597,7 @@ async function process_tutorial(
 			});
 
 			const vfile = await format({
-				file: vfileMessage.name,
+				file: name,
 				markdown: text,
 				docs_type: "tutorials",
 				project,
@@ -27604,9 +27605,13 @@ async function process_tutorial(
 				level: 3,
 			});
 
+			const [, , _slug] = /^(\d+)-(.+)$/.exec(name);
+			const slug = make_slug(_slug, seen_slugs);
+
 			const _example = {
 				name: vfile.data.section_title,
-				slug: make_slug(`${cat_title} ${vfile.data.section_slug}`, seen_slugs),
+				slug: slug,
+				
 			};
 
 			full.push({
