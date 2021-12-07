@@ -305,7 +305,6 @@ export const examples_out_full = [
 	{
 		name: "Hello world",
 		slug: "hello-world",
-		thumbnail: "examples/thumbnails/hello-world.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -318,7 +317,6 @@ export const examples_out_full = [
 	{
 		name: "Dynamic attributes",
 		slug: "dynamic-attributes",
-		thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -331,7 +329,6 @@ export const examples_out_full = [
 	{
 		name: "Styling",
 		slug: "styling",
-		thumbnail: "examples/thumbnails/styling.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -344,7 +341,6 @@ export const examples_out_full = [
 	{
 		name: "Nested components",
 		slug: "nested-components",
-		thumbnail: "examples/thumbnails/nested-components.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -362,7 +358,6 @@ export const examples_out_full = [
 	{
 		name: "HTML tags",
 		slug: "html-tags",
-		thumbnail: "examples/thumbnails/html-tags.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -375,7 +370,6 @@ export const examples_out_full = [
 	{
 		name: "Reactive assignments",
 		slug: "reactive-assignments",
-		thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -388,7 +382,6 @@ export const examples_out_full = [
 	{
 		name: "Reactive declarations",
 		slug: "reactive-declarations",
-		thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -401,7 +394,6 @@ export const examples_out_full = [
 	{
 		name: "Reactive statements",
 		slug: "reactive-statements",
-		thumbnail: "examples/thumbnails/reactive-statements.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -414,7 +406,6 @@ export const examples_out_full = [
 	{
 		name: "Declaring props",
 		slug: "declaring-props",
-		thumbnail: "examples/thumbnails/declaring-props.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -433,7 +424,6 @@ export const examples_out_full = [
 	{
 		name: "Default values",
 		slug: "default-values",
-		thumbnail: "examples/thumbnails/default-values.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -452,7 +442,6 @@ export const examples_out_full = [
 	{
 		name: "Spread props",
 		slug: "spread-props",
-		thumbnail: "examples/thumbnails/spread-props.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -471,7 +460,6 @@ export const examples_out_full = [
 	{
 		name: "If blocks",
 		slug: "if-blocks",
-		thumbnail: "examples/thumbnails/if-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -484,7 +472,6 @@ export const examples_out_full = [
 	{
 		name: "Else blocks",
 		slug: "else-blocks",
-		thumbnail: "examples/thumbnails/else-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -497,7 +484,6 @@ export const examples_out_full = [
 	{
 		name: "Else-if blocks",
 		slug: "else-if-blocks",
-		thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -510,7 +496,6 @@ export const examples_out_full = [
 	{
 		name: "Each blocks",
 		slug: "each-blocks",
-		thumbnail: "examples/thumbnails/each-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -523,7 +508,6 @@ export const examples_out_full = [
 	{
 		name: "Keyed each blocks",
 		slug: "keyed-each-blocks",
-		thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -542,7 +526,6 @@ export const examples_out_full = [
 	{
 		name: "Await blocks",
 		slug: "await-blocks",
-		thumbnail: "examples/thumbnails/await-blocks.jpg",
 		files: [
 			{
 				name: "App.svelte",
@@ -561,27 +544,22 @@ export const examples_out_list = [
 			{
 				name: "Hello world",
 				slug: "hello-world",
-				thumbnail: "examples/thumbnails/hello-world.jpg",
 			},
 			{
 				name: "Dynamic attributes",
 				slug: "dynamic-attributes",
-				thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 			},
 			{
 				name: "Styling",
 				slug: "styling",
-				thumbnail: "examples/thumbnails/styling.jpg",
 			},
 			{
 				name: "Nested components",
 				slug: "nested-components",
-				thumbnail: "examples/thumbnails/nested-components.jpg",
 			},
 			{
 				name: "HTML tags",
 				slug: "html-tags",
-				thumbnail: "examples/thumbnails/html-tags.jpg",
 			},
 		],
 	},
@@ -591,17 +569,14 @@ export const examples_out_list = [
 			{
 				name: "Reactive assignments",
 				slug: "reactive-assignments",
-				thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 			},
 			{
 				name: "Reactive declarations",
 				slug: "reactive-declarations",
-				thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 			},
 			{
 				name: "Reactive statements",
 				slug: "reactive-statements",
-				thumbnail: "examples/thumbnails/reactive-statements.jpg",
 			},
 		],
 	},
@@ -611,17 +586,14 @@ export const examples_out_list = [
 			{
 				name: "Declaring props",
 				slug: "declaring-props",
-				thumbnail: "examples/thumbnails/declaring-props.jpg",
 			},
 			{
 				name: "Default values",
 				slug: "default-values",
-				thumbnail: "examples/thumbnails/default-values.jpg",
 			},
 			{
 				name: "Spread props",
 				slug: "spread-props",
-				thumbnail: "examples/thumbnails/spread-props.jpg",
 			},
 		],
 	},
@@ -631,32 +603,26 @@ export const examples_out_list = [
 			{
 				name: "If blocks",
 				slug: "if-blocks",
-				thumbnail: "examples/thumbnails/if-blocks.jpg",
 			},
 			{
 				name: "Else blocks",
 				slug: "else-blocks",
-				thumbnail: "examples/thumbnails/else-blocks.jpg",
 			},
 			{
 				name: "Else-if blocks",
 				slug: "else-if-blocks",
-				thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 			},
 			{
 				name: "Each blocks",
 				slug: "each-blocks",
-				thumbnail: "examples/thumbnails/each-blocks.jpg",
 			},
 			{
 				name: "Keyed each blocks",
 				slug: "keyed-each-blocks",
-				thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 			},
 			{
 				name: "Await blocks",
 				slug: "await-blocks",
-				thumbnail: "examples/thumbnails/await-blocks.jpg",
 			},
 		],
 	},

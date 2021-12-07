@@ -93,45 +93,31 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Basics",
-							slug: "introduction-basics",
-							section_slug: "introduction",
-							article_slug: "basics",
+							slug: "basics",
 						},
 						{
 							name: "Adding data",
-							slug: "introduction-adding-data",
-							section_slug: "introduction",
-							article_slug: "adding-data",
+							slug: "adding-data",
 						},
 						{
 							name: "Dynamic attributes",
-							slug: "introduction-dynamic-attributes",
-							section_slug: "introduction",
-							article_slug: "dynamic-attributes",
+							slug: "dynamic-attributes",
 						},
 						{
 							name: "Styling",
-							slug: "introduction-styling",
-							section_slug: "introduction",
-							article_slug: "styling",
+							slug: "styling",
 						},
 						{
 							name: "Nested components",
-							slug: "introduction-nested-components",
-							section_slug: "introduction",
-							article_slug: "nested-components",
+							slug: "nested-components",
 						},
 						{
 							name: "HTML tags",
-							slug: "introduction-html-tags",
-							section_slug: "introduction",
-							article_slug: "html-tags",
+							slug: "html-tags",
 						},
 						{
 							name: "Making an app",
-							slug: "introduction-making-an-app",
-							section_slug: "introduction",
-							article_slug: "making-an-app",
+							slug: "making-an-app",
 						},
 					],
 				},
@@ -140,27 +126,19 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Assignments",
-							slug: "reactivity-assignments",
-							section_slug: "reactivity",
-							article_slug: "assignments",
+							slug: "reactive-assignments",
 						},
 						{
 							name: "Declarations",
-							slug: "reactivity-declarations",
-							section_slug: "reactivity",
-							article_slug: "declarations",
+							slug: "reactive-declarations",
 						},
 						{
 							name: "Statements",
-							slug: "reactivity-statements",
-							section_slug: "reactivity",
-							article_slug: "statements",
+							slug: "reactive-statements",
 						},
 						{
 							name: "Updating arrays and objects",
-							slug: "reactivity-updating-arrays-and-objects",
-							section_slug: "reactivity",
-							article_slug: "updating-arrays-and-objects",
+							slug: "updating-arrays-and-objects",
 						},
 					],
 				},
@@ -169,21 +147,15 @@ export const everything = [
 					tutorials: [
 						{
 							name: "Declaring props",
-							slug: "props-declaring-props",
-							section_slug: "props",
-							article_slug: "declaring-props",
+							slug: "declaring-props",
 						},
 						{
 							name: "Default values",
-							slug: "props-default-values",
-							section_slug: "props",
-							article_slug: "default-values",
+							slug: "default-values",
 						},
 						{
 							name: "Spread props",
-							slug: "props-spread-props",
-							section_slug: "props",
-							article_slug: "spread-props",
+							slug: "spread-props",
 						},
 					],
 				},
@@ -192,39 +164,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "If blocks",
-							slug: "logic-if-blocks",
-							section_slug: "logic",
-							article_slug: "if-blocks",
+							slug: "if-blocks",
 						},
 						{
 							name: "Else blocks",
-							slug: "logic-else-blocks",
-							section_slug: "logic",
-							article_slug: "else-blocks",
+							slug: "else-blocks",
 						},
 						{
 							name: "Else-if blocks",
-							slug: "logic-else-if-blocks",
-							section_slug: "logic",
-							article_slug: "else-if-blocks",
+							slug: "else-if-blocks",
 						},
 						{
 							name: "Each blocks",
-							slug: "logic-each-blocks",
-							section_slug: "logic",
-							article_slug: "each-blocks",
+							slug: "each-blocks",
 						},
 						{
 							name: "Keyed each blocks",
-							slug: "logic-keyed-each-blocks",
-							section_slug: "logic",
-							article_slug: "keyed-each-blocks",
+							slug: "keyed-each-blocks",
 						},
 						{
 							name: "Await blocks",
-							slug: "logic-await-blocks",
-							section_slug: "logic",
-							article_slug: "await-blocks",
+							slug: "await-blocks",
 						},
 					],
 				},
@@ -233,39 +193,27 @@ export const everything = [
 					tutorials: [
 						{
 							name: "DOM events",
-							slug: "events-dom-events",
-							section_slug: "events",
-							article_slug: "dom-events",
+							slug: "dom-events",
 						},
 						{
 							name: "Inline handlers",
-							slug: "events-inline-handlers",
-							section_slug: "events",
-							article_slug: "inline-handlers",
+							slug: "inline-handlers",
 						},
 						{
 							name: "Event modifiers",
-							slug: "events-event-modifiers",
-							section_slug: "events",
-							article_slug: "event-modifiers",
+							slug: "event-modifiers",
 						},
 						{
 							name: "Component events",
-							slug: "events-component-events",
-							section_slug: "events",
-							article_slug: "component-events",
+							slug: "component-events",
 						},
 						{
 							name: "Event forwarding",
-							slug: "events-event-forwarding",
-							section_slug: "events",
-							article_slug: "event-forwarding",
+							slug: "event-forwarding",
 						},
 						{
 							name: "DOM event forwarding",
-							slug: "events-dom-event-forwarding",
-							section_slug: "events",
-							article_slug: "dom-event-forwarding",
+							slug: "dom-event-forwarding",
 						},
 					],
 				},
@@ -273,9 +221,7 @@ export const everything = [
 			full: [
 				{
 					name: "Basics",
-					slug: "introduction-basics",
-					section_slug: "introduction",
-					article_slug: "basics",
+					slug: "basics",
 					initial: [
 						{
 							name: "App.svelte",
@@ -289,9 +235,7 @@ export const everything = [
 				},
 				{
 					name: "Adding data",
-					slug: "introduction-adding-data",
-					section_slug: "introduction",
-					article_slug: "adding-data",
+					slug: "adding-data",
 					initial: [
 						{
 							name: "App.svelte",
@@ -312,9 +256,7 @@ export const everything = [
 				},
 				{
 					name: "Dynamic attributes",
-					slug: "introduction-dynamic-attributes",
-					section_slug: "introduction",
-					article_slug: "dynamic-attributes",
+					slug: "dynamic-attributes",
 					initial: [
 						{
 							name: "App.svelte",
@@ -336,9 +278,7 @@ export const everything = [
 				},
 				{
 					name: "Styling",
-					slug: "introduction-styling",
-					section_slug: "introduction",
-					article_slug: "styling",
+					slug: "styling",
 					initial: [
 						{
 							name: "App.svelte",
@@ -360,9 +300,7 @@ export const everything = [
 				},
 				{
 					name: "Nested components",
-					slug: "introduction-nested-components",
-					section_slug: "introduction",
-					article_slug: "nested-components",
+					slug: "nested-components",
 					initial: [
 						{
 							name: "App.svelte",
@@ -394,9 +332,7 @@ export const everything = [
 				},
 				{
 					name: "HTML tags",
-					slug: "introduction-html-tags",
-					section_slug: "introduction",
-					article_slug: "html-tags",
+					slug: "html-tags",
 					initial: [
 						{
 							name: "App.svelte",
@@ -418,9 +354,7 @@ export const everything = [
 				},
 				{
 					name: "Making an app",
-					slug: "introduction-making-an-app",
-					section_slug: "introduction",
-					article_slug: "making-an-app",
+					slug: "making-an-app",
 					initial: [
 						{
 							name: "App.svelte",
@@ -434,9 +368,7 @@ export const everything = [
 				},
 				{
 					name: "Assignments",
-					slug: "reactivity-assignments",
-					section_slug: "reactivity",
-					article_slug: "assignments",
+					slug: "reactive-assignments",
 					initial: [
 						{
 							name: "App.svelte",
@@ -458,9 +390,7 @@ export const everything = [
 				},
 				{
 					name: "Declarations",
-					slug: "reactivity-declarations",
-					section_slug: "reactivity",
-					article_slug: "declarations",
+					slug: "reactive-declarations",
 					initial: [
 						{
 							name: "App.svelte",
@@ -482,9 +412,7 @@ export const everything = [
 				},
 				{
 					name: "Statements",
-					slug: "reactivity-statements",
-					section_slug: "reactivity",
-					article_slug: "statements",
+					slug: "reactive-statements",
 					initial: [
 						{
 							name: "App.svelte",
@@ -506,9 +434,7 @@ export const everything = [
 				},
 				{
 					name: "Updating arrays and objects",
-					slug: "reactivity-updating-arrays-and-objects",
-					section_slug: "reactivity",
-					article_slug: "updating-arrays-and-objects",
+					slug: "updating-arrays-and-objects",
 					initial: [
 						{
 							name: "App.svelte",
@@ -530,9 +456,7 @@ export const everything = [
 				},
 				{
 					name: "Declaring props",
-					slug: "props-declaring-props",
-					section_slug: "props",
-					article_slug: "declaring-props",
+					slug: "declaring-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -566,9 +490,7 @@ export const everything = [
 				},
 				{
 					name: "Default values",
-					slug: "props-default-values",
-					section_slug: "props",
-					article_slug: "default-values",
+					slug: "default-values",
 					initial: [
 						{
 							name: "App.svelte",
@@ -602,9 +524,7 @@ export const everything = [
 				},
 				{
 					name: "Spread props",
-					slug: "props-spread-props",
-					section_slug: "props",
-					article_slug: "spread-props",
+					slug: "spread-props",
 					initial: [
 						{
 							name: "App.svelte",
@@ -638,9 +558,7 @@ export const everything = [
 				},
 				{
 					name: "If blocks",
-					slug: "logic-if-blocks",
-					section_slug: "logic",
-					article_slug: "if-blocks",
+					slug: "if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -662,9 +580,7 @@ export const everything = [
 				},
 				{
 					name: "Else blocks",
-					slug: "logic-else-blocks",
-					section_slug: "logic",
-					article_slug: "else-blocks",
+					slug: "else-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -686,9 +602,7 @@ export const everything = [
 				},
 				{
 					name: "Else-if blocks",
-					slug: "logic-else-if-blocks",
-					section_slug: "logic",
-					article_slug: "else-if-blocks",
+					slug: "else-if-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -710,9 +624,7 @@ export const everything = [
 				},
 				{
 					name: "Each blocks",
-					slug: "logic-each-blocks",
-					section_slug: "logic",
-					article_slug: "each-blocks",
+					slug: "each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -734,9 +646,7 @@ export const everything = [
 				},
 				{
 					name: "Keyed each blocks",
-					slug: "logic-keyed-each-blocks",
-					section_slug: "logic",
-					article_slug: "keyed-each-blocks",
+					slug: "keyed-each-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -770,9 +680,7 @@ export const everything = [
 				},
 				{
 					name: "Await blocks",
-					slug: "logic-await-blocks",
-					section_slug: "logic",
-					article_slug: "await-blocks",
+					slug: "await-blocks",
 					initial: [
 						{
 							name: "App.svelte",
@@ -794,9 +702,7 @@ export const everything = [
 				},
 				{
 					name: "DOM events",
-					slug: "events-dom-events",
-					section_slug: "events",
-					article_slug: "dom-events",
+					slug: "dom-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -818,9 +724,7 @@ export const everything = [
 				},
 				{
 					name: "Inline handlers",
-					slug: "events-inline-handlers",
-					section_slug: "events",
-					article_slug: "inline-handlers",
+					slug: "inline-handlers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -842,9 +746,7 @@ export const everything = [
 				},
 				{
 					name: "Event modifiers",
-					slug: "events-event-modifiers",
-					section_slug: "events",
-					article_slug: "event-modifiers",
+					slug: "event-modifiers",
 					initial: [
 						{
 							name: "App.svelte",
@@ -866,9 +768,7 @@ export const everything = [
 				},
 				{
 					name: "Component events",
-					slug: "events-component-events",
-					section_slug: "events",
-					article_slug: "component-events",
+					slug: "component-events",
 					initial: [
 						{
 							name: "App.svelte",
@@ -902,9 +802,7 @@ export const everything = [
 				},
 				{
 					name: "Event forwarding",
-					slug: "events-event-forwarding",
-					section_slug: "events",
-					article_slug: "event-forwarding",
+					slug: "event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
@@ -950,9 +848,7 @@ export const everything = [
 				},
 				{
 					name: "DOM event forwarding",
-					slug: "events-dom-event-forwarding",
-					section_slug: "events",
-					article_slug: "dom-event-forwarding",
+					slug: "dom-event-forwarding",
 					initial: [
 						{
 							name: "App.svelte",
@@ -1142,27 +1038,22 @@ export const everything = [
 						{
 							name: "Hello world",
 							slug: "hello-world",
-							thumbnail: "examples/thumbnails/hello-world.jpg",
 						},
 						{
 							name: "Dynamic attributes",
 							slug: "dynamic-attributes",
-							thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 						},
 						{
 							name: "Styling",
 							slug: "styling",
-							thumbnail: "examples/thumbnails/styling.jpg",
 						},
 						{
 							name: "Nested components",
 							slug: "nested-components",
-							thumbnail: "examples/thumbnails/nested-components.jpg",
 						},
 						{
 							name: "HTML tags",
 							slug: "html-tags",
-							thumbnail: "examples/thumbnails/html-tags.jpg",
 						},
 					],
 				},
@@ -1172,17 +1063,14 @@ export const everything = [
 						{
 							name: "Reactive assignments",
 							slug: "reactive-assignments",
-							thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 						},
 						{
 							name: "Reactive declarations",
 							slug: "reactive-declarations",
-							thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 						},
 						{
 							name: "Reactive statements",
 							slug: "reactive-statements",
-							thumbnail: "examples/thumbnails/reactive-statements.jpg",
 						},
 					],
 				},
@@ -1192,17 +1080,14 @@ export const everything = [
 						{
 							name: "Declaring props",
 							slug: "declaring-props",
-							thumbnail: "examples/thumbnails/declaring-props.jpg",
 						},
 						{
 							name: "Default values",
 							slug: "default-values",
-							thumbnail: "examples/thumbnails/default-values.jpg",
 						},
 						{
 							name: "Spread props",
 							slug: "spread-props",
-							thumbnail: "examples/thumbnails/spread-props.jpg",
 						},
 					],
 				},
@@ -1212,32 +1097,26 @@ export const everything = [
 						{
 							name: "If blocks",
 							slug: "if-blocks",
-							thumbnail: "examples/thumbnails/if-blocks.jpg",
 						},
 						{
 							name: "Else blocks",
 							slug: "else-blocks",
-							thumbnail: "examples/thumbnails/else-blocks.jpg",
 						},
 						{
 							name: "Else-if blocks",
 							slug: "else-if-blocks",
-							thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 						},
 						{
 							name: "Each blocks",
 							slug: "each-blocks",
-							thumbnail: "examples/thumbnails/each-blocks.jpg",
 						},
 						{
 							name: "Keyed each blocks",
 							slug: "keyed-each-blocks",
-							thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 						},
 						{
 							name: "Await blocks",
 							slug: "await-blocks",
-							thumbnail: "examples/thumbnails/await-blocks.jpg",
 						},
 					],
 				},
@@ -1246,7 +1125,6 @@ export const everything = [
 				{
 					name: "Hello world",
 					slug: "hello-world",
-					thumbnail: "examples/thumbnails/hello-world.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1259,7 +1137,6 @@ export const everything = [
 				{
 					name: "Dynamic attributes",
 					slug: "dynamic-attributes",
-					thumbnail: "examples/thumbnails/dynamic-attributes.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1272,7 +1149,6 @@ export const everything = [
 				{
 					name: "Styling",
 					slug: "styling",
-					thumbnail: "examples/thumbnails/styling.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1285,7 +1161,6 @@ export const everything = [
 				{
 					name: "Nested components",
 					slug: "nested-components",
-					thumbnail: "examples/thumbnails/nested-components.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1303,7 +1178,6 @@ export const everything = [
 				{
 					name: "HTML tags",
 					slug: "html-tags",
-					thumbnail: "examples/thumbnails/html-tags.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1316,7 +1190,6 @@ export const everything = [
 				{
 					name: "Reactive assignments",
 					slug: "reactive-assignments",
-					thumbnail: "examples/thumbnails/reactive-assignments.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1329,7 +1202,6 @@ export const everything = [
 				{
 					name: "Reactive declarations",
 					slug: "reactive-declarations",
-					thumbnail: "examples/thumbnails/reactive-declarations.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1342,7 +1214,6 @@ export const everything = [
 				{
 					name: "Reactive statements",
 					slug: "reactive-statements",
-					thumbnail: "examples/thumbnails/reactive-statements.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1355,7 +1226,6 @@ export const everything = [
 				{
 					name: "Declaring props",
 					slug: "declaring-props",
-					thumbnail: "examples/thumbnails/declaring-props.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1374,7 +1244,6 @@ export const everything = [
 				{
 					name: "Default values",
 					slug: "default-values",
-					thumbnail: "examples/thumbnails/default-values.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1393,7 +1262,6 @@ export const everything = [
 				{
 					name: "Spread props",
 					slug: "spread-props",
-					thumbnail: "examples/thumbnails/spread-props.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1412,7 +1280,6 @@ export const everything = [
 				{
 					name: "If blocks",
 					slug: "if-blocks",
-					thumbnail: "examples/thumbnails/if-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1425,7 +1292,6 @@ export const everything = [
 				{
 					name: "Else blocks",
 					slug: "else-blocks",
-					thumbnail: "examples/thumbnails/else-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1438,7 +1304,6 @@ export const everything = [
 				{
 					name: "Else-if blocks",
 					slug: "else-if-blocks",
-					thumbnail: "examples/thumbnails/else-if-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1451,7 +1316,6 @@ export const everything = [
 				{
 					name: "Each blocks",
 					slug: "each-blocks",
-					thumbnail: "examples/thumbnails/each-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1464,7 +1328,6 @@ export const everything = [
 				{
 					name: "Keyed each blocks",
 					slug: "keyed-each-blocks",
-					thumbnail: "examples/thumbnails/keyed-each-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
@@ -1483,7 +1346,6 @@ export const everything = [
 				{
 					name: "Await blocks",
 					slug: "await-blocks",
-					thumbnail: "examples/thumbnails/await-blocks.jpg",
 					files: [
 						{
 							name: "App.svelte",
