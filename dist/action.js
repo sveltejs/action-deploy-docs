@@ -28645,6 +28645,8 @@ const make_slug = make_session_slug_processor({
 	separator: "-",
 });
 
+const months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+
 async function transform_blog(
 	blogs,
 	project,
@@ -28654,15 +28656,15 @@ async function transform_blog(
 	const final_blog = (
 		await Promise.all(
 			blogs.map((doc, i) => {
-				const match = /^(\d+-\d+-\d+)-(.+)\.md$/.exec(blogs[i].name);
+				const match = /^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$/.exec(blogs[i].name);
 				if (!match)
 					throw new Error(`Invalid filename for blog: '${blogs[i].name}'`);
 
-				const [, pubdate, slug] = match;
-				const date = new Date(`${pubdate} EDT`);
+				const [, y, m, d, slug] = match;
+
 				dates.push({
-					pretty: date.toDateString(),
-					numeric: pubdate,
+					pretty: `${months[+m - 1]} ${+d} ${y}`,
+					numeric: `${y}-${m}-${d}`,
 				});
 
 				return format({
@@ -28811,6 +28813,7 @@ async function transform_examples(
 }
 
 async function process_tutorial(
+	dir,
 	content,
 	seen_slugs,
 	project,
@@ -28848,10 +28851,10 @@ async function process_tutorial(
 			const _example = {
 				name: vfile.data.section_title,
 				slug: slug,
-				
 			};
 
 			full.push({
+				dir: `${dir}/${name}`,
 				..._example,
 				initial: initial.map(get_files),
 				complete: completed ? completed.map(get_files) : [],
@@ -28874,9 +28877,10 @@ async function transform_tutorial(
 
 	const full = [];
 	const list = await Promise.all(
-		examples.map(async ({ content }) => {
+		examples.map(async ({ name, content }) => {
 			const [files, meta] = extract_meta(content);
 			const [example_full, example_list] = await process_tutorial(
+				name,
 				files,
 				seen_slugs,
 				project,
