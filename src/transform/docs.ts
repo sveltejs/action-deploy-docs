@@ -47,6 +47,8 @@ const make_slug = make_session_slug_processor({
 	separator: "-",
 });
 
+const months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+
 export async function transform_blog(
 	blogs: DocsSource[],
 	project: string,
@@ -56,15 +58,15 @@ export async function transform_blog(
 	const final_blog = (
 		await Promise.all(
 			blogs.map((doc, i) => {
-				const match = /^(\d+-\d+-\d+)-(.+)\.md$/.exec(blogs[i].name);
+				const match = /^(\d{4})-(\d{2})-(\d{2})-(.+)\.md$/.exec(blogs[i].name);
 				if (!match)
 					throw new Error(`Invalid filename for blog: '${blogs[i].name}'`);
 
-				const [, pubdate, slug] = match;
-				const date = new Date(`${pubdate} EDT`);
+				const [, y, m, d, slug] = match;
+
 				dates.push({
-					pretty: date.toDateString(),
-					numeric: pubdate,
+					pretty: `${months[+m - 1]} ${+d} ${y}`,
+					numeric: `${y}-${m}-${d}`,
 				});
 
 				return format({
@@ -250,7 +252,7 @@ async function process_tutorial(
 			const _example = {
 				name: vfile.data.section_title,
 				slug: slug,
-				
+
 			};
 
 			full.push({
