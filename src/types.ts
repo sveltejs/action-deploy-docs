@@ -50,6 +50,7 @@ export type TutorialMeta = {
 };
 // single tutorial
 export type Tutorial = TutorialMeta & {
+	dir: string;
 	content: string;
 	initial: File[];
 	complete: File[]; // not a feature for every tutorial
