@@ -1,6 +1,5 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { docs_full_out } from "../transform/fixtures/docs";
 
 export type SimpleFile = {
 	name: string;

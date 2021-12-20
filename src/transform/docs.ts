@@ -215,6 +215,7 @@ export async function transform_examples(
 }
 
 async function process_tutorial(
+	dir: string,
 	content: SimpleFile[],
 	seen_slugs: Map<string, number>,
 	project: string,
@@ -252,10 +253,10 @@ async function process_tutorial(
 			const _example = {
 				name: vfile.data.section_title,
 				slug: slug,
-
 			};
 
 			full.push({
+				dir: `${dir}/${name}`,
 				..._example,
 				initial: initial.map(get_files),
 				complete: completed ? completed.map(get_files) : [],
@@ -278,9 +279,10 @@ export async function transform_tutorial(
 
 	const full: Tutorial[] = [];
 	const list = await Promise.all(
-		examples.map(async ({ content }) => {
+		examples.map(async ({ name, content }) => {
 			const [files, meta] = extract_meta(content);
 			const [example_full, example_list] = await process_tutorial(
+				name,
 				files,
 				seen_slugs,
 				project,
