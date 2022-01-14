@@ -22,5 +22,5 @@ inputs:
     default: "packages"
 
 runs:
-  using: "node12"
+  using: "node16"
   main: "dist/action.js"
