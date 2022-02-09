@@ -16,6 +16,7 @@ enum LanguageMap {
 	env = "bash",
 	html = "markup",
 	sv = "svelte",
+	svelte = "svelte",
 	js = "javascript",
 	css = "css",
 	diff = "diff",
