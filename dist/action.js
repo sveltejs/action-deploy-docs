@@ -29053,9 +29053,9 @@ async function run() {
 	const docs_path = core$4.getInput("docs_path");
 	const pkg_path = core$4.getInput("pkg_path");
 
-	if (target_branch !== "main" && target_branch !== "master") {
-		core$4.setFailed("Branch deploys are not yet supported.");
-	}
+	// if (target_branch !== "main" && target_branch !== "master") {
+	// 	core.setFailed("Branch deploys are not yet supported.");
+	// }
 
 	try {
 		await get_repo(target_repo, target_branch, docs_path, pkg_path);
